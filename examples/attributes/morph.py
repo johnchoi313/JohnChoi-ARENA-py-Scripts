@@ -1,6 +1,6 @@
 from arena import *
 
-scene = Scene(host="arenaxr.org", scene="example")
+scene = Scene(host="arenaxr.org", namespace = "johnchoi", scene="NPC")
 
 xr_logo = GLTF(
     object_id="xr-logo",

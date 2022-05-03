@@ -1,6 +1,5 @@
 # teleporter.py
-''' Creates a teleporter
-'''
+''' Creates a teleporter'''
 
 import random
 from arena import *
@@ -49,7 +48,7 @@ class Teleporter(Object):
         self.scene.add_object(self.dest_text)
 
 
-scene = Scene(host="arenaxr.org", scene="example")
+scene = Scene(host="arenaxr.org", namespace = "johnchoi", scene="NPC")
 
 teleporter = Teleporter(
                     scene=scene,

@@ -1,6 +1,6 @@
 from arena import *
 
-scene = Scene(host="arenaxr.org", scene="example")
+scene = Scene(host="arenaxr.org", namespace = "johnchoi", scene="NPC")
 
 position = (1,2,-3) # Position(1,2,-3) works too
 

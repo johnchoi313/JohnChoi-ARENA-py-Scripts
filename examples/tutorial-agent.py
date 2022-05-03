@@ -1,7 +1,7 @@
 from arena import *
 import random, math
 
-scene = Scene(host="arenaxr.org", scene="example")
+scene = Scene(host="arenaxr.org", namespace = "johnchoi", scene="NPC")
 
 model_url = "/store/users/wiselab/models/FaceCapHeadGeneric/FaceCapHeadGeneric.gltf"
 avatar = GLTF(
@@ -9,7 +9,8 @@ avatar = GLTF(
         url=model_url,
         position=(0,1.75,-1.5),
         rotation=(0,0,0),
-        scale=(10,10,10)
+        scale=(10,10,10),
+        persist=True
     )
 scene.add_object(avatar)
 
@@ -19,7 +20,8 @@ speech = Text(
         parent=avatar,
         align="center",
         position=(0,0.3,0),
-        scale=(0.4,0.4,0.4)
+        scale=(0.4,0.4,0.4),
+        persist=True
     )
 scene.add_object(speech)
 
@@ -28,7 +30,8 @@ instructions = Text(
         color=(100,50,75),
         text="",
         position=(15.4,7,0),
-        scale=(3,3,3)
+        scale=(3,3,3),
+        persist=True
     )
 
 ticks = 0

@@ -1,6 +1,6 @@
 from arena import *
 
-scene = Scene(host="arena-dev1.conix.io", scene="example")
+scene = Scene(host="arenaxr.org", namespace = "johnchoi", scene="NPC")
 
 def evt_handler(scene, evt, msg):
     if evt.type == "textinput":

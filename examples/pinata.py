@@ -8,7 +8,7 @@ from arena import *
 import random
 import time
 
-scene = Scene(host="arenaxr.org", scene="pinata")
+scene = Scene(host="arenaxr.org", namespace = "johnchoi", scene="NPC")
 
 # Constants used to define operations
 RESPAWN_X_MIN = -50

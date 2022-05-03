@@ -4,7 +4,7 @@ import time
 import sys
 import math
 
-scene = Scene(host="arenaxr.org", scene="example")
+scene = Scene(host="arenaxr.org", namespace = "johnchoi", scene="NPC")
 
 color = (0, 255, 0)
 
