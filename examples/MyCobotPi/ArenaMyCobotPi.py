@@ -15,6 +15,7 @@ from pymycobot.genre import Angle, Coord
 #------MAKE ROBOT ARM------#
 myCobot = MyCobot(port = "COM3", baudrate = 115200, debug=True)
 myCobot.send_angles([0,0,0,0,0,0], 50) #reset pose
+myCobot.set_color(0,255,0)
 
 #------MAKE CONNECT TO ARENA------#
 scene = Scene(host="arenaxr.org", namespace = "johnchoi", scene="MyCobotPi")
@@ -104,10 +105,27 @@ def rotateMyCobot(angles):
     #update real robot
     myCobot.send_angles(angles, 50)
     print("::send_angles() ==> angles {}, speed 100\n".format(angles))
+
+randomColorButton = Box(object_id="randomColorButton")
+def setMyCobotColor(r,g,b):
+    #update arena virtual robot
+    randomColorButton.update_attributes(color=(r,g,b,))
+    scene.update_object(randomColorButton)
+    #update real robot
+    myCobot.set_color(r,g,b)
+    print("::set_color() ==> color {}\n".format("255 255 0"))
     
-def button1_handler(scene, evt, msg):
+def randomColorButton_handler(scene, evt, msg):
     if evt.type == "mousedown":
-        print("Button pressed!")
+        print("Random Color Button pressed!")
+        r = random.randrange(0, 255)
+        g = random.randrange(0, 255)
+        b = random.randrange(0, 255)
+        setMyCobotColor(r,g,b)
+
+def randomAngleButton_handler(scene, evt, msg):
+    if evt.type == "mousedown":
+        print("Random Angle Button pressed!")
         maxAngle = 80
         j1 = random.uniform(-maxAngle,maxAngle)
         j2 = random.uniform(-maxAngle,maxAngle)
@@ -117,33 +135,47 @@ def button1_handler(scene, evt, msg):
         j6 = random.uniform(-maxAngle,maxAngle)
         rotateMyCobot([j1,j2,j3,j4,j5,j6])
 
+def resetAngleButton_handler(scene, evt, msg):
+    if evt.type == "mousedown":
+        print("Reset Button pressed!")
+        rotateMyCobot([0,0,0,0,0,0])
+
+
 #------MAKE BUTTONS ------#
-button1 = Box(
-    object_id="button1",
+def makeButtonText(button, buttonID, buttonText, buttonColor = (255,255,255), buttonPos = (0, 0, 0.5), buttonRot = (0,0,0), buttonScale = (0.5, 2, 1)):
+    return Text(
+        object_id=buttonID+"_text",
+        text=buttonText,
+        align="center",
+            
+        position=buttonPos,
+        rotation=buttonRot,
+        scale=buttonScale,
 
-    position=(0.5, 0, 2),
-    rotation=(0, 0, 0),
-    scale=(0.5, 0.1, 0.5),
+        color=buttonColor,
 
-    color=(0, 255, 0),
+        parent = button,
+        persist=True,
+    )
 
-    clickable=True,
-    persist=True,
-    evt_handler=button1_handler,
-)
-button1_text = Box(
-    object_id="button1",
+def makeButton(buttonID, buttonText, buttonHandler, buttonColor = (128,128,128), buttonPos = (0,0,0), buttonRot = (0,0,0), buttonScale = (0.4, 0.08, 0.04), buttonTextColor = (255,255,255)):
+    button = Box(
+        object_id=buttonID,
 
-    position=(0.5, 0, 2),
-    rotation=(0, 0, 0),
-    scale=(0.5, 0.1, 0.5),
+        position=buttonPos,
+        rotation=buttonRot,
+        scale=buttonScale,
 
-    color=(0, 255, 0),
+        color=buttonColor,
 
-    clickable=True,
-    persist=True,
-    evt_handler=button1_handler,
-)
+        clickable=True,
+        persist=True,
+        evt_handler=buttonHandler,
+    )
+    buttonText = makeButtonText(button, buttonID, buttonText, buttonColor=buttonTextColor)
+    scene.add_object(button)
+    scene.add_object(buttonText)
+    return button
 
 #------ PROGRAM INIT/UPDATE ------#
 
@@ -158,15 +190,8 @@ def programStart():
     scene.add_object(MyCobotPi_J5)
     scene.add_object(MyCobotPi_J6)
     # Add buttons
-    scene.add_object(button1)
-
-'''
-@scene.run_async
-async def programUpdate():
-    # add click_listener
-    scene.update_object(button1, 
-                        click_listener=True, 
-                        evt_handler=button1_handler)
-'''
-
+    makeButton("randomAngleButton", "Goto random angle!", randomAngleButton_handler, buttonColor=(11, 55, 255), buttonPos=(0, 0.55, 0))
+    makeButton("resetAngleButton", "Reset angle!", resetAngleButton_handler, buttonColor=(255, 55, 11), buttonPos=(0, 0.65, 0))
+    makeButton("randomColorButton", "Set random color!", randomColorButton_handler, buttonColor=(0, 255, 0), buttonPos=(0, 0.75, 0),buttonTextColor=(0,0,0))
+    
 scene.run_tasks()
