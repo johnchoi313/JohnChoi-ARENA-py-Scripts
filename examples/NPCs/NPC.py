@@ -6,6 +6,57 @@ import re
 # ------------------------ #
 
 #Define Yarn Dialogue Classes and Subcomponents of data structure.
+class Dialogue:
+    def __init__(self, filename):
+        self.nodes = self.getNodesFromFile(filename)
+        self.currentNode = self.nodes[0] 
+    def getNodesFromFile(self, filename):
+        # Open file
+        f = open(filename)
+        yarnJson = json.load(f) #yarnJson is a list of nodeJsons.
+        # Iterating through the json list
+        nodes = []
+        for nodeJson in yarnJson['nodes']:
+            nodes.append(Node(nodeJson["title"], nodeJson["body"]))
+        # Closing file
+        f.close()
+        return nodes
+
+class Node:
+    def __init__(self, titleString, bodyString):
+        self.title = titleString
+        self.lines = self.getLinesFromBodyString(bodyString)
+    def getLinesFromBodyString(self, bodyString):
+        lineStrings = bodyString.split("\n")
+        lines = []
+        for c in range(len(lineStrings)):
+            lines.append(Line(lineStrings[c]))
+        return lines
+
+class Line:
+    def __init__(self, lineString):
+        self.text = self.getTextFromLine(lineString)
+        self.choices = self.getChoicesFromLine(lineString)
+        self.commands = self.getCommandsFromLine(lineString)
+    def getTextFromLine(self, lineString): #[Input: line is a single dialogue line] -> [Output: Dialogue Text only] 
+        text = re.sub(r'\<\<.*?\>\>', "", lineString)
+        text = re.sub(r'\[\[.*?\]\]', "", text)
+        return text
+    def getCommandsFromLine(self, lineString): #[Input: line is a single dialogue line] -> [Output: List of string commands in <<>>s, brackets removed.]
+        commandStrings = re.findall(r'\<\<.*?\>\>', lineString)
+        commands = []
+        for c in range(len(commandStrings)):            
+            commandStrings[c] = commandStrings[c].replace("<","").replace(">","")
+            commands.append(Command(commandStrings[c]))
+        return commands
+    def getChoicesFromLine(self, lineString): #[Input: line is a single dialogue line] -> [Output: List of string choices in [[]]s, brackets removed.]
+        choiceStrings = re.findall(r'\[\[.*?\]\]', lineString)
+        choices = []
+        for c in range(len(choiceStrings)):
+            choiceStrings[c] = choiceStrings[c].replace("[","").replace("]","")
+            choices.append(Choice(choiceStrings[c]))
+        return choices
+
 class Command:
     def __init__(self, commandString):
         self.type = self.getTypeFromCommand(commandString)
@@ -32,57 +83,6 @@ class Choice:
         choiceNode = choiceString.split('|')[1]
         return choiceNode 
 
-class Line:
-    def __init__(self, lineString):
-        self.text = self.getTextFromLine(lineString)
-        self.choices = self.getChoicesFromLine(lineString)
-        self.commands = self.getCommandsFromLine(lineString)
-    def getTextFromLine(self, lineString): #[Input: line is a single dialogue line] -> [Output: Dialogue Text only] 
-        text = re.sub(r'\<\<.*?\>\>', "", lineString)
-        text = re.sub(r'\[\[.*?\]\]', "", text)
-        return text
-    def getCommandsFromLine(self, lineString): #[Input: line is a single dialogue line] -> [Output: List of string commands in <<>>s, brackets removed.]
-        commandStrings = re.findall(r'\<\<.*?\>\>', lineString)
-        commands = []
-        for c in range(len(commandStrings)):            
-            commandStrings[c] = commandStrings[c].replace("<","").replace(">","")
-            commands.append(Command(commandStrings[c]))
-        return commands
-    def getChoicesFromLine(self, lineString): #[Input: line is a single dialogue line] -> [Output: List of string choices in [[]]s, brackets removed.]
-        choiceStrings = re.findall(r'\[\[.*?\]\]', lineString)
-        choices = []
-        for c in range(len(choiceStrings)):
-            choiceStrings[c] = choiceStrings[c].replace("[","").replace("]","")
-            choices.append(Choice(choiceStrings[c]))
-        return choices
-
-class Node:
-    def __init__(self, titleString, bodyString):
-        self.title = titleString
-        self.lines = self.getLinesFromBodyString(bodyString)
-    def getLinesFromBodyString(self, bodyString):
-        lineStrings = bodyString.split("\n")
-        lines = []
-        for c in range(len(lineStrings)):
-            lines.append(Line(lineStrings[c]))
-        return lines
-
-class Dialogue:
-    def __init__(self, filename):
-        self.nodes = self.getNodesFromFile(filename)
-        self.currentNode = self.nodes[0] 
-    def getNodesFromFile(self, filename):
-        # Open file
-        f = open(filename)
-        yarnJson = json.load(f) #yarnJson is a list of nodeJsons.
-        # Iterating through the json list
-        nodes = []
-        for nodeJson in yarnJson['nodes']:
-            nodes.append(Node(nodeJson["title"], nodeJson["body"]))
-        # Closing file
-        f.close()
-        return nodes
-                    
 # ------------------------ #
 
 '''
