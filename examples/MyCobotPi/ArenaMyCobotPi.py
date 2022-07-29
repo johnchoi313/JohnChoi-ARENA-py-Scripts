@@ -13,12 +13,12 @@ from pymycobot.mycobot import MyCobot
 from pymycobot.genre import Angle, Coord
 
 #------MAKE ROBOT ARM------#
-myCobot = MyCobot(port = "COM3", baudrate = 115200, debug=True)
+myCobot = MyCobot(port = "/dev/cu.usbserial-023EDC85", baudrate = 115200, debug=True)
 myCobot.send_angles([0,0,0,0,0,0], 50) #reset pose
 myCobot.set_color(0,255,0)
 
 #------MAKE CONNECT TO ARENA------#
-scene = Scene(host="arenaxr.org", namespace = "johnchoi", scene="MyCobotPi")
+scene = Scene(host="mqtt.arenaxr.org", namespace = "johnchoi", scene="MyCobotPi")
 
 #------MAKE ROBOT ARM------#
 MyCobotPi_J0 = GLTF(
