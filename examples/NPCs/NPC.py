@@ -3,145 +3,95 @@ from arena import *
 import json
 import re
 
-
 # ------------------------ #
 
-#Define Yarn Classes and Subcomponents of data structure.
-
-class Command:
-    def __init__(self, brand, model, type):
-        self.brand = brand
-        self.model = model
-        self.type = type
-        self.gas_tank_size = 14
-        self.fuel_level = 0
-
-    def fuel_up(self):
-        self.fuel_level = self.gas_tank_size
-        print('Gas tank is now full.')
-
-    def drive(self):
-        print(f'The {self.model} is now driving.')
-
-class Choices:
-    def __init__(self, brand, model, type):
-        self.brand = brand
-        self.model = model
-        self.type = type
-        self.gas_tank_size = 14
-        self.fuel_level = 0
-
-    def fuel_up(self):
-        self.fuel_level = self.gas_tank_size
-        print('Gas tank is now full.')
-
-    def drive(self):
-        print(f'The {self.model} is now driving.')
-
+#Define Yarn Dialogue Classes and Subcomponents of data structure.
+class Dialogue:
+    def __init__(self, filename):
+        self.nodes = self.getNodesFromFile(filename)
+        self.currentNode = self.nodes[0] 
+    def getNodesFromFile(self, filename):
+        # Open file
+        f = open(filename)
+        yarnJson = json.load(f) #yarnJson is a list of nodeJsons.
+        # Iterating through the json list
+        nodes = []
+        for nodeJson in yarnJson['nodes']:
+            nodes.append(Node(nodeJson["title"], nodeJson["body"]))
+        # Closing file
+        f.close()
+        return nodes
 
 class Node:
-    def __init__(self, brand, model, type):
-        self.brand = brand
-        self.model = model
-        self.type = type
-        self.gas_tank_size = 14
-        self.fuel_level = 0
+    def __init__(self, titleString, bodyString):
+        self.title = titleString
+        self.lines = self.getLinesFromBodyString(bodyString)
+    def getLinesFromBodyString(self, bodyString):
+        lineStrings = bodyString.split("\n")
+        lines = []
+        for c in range(len(lineStrings)):
+            lines.append(Line(lineStrings[c]))
+        return lines
 
-    def fuel_up(self):
-        self.fuel_level = self.gas_tank_size
-        print('Gas tank is now full.')
+class Line:
+    def __init__(self, lineString):
+        self.text = self.getTextFromLine(lineString)
+        self.choices = self.getChoicesFromLine(lineString)
+        self.commands = self.getCommandsFromLine(lineString)
+    def getTextFromLine(self, lineString): #[Input: line is a single dialogue line] -> [Output: Dialogue Text only] 
+        text = re.sub(r'\<\<.*?\>\>', "", lineString)
+        text = re.sub(r'\[\[.*?\]\]', "", text)
+        return text
+    def getCommandsFromLine(self, lineString): #[Input: line is a single dialogue line] -> [Output: List of string commands in <<>>s, brackets removed.]
+        commandStrings = re.findall(r'\<\<.*?\>\>', lineString)
+        commands = []
+        for c in range(len(commandStrings)):            
+            commandStrings[c] = commandStrings[c].replace("<","").replace(">","")
+            commands.append(Command(commandStrings[c]))
+        return commands
+    def getChoicesFromLine(self, lineString): #[Input: line is a single dialogue line] -> [Output: List of string choices in [[]]s, brackets removed.]
+        choiceStrings = re.findall(r'\[\[.*?\]\]', lineString)
+        choices = []
+        for c in range(len(choiceStrings)):
+            choiceStrings[c] = choiceStrings[c].replace("[","").replace("]","")
+            choices.append(Choice(choiceStrings[c]))
+        return choices
 
-    def drive(self):
-        print(f'The {self.model} is now driving.')
+class Command:
+    def __init__(self, commandString):
+        self.type = self.getTypeFromCommand(commandString)
+        self.text = self.getTextFromCommand(commandString)
+    def getTypeFromCommand(self, commandString): #[Input: String command in <<>>] -> [Output: Command TYPE, split by ' '.]
+        if(commandString.count(' ') != 1): return ""
+        commandType = commandString.split(' ')[0]
+        return commandType         
+    def getTextFromCommand(self, commandString): #[Input: String command in <<>>] -> [Output: Command TEXT, split by ' '.]
+        if(commandString.count(' ') != 1): return ""
+        commandText = commandString.split(' ')[1]
+        return commandText
 
-
-
-
-# ------------------------ #
-
-#functions to process and extract data from node
-def getLinesFromNode(node): #[Input: Node is a JSON string] -> [Output: List of dialogue lines.] 
-    lines = node["body"].split("\n")
-    return lines
-
-def getTextFromLine(line): #[Input: line is a single dialogue line] -> [Output: Dialogue Text only] 
-    text = re.sub(r'\<\<.*?\>\>', "", line)
-    text = re.sub(r'\[\[.*?\]\]', "", text)
-    return text
-
-def getCommandsFromLine(line): #[Input: line is a single dialogue line] -> [Output: List of string commands in <<>>s, brackets removed.]
-    commands = re.findall(r'\<\<.*?\>\>', line)
-    for c in range(len(commands)):            
-        commands[c] = commands[c].replace("<","").replace(">","")
-    return commands
-def getTypeFromCommand(command): #[Input: String command in <<>>] -> [Output: Command TYPE, split by ' '.]
-    if(command.count(' ') != 1): return ""
-    commandType = command.split(' ')[0]
-    return commandType         
-def getTextFromCommand(command): #[Input: String command in <<>>] -> [Output: Command TEXT, split by ' '.]
-    if(command.count(' ') != 1): return ""
-    commandText = command.split(' ')[1]
-    return commandText         
-
-def getChoicesFromLine(line): #[Input: line is a single dialogue line] -> [Output: List of string choices in [[]]s, brackets removed.]
-    choices = re.findall(r'\[\[.*?\]\]', line)
-    for c in range(len(choices)):
-        choices[c] = choices[c].replace("[","").replace("]","")
-    return choices
-def getTextFromChoice(choice): #[Input: String choice in [[]] ] -> [Output: Choice TEXT, split by '|'.]
-    if(choice.count('|') != 1): return ""
-    choiceText = choice.split('|')[0]
-    return choiceText         
-def getNodeFromChoice(choice): #[Input: String choice in [[]] ] -> [Output: Choice NODE, split by '|'.]
-    if(choice.count('|') != 1): return ""
-    choiceNode = choice.split('|')[1]
-    return choiceNode         
-
-# ------------------------ #
-
-# get file and extract as JSON
-f = open("cartoon_dialogue.json")
-dialogueNodes = json.load(f)
-
-# Iterating through the json list
-for node in dialogueNodes['nodes']:
-    print("\n")
- 
-    #parse body, splitting by newline
-    lines = getLinesFromNode(node)
-    print(lines)
-    for line in lines:
-        #show full unprocessed lines
-        print(line)        
-        # extract text
-        print("  Text: " + getTextFromLine(line))
-        # extract commands (format << >>)
-        commands = getCommandsFromLine(line)
-        print("  Commands: " + str(commands))
-        for c in range(len(commands)):            
-            print("    (" + str(c) + "): " + commands[c])
-            print("      commandType: " + getTypeFromCommand(commands[c]))
-            print("      commandText: " + getTextFromCommand(commands[c]))
-        #extract choices (format [[|]])
-        choices = getChoicesFromLine(line)
-        print("  Choices: " + str(choices))
-        for c in range(len(choices)):
-            print("    (" + str(c) + "): " + choices[c])
-            print("      choiceText: " + getTextFromChoice(choices[c]))
-            print("      choiceNode: " + getNodeFromChoice(choices[c]))
-            
-# Closing file
-f.close()
+class Choice:
+    def __init__(self, choiceString):
+        self.text = self.getTextFromChoice(choiceString)
+        self.node = self.getNodeFromChoice(choiceString)
+    def getTextFromChoice(self, choiceString): #[Input: String choice in [[]] ] -> [Output: Choice TEXT, split by '|'.]
+        if(choiceString.count('|') != 1): return ""
+        choiceText = choiceString.split('|')[0]
+        return choiceText         
+    def getNodeFromChoice(self, choiceString): #[Input: String choice in [[]] ] -> [Output: Choice NODE, split by '|'.]
+        if(choiceString.count('|') != 1): return ""
+        choiceNode = choiceString.split('|')[1]
+        return choiceNode 
 
 # ------------------------ #
 
+'''
 #functions to control choice button click behaviour
 def onClickLineChoiceButton(nextNode):
     return
 
 #functions to create chat bubble from current line (at parent position)
 def createSpeechBubbleFromLine(line, npc):
-    
     speech = getTextFromLine(line)
     
     speechBubble = Text(
@@ -160,7 +110,6 @@ def createSpeechBubbleFromLine(line, npc):
     return
 
 def createChoiceButtonsFromLine(line, npc):
-    
     choices = getChoicesFromLine(line)
 
     for c in range(len(choices)):
@@ -175,17 +124,37 @@ def createChoiceButtonsFromLine(line, npc):
         )
     
     return
+'''
 
 # ------------------------ #
-
 
 # setup ARENA scene
 scene = Scene(host="arenaxr.org", namespace = "johnchoi", scene="NPC")
 
-# Load first node (node 0) as current node. #
-currentNode = dialogueNodes['nodes'][0]
-currentLine = getLinesFromNode(currentNode)[0]
+# create Dialogue, and show contents
+dialogue = Dialogue("cartoon_dialogue.json")
 
+# Iterating through the json list
+for node in dialogue.nodes:
+    print("\n")
+    print("NodeTitle: " + node.title)        
+    
+    for l in range(len(node.lines)):
+        line = node.lines[l]
+        #show full unprocessed lines
+        print("  "+str(l)+". Text: " + line.text)        
+        # extract commands (format << >>)
+        for c in range(len(line.commands)):            
+            print("    <<"+str(c)+">> commandType: " + line.commands[c].type)
+            print(         "          commandText: " + line.commands[c].text)
+        #extract choices (format [[|]])
+        for c in range(len(line.choices)):
+            print("    [["+str(c)+"]] choiceText: " + line.choices[c].text)
+            print(         "          choiceNode: " + line.choices[c].node)
+            
+print("\n")
+    
+'''
 @scene.run_once
 def main():
     
@@ -204,14 +173,10 @@ def main():
     scene.add_object(box)
 
 
-
-
-
-
 # add and start tasks
 # scene.run_once(main)
 scene.run_tasks()
-
+'''
 
 
 

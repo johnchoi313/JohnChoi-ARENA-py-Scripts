@@ -53,6 +53,7 @@ scene.user_join_callback = user_join_callback
 def line_follow():
     for cam_state in cam_states:
         print(cam_state.id, cam_state.curr_pos, cam_state.curr_rot)
+        #dyanmixel.rotate(cam_state.cur_rot.y)
 
 
 scene.run_tasks() # will block
