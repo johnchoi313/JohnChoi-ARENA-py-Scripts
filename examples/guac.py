@@ -17,9 +17,11 @@ def end_program_callback(scene: Scene):
 
 
 # command line options
-arena = Scene(cli_args=True, end_program_callback=end_program_callback)
-app_position = arena.args["position"]
-app_rotation = arena.args["rotation"]
+# arena = Scene(cli_args=True, end_program_callback=end_program_callback)
+arena = Scene(host="mqtt.arenaxr.org", namespace = "conix", scene="review")
+
+app_position = [4.8, -0.4, 12]
+app_rotation = [0, 180, 0]
 
 # variables
 cubes = {}  # dict of cube objects to be indexed by tuple (x,y)

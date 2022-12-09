@@ -6,7 +6,6 @@ import re
 # ------------------------ #
 
 #Define Yarn Classes and Subcomponents of data structure.
-
 class Command:
     def __init__(self, brand, model, type):
         self.brand = brand
