@@ -4,6 +4,7 @@ from arena import *
 
 import colorama
 from colorama import Fore
+colorama.init(strip=False)
 
 import json
 import re
@@ -30,7 +31,15 @@ class Dialogue:
     def getNodesFromFile(self, filename):
         # Open file
         f = open(filename)
-        yarnJson = json.load(f) #yarnJson is a list of nodeJsons.
+        
+        jsonString = f.read()
+
+        print(Fore.YELLOW + jsonString + Fore.WHITE)
+
+        jsonString = "{\"nodes\":" + jsonString + "}"
+
+        yarnJson = json.loads(jsonString) #yarnJson is a list of nodeJsons.
+        
         # Iterating through the json list
         nodes = []
         for nodeJson in yarnJson['nodes']:
@@ -218,8 +227,7 @@ class ArenaDialogueBubbleGroup():
         choices = line.choices
         self.buttons = []
         if(len(choices) > 0): 
-            for c in range(len(choices)):
-                print()                
+            for c in range(len(choices)):                
                 choiceButton = Button(scene, self.npc, self.npc.object_id + "_choiceButton_"+str(c), choices[c].text, onClickChoiceButton, 
                                       position = (0.5, 0.2 + c * 0.15, 0.5), color = (100,100,200), textColor = (200,200,200))
 
