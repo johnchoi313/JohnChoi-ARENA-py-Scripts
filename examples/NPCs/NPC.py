@@ -1,13 +1,20 @@
+# ------------------------------------------ #
+# ----------IMPORTING EVERYTHING------------ #
+# ------------------------------------------ #
 
 from asyncio import create_subprocess_exec
 from arena import *
 
+import json
+import re
+
 import colorama
 from colorama import Fore
 colorama.init(strip=False)
-
-import json
-import re
+def printWarning(text):
+    print(Fore.YELLOW + text + Fore.RESET)
+def printError(text):
+    print(Fore.RED + text + Fore.RESET)
 
 # ------------------------------------------ #
 # -----------STARTING VARIABLES------------- #
@@ -34,7 +41,7 @@ class Dialogue:
         
         jsonString = f.read()
 
-        print(Fore.YELLOW + jsonString + Fore.WHITE)
+        print(Fore.YELLOW + jsonString + Fore.RESET)
 
         jsonString = "{\"nodes\":" + jsonString + "}"
 
