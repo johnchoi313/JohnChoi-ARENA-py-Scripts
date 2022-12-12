@@ -15,6 +15,18 @@ def printWarning(text):
     print(Fore.YELLOW + text + Fore.RESET)
 def printError(text):
     print(Fore.RED + text + Fore.RESET)
+def printRed(text):
+    print(Fore.RED + text + Fore.RESET)
+def printYellow(text):
+    print(Fore.YELLOW + text + Fore.RESET)
+def printBlue(text):
+    print(Fore.BLUE + text + Fore.RESET)
+def printCyan(text):
+    print(Fore.CYAN + text + Fore.RESET)
+def printGreen(text):
+    print(Fore.GREEN + text + Fore.RESET)
+def printMagenta(text):
+    print(Fore.MAGENTA + text + Fore.RESET)
 
 # ------------------------------------------ #
 # -----------STARTING VARIABLES------------- #
@@ -56,17 +68,10 @@ class Dialogue:
         return nodes
 
     def getNodeIndexFromString(self, nodeName):
-        print("Boboby")
-        print(nodeName)
         for i in range(len(self.nodes)):
-
-            print("    " + self.nodes[i].title + " | " + nodeName)
-
             if self.nodes[i].title == nodeName:
                 return i
-
-        print(Fore.RED + "Node with name \"" + nodeName + "\" not found!")
-
+        printWarning("Node with name \"" + nodeName + "\" not found!")
         return 0
 
     def printInfo(self):
@@ -236,7 +241,7 @@ class ArenaDialogueBubbleGroup():
         if(len(choices) > 0): 
             for c in range(len(choices)):                
                 choiceButton = Button(scene, self.npc, self.npc.object_id + "_choiceButton_"+str(c), choices[c].text, onClickChoiceButton, 
-                                      position = (0.5, 0.2 + c * 0.15, 0.5), color = (100,100,200), textColor = (200,200,200))
+                                      position = (0, 0.2 + c * 0.15, 0.5), color = (100,100,200), textColor = (200,200,200))
 
 
                 self.buttons.append(choiceButton)
@@ -248,17 +253,13 @@ class ArenaDialogueBubbleGroup():
         return self.buttons
 
     def createNewButtons(self, line):
-
-
         self.createSpeechBubble(line)
         self.createButtons(line)
         self.runCommands(line)
 
     def clearButtons(self):
-        print("deleting speechBubble...")
         self.scene.delete_object(self.speechBubble)
-        print("speechBubble deleted.")
-
+      
         for button in self.buttons:
             self.scene.delete_object(button.box)
             self.scene.delete_object(button.text)
@@ -276,37 +277,22 @@ def onClickChoiceButton(scene, evt, msg):
     if evt.type == "mousedown":
         print("Choice Button Pressed!")
     
-        print(msg)
-
-        print(msg["object_id"])
 
         choiceButtonID = msg["object_id"]
 
-        print(choiceButtonID)
 
         filterLen = len(npc.object_id + "_choiceButton_")
 
-        print(filterLen)
 
         choiceButtonNumber = int(choiceButtonID[filterLen:])
 
-        print(choiceButtonNumber)
 
         choiceNodeName = dialogue.currentNode.lines[dialogue.currentNode.currentLineIndex].choices[choiceButtonNumber].node
 
-        print(choiceNodeName)
-        
-
-        print("Clearing buttons.")
         bubbles.clearButtons()
-        print("Buttons cleared.")
-
         #get the current line represented by the selections
-
-        
+       
         dialogue.currentNode = dialogue.nodes[dialogue.getNodeIndexFromString(choiceNodeName)]
-
-        print("Bob.")
 
         dialogue.currentNode.currentLineIndex = 0
 
@@ -314,35 +300,18 @@ def onClickChoiceButton(scene, evt, msg):
             
         #bubbles.createNewButtons( dialogue.currentNode.currentLine )
 
-    print("")
-
-'''
-#functions to control choice button click behaviour
-def onClickSpeechBubble(scene, evt, msg):
-    if evt.type == "mousedown":
-        dialogue.
-        dialogue.createNewButtons(dialogue.currentNode.currentLine)
-'''
 
 #functions to control choice button click behaviour
 def onClickNextButton(scene, evt, msg):
     if evt.type == "mousedown":
         print("Next Button Pressed!")
         
-        print("Clearing buttons.")
         bubbles.clearButtons()
-        print("Buttons cleared.")
         dialogue.currentNode.currentLineIndex = dialogue.currentNode.currentLineIndex + 1
 
         if(dialogue.currentNode.currentLineIndex <= len(dialogue.currentNode.lines)):
-            print("Creating new buttons.")
             bubbles.createNewButtons(dialogue.currentNode.lines[dialogue.currentNode.currentLineIndex])
-            print("New buttons created.")
-        else:
-            print("No new buttons created.")
-            
-    print("")
-    
+                
 # ------------------------------------------ #
 # --------MAIN LOOP/INITIALIZATION---------- #
 # ------------------------------------------ #
@@ -378,6 +347,3 @@ def programStart():
     print("Completed.")
 
 scene.run_tasks()
-
-
-
