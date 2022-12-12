@@ -2,6 +2,9 @@
 from asyncio import create_subprocess_exec
 from arena import *
 
+import colorama
+from colorama import Fore
+
 import json
 import re
 
@@ -9,9 +12,11 @@ import re
 # -----------STARTING VARIABLES------------- #
 # ------------------------------------------ #
 
-HOST="mqtt.arenaxr.org"
+HOST = "mqtt.arenaxr.org"
 NAMESPACE = "johnchoi"
-SCENE="NPC"
+SCENE = "NPC"
+
+DIALOGUE_FILENAME = "cartoon_dialogue.json"
 
 # ------------------------------------------ #
 # ----------YARN DIALOGUE CLASSES----------- #
@@ -33,6 +38,21 @@ class Dialogue:
         # Closing file
         f.close()
         return nodes
+
+    def getNodeIndexFromString(self, nodeName):
+        print("Boboby")
+        print(nodeName)
+        for i in range(len(self.nodes)):
+
+            print("    " + self.nodes[i].title + " | " + nodeName)
+
+            if self.nodes[i].title == nodeName:
+                return i
+
+        print(Fore.RED + "Node with name \"" + nodeName + "\" not found!")
+
+        return 0
+
     def printInfo(self):
         for node in self.nodes:
             print("\n")
@@ -124,8 +144,8 @@ class Button():
         self.scene = scene
         self.npc = npc
 
-        self.buttonBox = self.makeButtonBox(name, text, eventHandler, color, position, buttonTextColor=textColor)
-        self.buttonText = self.makeButtonText(self.buttonBox, name, text, buttonColor=textColor)
+        self.box = self.makeButtonBox(name, text, eventHandler, color, position, buttonTextColor=textColor)
+        self.text = self.makeButtonText(self.box, name, text, buttonColor=textColor)
 
     def makeButtonText(self, button, buttonID, buttonText, buttonColor = (255,255,255), buttonPos = (0, 0, 0.5), buttonRot = (0,0,0), buttonScale = (0.5, 2, 1)):
         buttonText = Text(
@@ -163,8 +183,6 @@ class Button():
         self.scene.add_object(button)
         return button
     
-
-     
 class ArenaDialogueBubbleGroup():
     def __init__(self, scene, npc, line):
         self.scene = scene
@@ -198,60 +216,38 @@ class ArenaDialogueBubbleGroup():
 
     def createButtons(self, line):
         choices = line.choices
-        buttons = []
+        self.buttons = []
         if(len(choices) > 0): 
             for c in range(len(choices)):
-                '''
-                choiceButton = Text(
-                    object_id=npc.object_id + "_choiceButton_"+str(c),
-                    text=choices[c],
-                    parent=self.npc,
-                    align="center",
-                    color=(200,200,200),
-                    position=(0,-0.1 + c * 0.05,-0.3),
-                    scale=(0.4,0.4,0.4),
+                print()                
+                choiceButton = Button(scene, self.npc, self.npc.object_id + "_choiceButton_"+str(c), choices[c].text, onClickChoiceButton, 
+                                      position = (0.5, 0.2 + c * 0.15, 0.5), color = (100,100,200), textColor = (200,200,200))
 
-                    clickable=True,
-                    evt_handler=onClickChoiceButton
-                )
-                self.scene.add_object(choiceButton) # add the box
-                '''
-                choiceButton = Button(scene, self.npc, self.npc.object_id + "_choiceButton_"+str(c), choices[c], onClickChoiceButton, 
-                                      position = (0,-0.1 + c * 0.05,-0.3), color = (100,100,200), textColor = (200,200,200))
 
-                buttons.append(choiceButton)
+                self.buttons.append(choiceButton)
         else: 
-            '''
-            nextButton = Text(
-                object_id=npc.object_id + "_nextButton",
-                text="[Next]",
-                parent=npc,
-                align="center",
-                color=(200,200,200),
-                position=(0,0.2,0.6),
-                scale=(0.4,0.4,0.4),
-
-                clickable=True,
-                evt_handler=onClickNextButton
-            )
-            self.scene.add_object(nextButton) # add the box
-            '''
             nextButton = Button(scene, self.npc, self.npc.object_id + "_nextButton", "[Next]", onClickNextButton, 
                                 position = (0,0.2,0.6), color = (100,100,200), textColor = (200,200,200))
                 
-            buttons.append(nextButton)
-        return buttons
+            self.buttons.append(nextButton)
+        return self.buttons
 
     def createNewButtons(self, line):
+
+
         self.createSpeechBubble(line)
         self.createButtons(line)
         self.runCommands(line)
 
     def clearButtons(self):
+        print("deleting speechBubble...")
         self.scene.delete_object(self.speechBubble)
+        print("speechBubble deleted.")
 
         for button in self.buttons:
-            self.scene.delete_object(button)
+            self.scene.delete_object(button.box)
+            self.scene.delete_object(button.text)
+            
         self.buttons = []
 
         return
@@ -262,10 +258,48 @@ class ArenaDialogueBubbleGroup():
 
 #functions to control choice button click behaviour
 def onClickChoiceButton(scene, evt, msg):
-    print("Choice Button Pressed!")
     if evt.type == "mousedown":
-        dialogue.clearButtons()
-        dialogue.createNewButtons(dialogue.currentNode.currentLine)
+        print("Choice Button Pressed!")
+    
+        print(msg)
+
+        print(msg["object_id"])
+
+        choiceButtonID = msg["object_id"]
+
+        print(choiceButtonID)
+
+        filterLen = len(npc.object_id + "_choiceButton_")
+
+        print(filterLen)
+
+        choiceButtonNumber = int(choiceButtonID[filterLen:])
+
+        print(choiceButtonNumber)
+
+        choiceNodeName = dialogue.currentNode.lines[dialogue.currentNode.currentLineIndex].choices[choiceButtonNumber].node
+
+        print(choiceNodeName)
+        
+
+        print("Clearing buttons.")
+        bubbles.clearButtons()
+        print("Buttons cleared.")
+
+        #get the current line represented by the selections
+
+        
+        dialogue.currentNode = dialogue.nodes[dialogue.getNodeIndexFromString(choiceNodeName)]
+
+        print("Bob.")
+
+        dialogue.currentNode.currentLineIndex = 0
+
+        bubbles.createNewButtons(dialogue.currentNode.lines[dialogue.currentNode.currentLineIndex])
+            
+        #bubbles.createNewButtons( dialogue.currentNode.currentLine )
+
+    print("")
 
 '''
 #functions to control choice button click behaviour
@@ -277,15 +311,23 @@ def onClickSpeechBubble(scene, evt, msg):
 
 #functions to control choice button click behaviour
 def onClickNextButton(scene, evt, msg):
-    print("Next Button Pressed!")
     if evt.type == "mousedown":
-        dialogue.clearButtons()
+        print("Next Button Pressed!")
+        
+        print("Clearing buttons.")
+        bubbles.clearButtons()
+        print("Buttons cleared.")
         dialogue.currentNode.currentLineIndex = dialogue.currentNode.currentLineIndex + 1
-        if(dialogue.currentNode.currentLineIndex < len(dialogue.currentNode.lines)):
-            dialogue.createNewButtons(dialogue.currentNode.lines[dialogue.currentNode.currentLineIndex])
 
-
-
+        if(dialogue.currentNode.currentLineIndex <= len(dialogue.currentNode.lines)):
+            print("Creating new buttons.")
+            bubbles.createNewButtons(dialogue.currentNode.lines[dialogue.currentNode.currentLineIndex])
+            print("New buttons created.")
+        else:
+            print("No new buttons created.")
+            
+    print("")
+    
 # ------------------------------------------ #
 # --------MAIN LOOP/INITIALIZATION---------- #
 # ------------------------------------------ #
@@ -293,61 +335,34 @@ def onClickNextButton(scene, evt, msg):
 # setup ARENA scene
 scene = Scene(host=HOST, namespace=NAMESPACE, scene=SCENE)
 
+# create Dialogue, and show contents
+dialogue = Dialogue(DIALOGUE_FILENAME)
+
+# Iterating through the json list
+dialogue.printInfo()
+
+#Initialize text, buttons, and command from current line from current node:
+dialogue.currentNode.currentLine = dialogue.currentNode.lines[0]
+line = dialogue.currentNode.currentLine
+
+npc = Box(
+    object_id="NPC",
+    position=(0,0,0),
+    rotation=(0,0,0),
+    scale=(1,1,1),
+    color=(255,100,16),
+    material = Material(opacity=0.3, transparent=True),
+    persist=True
+)
+scene.add_object(npc)
+
+bubbles = ArenaDialogueBubbleGroup(scene , npc , line)
+
 @scene.run_once
 def programStart():
-
-    # create Dialogue, and show contents
-    dialogue = Dialogue("cartoon_dialogue.json")
-
-    # Iterating through the json list
-    dialogue.printInfo()
-
-    #Initialize text, buttons, and command from current line from current node:
-    dialogue.currentNode.currentLine = dialogue.currentNode.lines[0]
-
-    line = dialogue.currentNode.currentLine
-
-    npc = Box(
-        object_id="NPC",
-        position=(0,0,0),
-        rotation=(0,0,0),
-        scale=(1,1,1),
-        color=(255,100,16),
-        material = Material(opacity=0.3, transparent=True),
-        persist=True
-    )
-    scene.add_object(npc)
-
-    bubbles = ArenaDialogueBubbleGroup(scene , npc , line)
-
     print("Completed.")
 
 scene.run_tasks()
-
-
-'''
-@scene.run_once
-def main():
-    
-    my_box = Box(
-        object_id="my_box",
-        position=(1,2,-2),
-        clickable=True,
-        evt_handler=click_box
-    )
-    
-    # make a box
-    box = Box(object_id="my_box", position=Position(0,4,-2), scale=Scale(2,2,2))
-    print(box.json())
-    
-    # add the box
-    scene.add_object(box)
-
-
-# add and start tasks
-# scene.run_once(main)
-scene.run_tasks()
-'''
 
 
 
