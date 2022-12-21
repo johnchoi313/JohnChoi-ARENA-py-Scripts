@@ -1,0 +1,121 @@
+
+
+from ColorPrinter import *
+from ARENA_NPC_Helpers import *
+
+import json
+import re
+
+# ------------------------------------------ #
+# ----------YARN DIALOGUE CLASSES----------- #
+# ------------------------------------------ #
+
+#Define Yarn Dialogue Classes and Subcomponents of data structure.
+class Dialogue:
+    def __init__(self, filename):
+        self.nodes = self.getNodesFromFile(filename)
+        self.currentNode = self.nodes[0] 
+    def getNodesFromFile(self, filename):
+        # Open file
+        f = open(filename)
+        jsonString = f.read()
+        printYellow(jsonString)
+        jsonString = "{\"nodes\":" + jsonString + "}"
+        yarnJson = json.loads(jsonString) #yarnJson is a list of nodeJsons.
+        
+        # Iterating through the json list
+        nodes = []
+        for nodeJson in yarnJson['nodes']:
+            nodes.append(Node(nodeJson["title"], nodeJson["body"]))
+        # Closing file
+        f.close()
+        return nodes
+
+    def getNodeIndexFromString(self, nodeName):
+        for i in range(len(self.nodes)):
+            if self.nodes[i].title == nodeName:
+                return i
+        printWarning("Node with name \"" + nodeName + "\" not found!")
+        return 0
+
+    def printInfo(self):
+        for node in self.nodes:
+            printCyan("\n")
+            printCyan("NodeTitle: " + node.title)        
+            
+            for l in range(len(node.lines)):
+                line = node.lines[l]
+                #show full unprocessed lines
+                printCyan("  "+str(l)+". Text: " + line.text)        
+                # extract commands (format << >>)
+                for c in range(len(line.commands)):            
+                    printCyan("    <<"+str(c)+">> commandType: " + line.commands[c].type)
+                    printCyan(         "          commandText: " + line.commands[c].text)
+                #extract choices (format [[|]])
+                for c in range(len(line.choices)):
+                    printCyan("    [["+str(c)+"]] choiceText: " + line.choices[c].text)
+                    printCyan(         "          choiceNode: " + line.choices[c].node)
+        printCyan("\n")
+
+class Node:
+    def __init__(self, titleString, bodyString):
+        self.title = titleString
+        self.lines = self.getLinesFromBodyString(bodyString)
+        self.currentLineIndex = 0
+    def getLinesFromBodyString(self, bodyString):
+        lineStrings = bodyString.split("\n")
+        lines = []
+        for c in range(len(lineStrings)):
+            lines.append(Line(lineStrings[c]))
+        return lines
+
+class Line:
+    def __init__(self, lineString):
+        self.text = self.getTextFromLine(lineString)
+        self.choices = self.getChoicesFromLine(lineString)
+        self.commands = self.getCommandsFromLine(lineString)
+        self.currentChoiceIndex = 0
+    def getTextFromLine(self, lineString): #[Input: line is a single dialogue line] -> [Output: Dialogue Text only] 
+        text = re.sub(r'\<\<.*?\>\>', "", lineString)
+        text = re.sub(r'\[\[.*?\]\]', "", text)
+        return text
+    def getCommandsFromLine(self, lineString): #[Input: line is a single dialogue line] -> [Output: List of string commands in <<>>s, brackets removed.]
+        commandStrings = re.findall(r'\<\<.*?\>\>', lineString)
+        commands = []
+        for c in range(len(commandStrings)):            
+            commandStrings[c] = commandStrings[c].replace("<","").replace(">","")
+            commands.append(Command(commandStrings[c]))
+        return commands
+    def getChoicesFromLine(self, lineString): #[Input: line is a single dialogue line] -> [Output: List of string choices in [[]]s, brackets removed.]
+        choiceStrings = re.findall(r'\[\[.*?\]\]', lineString)
+        choices = []
+        for c in range(len(choiceStrings)):
+            choiceStrings[c] = choiceStrings[c].replace("[","").replace("]","")
+            choices.append(Choice(choiceStrings[c]))
+        return choices
+
+class Command:
+    def __init__(self, commandString):
+        self.type = self.getTypeFromCommand(commandString)
+        self.text = self.getTextFromCommand(commandString)
+    def getTypeFromCommand(self, commandString): #[Input: String command in <<>>] -> [Output: Command TYPE, split by ' '.]
+        if(commandString.count(' ') != 1): return ""
+        commandType = commandString.split(' ')[0]
+        return commandType         
+    def getTextFromCommand(self, commandString): #[Input: String command in <<>>] -> [Output: Command TEXT, split by ' '.]
+        if(commandString.count(' ') != 1): return ""
+        commandText = commandString.split(' ')[1]
+        return commandText
+
+class Choice:
+    def __init__(self, choiceString):
+        self.text = self.getTextFromChoice(choiceString)
+        self.node = self.getNodeFromChoice(choiceString)
+    def getTextFromChoice(self, choiceString): #[Input: String choice in [[]] ] -> [Output: Choice TEXT, split by '|'.]
+        if(choiceString.count('|') != 1): return ""
+        choiceText = choiceString.split('|')[0]
+        return choiceText         
+    def getNodeFromChoice(self, choiceString): #[Input: String choice in [[]] ] -> [Output: Choice NODE, split by '|'.]
+        if(choiceString.count('|') != 1): return ""
+        choiceNode = choiceString.split('|')[1]
+        return choiceNode 

@@ -1,6 +1,6 @@
 from arena import *
 
-scene = Scene(host="arenaxr.org", namespace = "johnchoi", scene="NPC")
+scene = Scene(host="mqtt.arenaxr.org", namespace = "johnchoi", scene="NPC")
 
 @scene.run_once
 def make_box():
