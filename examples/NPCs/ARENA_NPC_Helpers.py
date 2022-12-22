@@ -6,53 +6,9 @@ from YarnParser import *
 from ColorPrinter import *
 
 # ------------------------------------------ #
-# --------------ARENA CLASSES--------------- #
+# ------------HELPER VARIABLES-------------- #
 # ------------------------------------------ #
 
-class Button():
-    def __init__(self, scene, npc, name, text, eventHandler, position, color, textColor):
-        self.scene = scene
-        self.npc = npc
-
-        self.box = self.makeButtonBox(name, text, eventHandler, color, position, buttonTextColor=textColor)
-        self.text = self.makeButtonText(self.box, name, text, buttonColor=textColor)
-
-    def makeButtonText(self, button, buttonID, buttonText, buttonColor = (255,255,255), buttonPos = (0, 0, 0.5), buttonRot = (0,0,0), buttonScale = (0.5, 2, 1)):
-        buttonText = Text(
-            object_id=buttonID+"_text",
-            text=buttonText,
-            align="center",
-                
-            position=buttonPos,
-            rotation=buttonRot,
-            scale=buttonScale,
-
-            color=buttonColor,
-
-            parent = button,
-            persist=True,
-        )
-        self.scene.add_object(buttonText)
-        return buttonText
-
-    def makeButtonBox(self, buttonID, buttonText, buttonHandler, buttonColor = (128,128,128), buttonPos = (0,0,0), buttonRot = (0,0,0), buttonScale = (0.4, 0.08, 0.04), buttonTextColor = (255,255,255)):
-        button = Box(
-            object_id=buttonID,
-
-            position=buttonPos,
-            rotation=buttonRot,
-            scale=buttonScale,
-
-            color=buttonColor,
-
-            parent = self.npc,
-            clickable=True,
-            persist=True,
-            evt_handler=buttonHandler,
-        )
-        self.scene.add_object(button)
-        return button
-    
 class ArenaDialogueBubbleGroup():
     def __init__(self, scene, npc, dialogue, line):
         self.scene = scene
@@ -61,6 +17,28 @@ class ArenaDialogueBubbleGroup():
 
         self.speechBubble = self.createSpeechBubble(line)
         self.buttons = self.createButtons(line)
+
+        self.SPEECH_BUBBLE_COLOR = (0,0,0)
+        self.SPEECH_TEXT_COLOR = (0,0,0)
+        self.CHOICE_BUBBLE_COLOR = (0,0,0)
+        self.CHOICE_TEXT_COLOR = (0,0,0)
+
+        self.SPEECH_BUBBLE_POSITION = (0,0,0)
+        self.CHOICE_BUBBLE_POSITION = (0,0,0)
+        self.CHOICE_BUBBLE_Y_OFFSET = 2
+
+    #customization functions   
+    def setColors(self, speechBubbleColor, speechTextColor, choiceBubbleColor, choiceTextColor):
+
+        self.SPEECH_BUBBLE_COLOR = speechBubbleColor
+        self.SPEECH_TEXT_COLOR = speechBubbleColor
+        self.CHOICE_BUBBLE_COLOR = choiceBubbleColor
+        self.CHOICE_TEXT_COLOR = choiceTextColor
+
+    def setPositionOffsets(self, speechBubblePosition, choiceBubblePosition, choiceBubbleOffsetY):
+        self.SPEECH_BUBBLE_POSITION = speechBubblePosition
+        self.CHOICE_BUBBLE_POSITION = choiceBubblePosition
+        self.CHOICE_BUBBLE_OFFSET_Y = choiceBubbleOffsetY
 
     def runCommands(self, line):
         commands = line.commands
@@ -150,3 +128,52 @@ class ArenaDialogueBubbleGroup():
             if(self.dialogue.currentNode.currentLineIndex <= len(self.dialogue.currentNode.lines)):
                 self.createNewButtons(self.dialogue.currentNode.lines[self.dialogue.currentNode.currentLineIndex])
 
+
+# ------------------------------------------ #
+# --------------ARENA CLASSES--------------- #
+# ------------------------------------------ #
+
+class Button():
+    def __init__(self, scene, npc, name, text, eventHandler, position, color, textColor):
+        self.scene = scene
+        self.npc = npc
+
+        self.box = self.makeButtonBox(name, text, eventHandler, color, position, buttonTextColor=textColor)
+        self.text = self.makeButtonText(self.box, name, text, buttonColor=textColor)
+
+    def makeButtonText(self, button, buttonID, buttonText, buttonColor = (255,255,255), buttonPos = (0, 0, 0.5), buttonRot = (0,0,0), buttonScale = (0.5, 2, 1)):
+        buttonText = Text(
+            object_id=buttonID+"_text",
+            text=buttonText,
+            align="center",
+                
+            position=buttonPos,
+            rotation=buttonRot,
+            scale=buttonScale,
+
+            color=buttonColor,
+
+            parent = button,
+            persist=True,
+        )
+        self.scene.add_object(buttonText)
+        return buttonText
+
+    def makeButtonBox(self, buttonID, buttonText, buttonHandler, buttonColor = (128,128,128), buttonPos = (0,0,0), buttonRot = (0,0,0), buttonScale = (0.4, 0.08, 0.04), buttonTextColor = (255,255,255)):
+        button = Box(
+            object_id=buttonID,
+
+            position=buttonPos,
+            rotation=buttonRot,
+            scale=buttonScale,
+
+            color=buttonColor,
+
+            parent = self.npc,
+            clickable=True,
+            persist=True,
+            evt_handler=buttonHandler,
+        )
+        self.scene.add_object(button)
+        return button
+    

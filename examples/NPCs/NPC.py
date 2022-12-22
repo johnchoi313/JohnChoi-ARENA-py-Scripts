@@ -33,9 +33,9 @@ CHOICE_BUBBLE_COLOR = (0,0,0)
 CHOICE_TEXT_COLOR = (0,0,0)
 
 #SPEECH_ICON#
+SPEECH_BUBBLE_POSITION = (0,0,0)
 CHOICE_BUBBLE_POSITION = (0,0,0)
-CHOICE_BUBBLE_OFFSET = 2
-SPEECH_POSITION = (0,0,0)
+CHOICE_BUBBLE_OFFSET_Y = 2
         
 # ------------------------------------------ #
 # --------MAIN LOOP/INITIALIZATION---------- #
@@ -64,6 +64,7 @@ npc = Box(
     persist=True
 )
 scene.add_object(npc)
+
 
 bubbles = ArenaDialogueBubbleGroup(scene , npc , dialogue, line)
 
