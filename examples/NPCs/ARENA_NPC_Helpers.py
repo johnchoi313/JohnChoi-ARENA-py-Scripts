@@ -15,28 +15,38 @@ class ArenaDialogueBubbleGroup():
         self.npc = npc
         self.dialogue = dialogue
 
-        self.speechBubble = self.createSpeechBubble(line)
-        self.buttons = self.createButtons(line)
-
-        self.SPEECH_BUBBLE_COLOR = (0,0,0)
         self.SPEECH_TEXT_COLOR = (0,0,0)
+        
         self.CHOICE_BUBBLE_COLOR = (0,0,0)
         self.CHOICE_TEXT_COLOR = (0,0,0)
 
-        self.SPEECH_BUBBLE_POSITION = (0,0,0)
+        self.SPEECH_TEXT_POSITION = (0,0,0)
         self.CHOICE_BUBBLE_POSITION = (0,0,0)
         self.CHOICE_BUBBLE_Y_OFFSET = 2
 
-    #customization functions   
-    def setColors(self, speechBubbleColor, speechTextColor, choiceBubbleColor, choiceTextColor):
+        self.speechBubble = self.createSpeechBubble(line)
+        self.buttons = self.createButtons(line)
 
-        self.SPEECH_BUBBLE_COLOR = speechBubbleColor
-        self.SPEECH_TEXT_COLOR = speechBubbleColor
+
+    def start(self):
+        self.clearButtons()
+        
+        self.dialogue.currentNode.currentLine = self.dialogue.currentNode.lines[0]
+        line = self.dialogue.currentNode.currentLine
+
+        self.speechBubble = self.createSpeechBubble(line)
+        self.buttons = self.createButtons(line)
+
+
+    #customization functions   
+    def setColors(self, speechTextColor, choiceBubbleColor, choiceTextColor):
+        self.SPEECH_TEXT_COLOR = speechTextColor
+        
         self.CHOICE_BUBBLE_COLOR = choiceBubbleColor
         self.CHOICE_TEXT_COLOR = choiceTextColor
 
-    def setPositionOffsets(self, speechBubblePosition, choiceBubblePosition, choiceBubbleOffsetY):
-        self.SPEECH_BUBBLE_POSITION = speechBubblePosition
+    def setPositionOffsets(self, speechTextPosition, choiceBubblePosition, choiceBubbleOffsetY):
+        self.SPEECH_TEXT_POSITION = speechTextPosition
         self.CHOICE_BUBBLE_POSITION = choiceBubblePosition
         self.CHOICE_BUBBLE_OFFSET_Y = choiceBubbleOffsetY
 
@@ -53,8 +63,11 @@ class ArenaDialogueBubbleGroup():
             text=speech,
             parent=self.npc,
             align="center",
-            color=(200,200,200),
-            position=(0,0.7,0),
+            
+            color = self.SPEECH_TEXT_COLOR,
+            
+            position=self.SPEECH_TEXT_POSITION,
+
             scale=(0.4,0.4,0.4),
         )
 
@@ -67,12 +80,13 @@ class ArenaDialogueBubbleGroup():
         if(len(choices) > 0): 
             for c in range(len(choices)):                
                 choiceButton = Button(self.scene, self.npc, self.npc.object_id + "_choiceButton_"+str(c), choices[c].text, self.onClickChoiceButton, 
-                                      position = (0, 0.2 + c * 0.15, 0.5), color = (100,100,200), textColor = (200,200,200))
+                                      position = (self.CHOICE_BUBBLE_POSITION[0], self.CHOICE_BUBBLE_POSITION[1] + c * self.CHOICE_BUBBLE_OFFSET_Y, self.CHOICE_BUBBLE_POSITION[2]), 
+                                      color = self.CHOICE_BUBBLE_COLOR, textColor = self.CHOICE_TEXT_COLOR)
 
                 self.buttons.append(choiceButton)
         else: 
             nextButton = Button(self.scene, self.npc, self.npc.object_id + "_nextButton", "[Next]", self.onClickNextButton, 
-                                position = (0,0.2,0.6), color = (100,100,200), textColor = (200,200,200))
+                                position = self.CHOICE_BUBBLE_POSITION, color = self.CHOICE_BUBBLE_COLOR, textColor = self.CHOICE_TEXT_COLOR)
                 
             self.buttons.append(nextButton)
         return self.buttons
