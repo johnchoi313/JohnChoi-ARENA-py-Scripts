@@ -3,6 +3,7 @@
 from ColorPrinter import *
 from ARENA_NPC_Helpers import *
 
+import copy
 import json
 import re
 
@@ -13,13 +14,15 @@ import re
 #Define Yarn Dialogue Classes and Subcomponents of data structure.
 class Dialogue:
     def __init__(self, filename):
+        self.jsonString = ""
+        self.filename = filename
         self.nodes = self.getNodesFromFile(filename)
         self.currentNode = self.nodes[0] 
     def getNodesFromFile(self, filename):
         # Open file
         f = open(filename)
         jsonString = f.read()
-        printYellow(jsonString)
+        self.jsonString = jsonString
         jsonString = "{\"nodes\":" + jsonString + "}"
         yarnJson = json.loads(jsonString) #yarnJson is a list of nodeJsons.
         
@@ -38,9 +41,15 @@ class Dialogue:
         printWarning("Node with name \"" + nodeName + "\" not found!")
         return 0
 
+    def printJson(self):
+        print("\n(---JSON File \"" + self.filename + "\":---)")
+        printYellow(self.jsonString)
+
     def printInfo(self):
+        
+        print("\n(---Dialogue parsed with " + str(len(self.nodes)) + " nodes:---)")
+        
         for node in self.nodes:
-            printCyan("\n")
             printCyan("NodeTitle: " + node.title)        
             
             for l in range(len(node.lines)):
@@ -49,13 +58,12 @@ class Dialogue:
                 printCyan("  "+str(l)+". Text: " + line.text)        
                 # extract commands (format << >>)
                 for c in range(len(line.commands)):            
-                    printCyan("    <<"+str(c)+">> commandType: " + line.commands[c].type)
-                    printCyan(         "          commandText: " + line.commands[c].text)
+                    printGreen("    <<"+str(c)+">> commandType: " + line.commands[c].type)
+                    printGreen(         "          commandText: " + line.commands[c].text)
                 #extract choices (format [[|]])
                 for c in range(len(line.choices)):
-                    printCyan("    [["+str(c)+"]] choiceText: " + line.choices[c].text)
-                    printCyan(         "          choiceNode: " + line.choices[c].node)
-        printCyan("\n")
+                    printMagenta("    [["+str(c)+"]] choiceText: " + line.choices[c].text)
+                    printMagenta(         "          choiceNode: " + line.choices[c].node)
 
 class Node:
     def __init__(self, titleString, bodyString):
