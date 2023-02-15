@@ -46,9 +46,7 @@ class Dialogue:
         printYellow(self.jsonString)
 
     def printInfo(self):
-        
         print("\n(---Dialogue parsed with " + str(len(self.nodes)) + " nodes:---)")
-        
         for node in self.nodes:
             printCyan("NodeTitle: " + node.title)        
             

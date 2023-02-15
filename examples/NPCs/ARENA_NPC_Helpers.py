@@ -69,7 +69,10 @@ class ArenaDialogueBubbleGroup():
         for c in range(len(commands)):            
             printGreen("    <<"+str(c)+">> commandType: " + commands[c].type)
             printGreen(         "          commandText: " + commands[c].text)
-                
+
+        #for command in commands:
+        #    print("bob")
+
 
         return
 
