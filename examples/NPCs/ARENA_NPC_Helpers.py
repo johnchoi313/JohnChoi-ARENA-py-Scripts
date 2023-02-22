@@ -10,9 +10,10 @@ from ColorPrinter import *
 # ------------------------------------------ #
 
 class ArenaDialogueBubbleGroup():
-    def __init__(self, scene, npc, dialogue):
+    def __init__(self, scene, npc, gltf, dialogue):
         self.scene = scene
         self.npc = npc
+        self.gltf = gltf
         self.dialogue = dialogue
         #SPEECH SETTINGS
         self.SPEECH_TEXT_COLOR = (0,0,0)
@@ -66,12 +67,78 @@ class ArenaDialogueBubbleGroup():
     def runCommands(self, line):
         commands = line.commands
 
+        #print details
         for c in range(len(commands)):            
             printGreen("    <<"+str(c)+">> commandType: " + commands[c].type)
             printGreen(         "          commandText: " + commands[c].text)
+            if(len(commands[c].args) > 0):
+                for a in range(len(commands[c].args)):
+                    printGreen(     "          --commandArgs["+str(a)+"]: " + commands[c].args[a])
+                
+        #run through each command:
+        for command in commands:
+        
+            #<<print "text">>
+            if(command.type.lower() == "print".lower()):
+                printYellow("    " + command.text)
 
-        #for command in commands:
-        #    print("bob")
+            #<<hide objectName>>
+
+            #<<show objectName>>
+
+
+            #<<move (x,y,z)>>
+            elif(command.type.lower() == "move".lower()):
+                printYellow("    " + command.text)
+
+                '''
+                self.npc.dispatch_animation(
+                    Animation(
+                        property="rotation",
+                        start=(0,0,0),
+                        end=(0,180,0),
+                        easing="linear",
+                        dur=1000
+                    )
+                )
+                '''
+
+            #collide restart
+            #-collision enter/exit
+            #-collision triggers boundary event
+
+            #<<rotate (x,y,z)>>
+            elif(command.type.lower() == "rotate".lower()):
+                print("    " + command.text)
+            #<<lookAt (x,y,z)>>
+            elif(command.type.lower() == "lookAt".lower()):
+                print("    " + command.text)
+
+            #<<playSound >>
+            elif(command.type.lower() == "playSound".lower()):                
+                self.npc = Box(sound = Sound(positional=True, poolSize=1, loop=False, autoplay=True, src=command.text))
+                self.scene.add_object(self.npc);
+
+            #<<loopSound >>
+            elif(command.type.lower() == "loopSound".lower()):
+                self.npc = Box(sound = Sound(positional=True, poolSize=1, loop=True, autoplay=True, src=command.text))
+                self.scene.add_object(self.npc);
+
+            #<<playAnimation >>
+            elif(command.type.lower() == "playAnimation".lower()):
+                self.gltf.dispatch_animation(
+                    AnimationMixer(clip=command.text, loop="once")
+                )
+            #<<loopAnimation >>
+            elif(command.type.lower() == "loopAnimation".lower()):
+                self.gltf.dispatch_animation(
+                    AnimationMixer(clip=command.text, loop="repeat")
+                )
+            #<<loopAnimation >>
+            elif(command.type.lower() == "stopAnimation".lower()):
+                self.gltf.dispatch_animation(
+                    AnimationMixer(clip=command.text, loop="repeat")
+                )
 
 
         return
@@ -215,6 +282,8 @@ class Button():
             clickable=True,
             persist=True,
             evt_handler=buttonHandler,
+
+        
         )
         self.scene.add_object(button)
         return button

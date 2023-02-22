@@ -104,14 +104,22 @@ class Command:
     def __init__(self, commandString):
         self.type = self.getTypeFromCommand(commandString)
         self.text = self.getTextFromCommand(commandString)
+        self.args = self.getArgsFromText(self.text)
     def getTypeFromCommand(self, commandString): #[Input: String command in <<>>] -> [Output: Command TYPE, split by ' '.]
-        if(commandString.count(' ') != 1): return ""
+        if(commandString.count(' ') < 1): return ""
         commandType = commandString.split(' ')[0]
         return commandType         
     def getTextFromCommand(self, commandString): #[Input: String command in <<>>] -> [Output: Command TEXT, split by ' '.]
-        if(commandString.count(' ') != 1): return ""
+        if(commandString.count(' ') < 1): return ""
         commandText = commandString.split(' ')[1]
         return commandText
+    def getArgsFromText(self, textString): #[Input: String TextFromCommand result] -> [Ouptut: Command ARGS list, split by ',' in ().]
+        args = []
+        textString = textString.replace(" ","")        
+        if(len(textString) >= 2 and textString[0] == '(' and textString[-1] == ')'):
+            textString = textString[1:-1] #remove first and last '()' chars
+            args = textString.split(',')
+        return args
 
 class Choice:
     def __init__(self, choiceString):
