@@ -42,11 +42,11 @@ class Dialogue:
         return 0
 
     def printJson(self):
-        print("\n(---JSON File \"" + self.filename + "\":---)")
+        printYellowB("\n(---JSON File \"" + self.filename + "\":---)")
         printYellow(self.jsonString)
 
     def printInfo(self):
-        print("\n(---Dialogue parsed with " + str(len(self.nodes)) + " nodes:---)")
+        printBlueB("\n(---Dialogue parsed with " + str(len(self.nodes)) + " nodes:---)")
         for node in self.nodes:
             printCyan("NodeTitle: " + node.title)        
             

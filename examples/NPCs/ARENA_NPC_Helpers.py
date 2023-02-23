@@ -2,8 +2,10 @@
 from asyncio import create_subprocess_exec
 from arena import *
 
+from config import *
 from YarnParser import *
 from ColorPrinter import *
+
 
 # ------------------------------------------ #
 # ------------HELPER VARIABLES-------------- #
@@ -15,6 +17,8 @@ class ArenaDialogueBubbleGroup():
         self.npc = npc
         self.gltf = gltf
         self.dialogue = dialogue
+        
+        '''
         #SPEECH SETTINGS
         self.SPEECH_TEXT_COLOR = (0,0,0)
         self.SPEECH_TEXT_POSITION = (0,0,0)
@@ -24,12 +28,14 @@ class ArenaDialogueBubbleGroup():
         self.CHOICE_BUBBLE_COLOR = (0,0,0)
         self.CHOICE_BUBBLE_POSITION = (0,0,0)
         self.CHOICE_BUBBLE_OFFSET_Y = 2
+        '''
+        
         #create bubbles to init types
         self.createBubbles()
 
     #reinitializes and restarts the interaction
     def start(self):
-        print("\n(---Starting NPC interaction:---)")
+        printGreenB("\n(---Starting NPC interaction:---)")
         self.clearButtons()
         self.createBubbles()
 
@@ -41,6 +47,7 @@ class ArenaDialogueBubbleGroup():
         self.speechBubble = self.createSpeechBubble(line)
         self.buttons = self.createButtons(line)
 
+    '''
     #customization functions   
     def setColors(self, speechTextColor, choiceBubbleColor, choiceTextColor):
         self.SPEECH_TEXT_COLOR = speechTextColor
@@ -62,7 +69,8 @@ class ArenaDialogueBubbleGroup():
         self.CHOICE_BUBBLE_COLOR = choiceBubbleColor
         self.CHOICE_BUBBLE_POSITION = choiceBubblePosition
         self.CHOICE_BUBBLE_OFFSET_Y = choiceBubbleOffsetY
-
+    '''
+        
     #runs commands
     def runCommands(self, line):
         commands = line.commands
@@ -82,10 +90,14 @@ class ArenaDialogueBubbleGroup():
             if(command.type.lower() == "print".lower()):
                 printYellow("    " + command.text)
 
-            #<<hide objectName>>
+            #<<hide objectName>> (this shows an object with the name if it exists)
+            elif(command.type.lower() == "hide".lower()):
+                printYellow("    " + command.text)
 
-            #<<show objectName>>
-
+            #<<show objectName>> (this shows an object with the name if it exists)
+            elif(command.type.lower() == "show".lower()):
+                printYellow("    " + command.text)
+                
 
             #<<move (x,y,z)>>
             elif(command.type.lower() == "move".lower()):
@@ -140,7 +152,6 @@ class ArenaDialogueBubbleGroup():
                     AnimationMixer(clip=command.text, loop="repeat")
                 )
 
-
         return
 
     #functions to create chat bubble from current line (at parent position)
@@ -152,12 +163,9 @@ class ArenaDialogueBubbleGroup():
             text=speech,
             parent=self.npc,
             align="center",
-            
-            color = self.SPEECH_TEXT_COLOR,
-            
-            position=self.SPEECH_TEXT_POSITION,
-
-            scale=self.SPEECH_TEXT_SCALE,
+            color = SPEECH_TEXT_COLOR,            
+            position=SPEECH_TEXT_POSITION,
+            scale=SPEECH_TEXT_SCALE,
         )
 
         self.scene.add_object(speechBubble) # add the box
@@ -172,13 +180,13 @@ class ArenaDialogueBubbleGroup():
                 printMagenta(         "          choiceNode: " + choices[c].node)
         
                 choiceButton = Button(self.scene, self.npc, self.npc.object_id + "_choiceButton_"+str(c), choices[c].text, self.onClickChoiceButton, 
-                                      position = (self.CHOICE_BUBBLE_POSITION[0], self.CHOICE_BUBBLE_POSITION[1] + c * self.CHOICE_BUBBLE_OFFSET_Y, self.CHOICE_BUBBLE_POSITION[2]), 
-                                      color = self.CHOICE_BUBBLE_COLOR, textColor = self.CHOICE_TEXT_COLOR)
+                                      position = (CHOICE_BUBBLE_POSITION[0], CHOICE_BUBBLE_POSITION[1] + c * CHOICE_BUBBLE_OFFSET_Y, CHOICE_BUBBLE_POSITION[2]), 
+                                      color = CHOICE_BUBBLE_COLOR, textColor = CHOICE_TEXT_COLOR)
 
                 self.buttons.append(choiceButton)
         else: 
             nextButton = Button(self.scene, self.npc, self.npc.object_id + "_nextButton", "[Next]", self.onClickNextButton, 
-                                position = self.CHOICE_BUBBLE_POSITION, color = self.CHOICE_BUBBLE_COLOR, textColor = self.CHOICE_TEXT_COLOR)
+                                position = CHOICE_BUBBLE_POSITION, color = CHOICE_BUBBLE_COLOR, textColor = CHOICE_TEXT_COLOR)
                 
             self.buttons.append(nextButton)
         return self.buttons
@@ -202,6 +210,18 @@ class ArenaDialogueBubbleGroup():
     # ------------------------------------------ #
     # ------------HELPER VARIABLES-------------- #
     # ------------------------------------------ #
+
+    def nodeWithNameExists(self, nodeName):
+        return True
+    
+    def nodeWithIndexExists(self, nodeIndex):
+        return True
+
+    def gotoNodeWithName(self, nodeName):
+        printRedB("Yo")
+
+    def gotoNodeWithIndex(self, nodeIndex):
+        printRedB("Yo")
 
     #functions to control choice button click behaviour
     def onClickChoiceButton(self, scene, evt, msg):
@@ -282,7 +302,6 @@ class Button():
             clickable=True,
             persist=True,
             evt_handler=buttonHandler,
-
         
         )
         self.scene.add_object(button)

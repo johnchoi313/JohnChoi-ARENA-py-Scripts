@@ -18,13 +18,6 @@ from ARENA_NPC_Helpers import *
 # --------MAIN LOOP/INITIALIZATION---------- #
 # ------------------------------------------ #
 
-# setup ARENA scene
-scene = Scene(host=HOST, namespace=NAMESPACE, scene=SCENE)
-
-UPDATE_INTERVAL = 100
-TELEPORT_THRES = 5
-
-
 class NPC:
     def __init__(self, scene):
         self.scene = scene
@@ -36,27 +29,27 @@ class NPC:
         self.dialogue = Dialogue(DIALOGUE_FILENAME)
 
         #NPC ROOT OBJECT (with debug box)
-        self.npc = Box(
+        self.root = Box(
             object_id=NPC_NAME,
-            position=NPC_START_POSITION,
-            rotation=NPC_START_ROTATION,
-            scale=NPC_SCALE,
-            color=NPC_CUBE_COLOR,
-            material = Material(opacity=NPC_CUBE_OPACITY, transparent=True),
+            position=ROOT_POSITION,
+            rotation=ROOT_ROTATION,
+            scale=ROOT_SCALE,
+            color=ROOT_COLOR,
+            material = Material(opacity=ROOT_OPACITY, transparent=True),
             persist=True
         )
-        scene.add_object(self.npc)
+        scene.add_object(self.root)
         #NPC GLTF
-        npcGLTF = GLTF(
+        self.gltf = GLTF(
             object_id=NPC_NAME + "(GLTF)",
             url=NPC_GLTF_URL,
-            position=NPC_GLTF_POSITION,
-            rotation=NPC_GLTF_ROTATION,
-            scale=NPC_GLTF_SCALE,
-            parent=self.npc,
+            position=GLTF_POSITION,
+            rotation=GLTF_ROTATION,
+            scale=GLTF_SCALE,
+            parent=self.root,
             persist=True
         )
-        scene.add_object(npcGLTF)
+        scene.add_object(self.gltf)
 
         '''
         #NPC Collider
@@ -72,12 +65,19 @@ class NPC:
         scene.add_object(npcCollider)
         '''
         
-        self.bubbles = ArenaDialogueBubbleGroup(scene , self.npc , npcGLTF, self.dialogue)
-        self.bubbles.setSpeechSettings(SPEECH_TEXT_COLOR, SPEECH_TEXT_POSITION, SPEECH_TEXT_SCALE)
-        self.bubbles.setButtonSettings(CHOICE_TEXT_COLOR, CHOICE_BUBBLE_COLOR, CHOICE_BUBBLE_POSITION, CHOICE_BUBBLE_OFFSET_Y)
+        self.bubbles = ArenaDialogueBubbleGroup(self.scene, self.root , self.gltf, self.dialogue)
+        #self.bubbles.setSpeechSettings(SPEECH_TEXT_COLOR, SPEECH_TEXT_POSITION, SPEECH_TEXT_SCALE)
+        #self.bubbles.setButtonSettings(CHOICE_TEXT_COLOR, CHOICE_BUBBLE_COLOR, CHOICE_BUBBLE_POSITION, CHOICE_BUBBLE_OFFSET_Y)
 
 
+# ------------------------------------------ #
+# --------MAIN LOOP/INITIALIZATION---------- #
+# ------------------------------------------ #
 
+# setup ARENA scene
+scene = Scene(host=HOST, namespace=NAMESPACE, scene=SCENE)
+
+# make NPC
 npc = NPC(scene)
 
 @scene.run_once
@@ -90,25 +90,20 @@ def programStart():
 def teleporter_handler():
 
     for user in scene.get_user_list():
-
         #print("distance: " + str(user.data.position.distance_to(npc.npc.data.position)))
-        
-        if user.data.position.distance_to(npc.npc.data.position) <= TELEPORT_THRES:
-            
-    
+        if user.data.position.distance_to(npc.root.data.position) <= ENTER_DISTANCE:
             npc.exited = False
             if(npc.entered == False):
                 print("entered!")
                 npc.entered = True
-    
-        
+                npc.bubbles.gotoNodeWithName(ENTER_NODE)
+
         else:
-    
             npc.entered = False
             if(npc.exited == False):
                 print("exited!")
                 npc.exited = True
-            
+                npc.bubbles.gotoNodeWithName(EXIT_NODE)
 
 
 scene.run_tasks()
