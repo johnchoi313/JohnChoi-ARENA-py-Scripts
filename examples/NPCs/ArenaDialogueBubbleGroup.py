@@ -52,9 +52,17 @@ class ArenaDialogueBubbleGroup():
         #run through each command:
         for command in commands:
         
+            ###------MISCELLANEOUS------###
+
             #<<print ("text")>>
             if(command.type.lower() == "print".lower()):
                 printYellow("    " + command.text)
+
+            #<<setMorph (morphTarget, value)>> (sets a morph target to value)
+            elif(command.type.lower() == "setMorph".lower()):
+                printYellow("    " + command.text)
+
+            ###------VISIBILITY------###
 
             #<<hide (objectName)>> (this shows an object with the name if it exists)
             elif(command.type.lower() == "hide".lower()):
@@ -62,10 +70,8 @@ class ArenaDialogueBubbleGroup():
             #<<show (objectName)>> (this shows an object with the name if it exists)
             elif(command.type.lower() == "show".lower()):
                 printYellow("    " + command.text)
-                
-            #<<setMorph (morphTarget, value)>> (sets a morph target to value)
-            elif(command.type.lower() == "setMorph".lower()):
-                printYellow("    " + command.text)
+
+            ###------TRANSFORMS------###
 
             #<<move (x,y,z)>>
             elif(command.type.lower() == "move".lower()):
@@ -82,25 +88,35 @@ class ArenaDialogueBubbleGroup():
                     )
                 )
                 '''
-
             #<<rotate (x,y,z)>>
             elif(command.type.lower() == "rotate".lower()):
+                print("    " + command.text)
+            #<<scale (x,y,z)>>
+            elif(command.type.lower() == "scale".lower()):
                 print("    " + command.text)
             #<<lookAt (x,y,z)>>
             elif(command.type.lower() == "lookAt".lower()):
                 print("    " + command.text)
+
+            ###------SOUNDS------###
 
             #<<playSound ()>>
             elif(command.type.lower() == "playSound".lower()):                
                 #self.npc = Box(sound = Sound(positional=True, poolSize=1, loop=False, autoplay=True, src=command.text))
                 #self.scene.add_object(self.npc);
                 print("    " + command.text)
-
             #<<loopSound ()>>
             elif(command.type.lower() == "loopSound".lower()):
                 #self.npc = Box(sound = Sound(positional=True, poolSize=1, loop=True, autoplay=True, src=command.text))
                 # self.scene.add_object(self.npc);
                 print("    " + command.text)
+            #<<stopSound ()>>
+            elif(command.type.lower() == "stopSound".lower()):
+                #self.npc = Box(sound = Sound(positional=True, poolSize=1, loop=True, autoplay=True, src=command.text))
+                # self.scene.add_object(self.npc);
+                print("    " + command.text)
+
+            ###------ANIMATIONS------###
 
             #<<playAnimation ()>>
             elif(command.type.lower() == "playAnimation".lower()):
@@ -112,7 +128,7 @@ class ArenaDialogueBubbleGroup():
                 self.gltf.dispatch_animation(
                     AnimationMixer(clip=command.text, loop="repeat")
                 )
-            #<<loopAnimation ()>>
+            #<<stopAnimation ()>>
             elif(command.type.lower() == "stopAnimation".lower()):
                 self.gltf.dispatch_animation(
                     AnimationMixer(clip=command.text, loop="repeat")
