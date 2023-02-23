@@ -82,17 +82,17 @@
 	{
 		"title": "Enter",
 		"tags": "",
-		"body": "Empty Text",
+		"body": "Hey you entered!",
 		"position": {
-			"x": 407,
-			"y": -791
+			"x": 406,
+			"y": -792
 		},
 		"colorID": 0
 	},
 	{
 		"title": "Exit",
 		"tags": "",
-		"body": "Empty Text",
+		"body": "hey you exited!",
 		"position": {
 			"x": 619,
 			"y": -789

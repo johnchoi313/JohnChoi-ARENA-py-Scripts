@@ -38,8 +38,8 @@ class Dialogue:
         for i in range(len(self.nodes)):
             if self.nodes[i].title == nodeName:
                 return i
-        printWarning("Node with name \"" + nodeName + "\" not found!")
-        return 0
+        printError("Node with name \"" + nodeName + "\" not found!")
+        return -1
 
     def printJson(self):
         printYellowB("\n(---JSON File \"" + self.filename + "\":---)")
@@ -54,11 +54,11 @@ class Dialogue:
                 line = node.lines[l]
                 #show full unprocessed lines
                 printCyan("  "+str(l)+". Text: " + line.text)        
-                # extract commands (format << >>)
+                # extract commands (format <<commandType (commandTextArg0,commandTextArg1,...)>>)
                 for c in range(len(line.commands)):            
                     printGreen("    <<"+str(c)+">> commandType: " + line.commands[c].type)
                     printGreen(         "          commandText: " + line.commands[c].text)
-                #extract choices (format [[|]])
+                #extract choices (format [[choiceText|choiceNode]])
                 for c in range(len(line.choices)):
                     printMagenta("    [["+str(c)+"]] choiceText: " + line.choices[c].text)
                     printMagenta(         "          choiceNode: " + line.choices[c].node)
@@ -80,7 +80,7 @@ class Line:
         self.text = self.getTextFromLine(lineString)
         self.choices = self.getChoicesFromLine(lineString)
         self.commands = self.getCommandsFromLine(lineString)
-        self.currentChoiceIndex = 0
+        self.currentChoiceIndex = 0 # is this needed?
     def getTextFromLine(self, lineString): #[Input: line is a single dialogue line] -> [Output: Dialogue Text only] 
         text = re.sub(r'\<\<.*?\>\>', "", lineString)
         text = re.sub(r'\[\[.*?\]\]', "", text)

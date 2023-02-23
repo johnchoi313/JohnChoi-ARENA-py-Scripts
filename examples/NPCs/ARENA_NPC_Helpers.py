@@ -93,11 +93,13 @@ class ArenaDialogueBubbleGroup():
             #<<hide objectName>> (this shows an object with the name if it exists)
             elif(command.type.lower() == "hide".lower()):
                 printYellow("    " + command.text)
-
             #<<show objectName>> (this shows an object with the name if it exists)
             elif(command.type.lower() == "show".lower()):
                 printYellow("    " + command.text)
                 
+            #<<setMorph (morphTarget, value)>> (sets a morph target to value)
+            elif(command.type.lower() == "setMorph".lower()):
+                printYellow("    " + command.text)
 
             #<<move (x,y,z)>>
             elif(command.type.lower() == "move".lower()):
@@ -114,10 +116,6 @@ class ArenaDialogueBubbleGroup():
                     )
                 )
                 '''
-
-            #collide restart
-            #-collision enter/exit
-            #-collision triggers boundary event
 
             #<<rotate (x,y,z)>>
             elif(command.type.lower() == "rotate".lower()):
@@ -155,6 +153,16 @@ class ArenaDialogueBubbleGroup():
         return
 
     #functions to create chat bubble from current line (at parent position)
+    '''
+    def updateSpeechBubble(self, speech):
+        self.speechBubble = Text(
+            object_id=self.npc.object_id + "_speechBubble",
+            text=speech,
+        )
+
+        self.scene.update_object(self.speechBubble) # add the box
+    '''
+
     def createSpeechBubble(self, line):
         speech = line.text
         
@@ -170,6 +178,8 @@ class ArenaDialogueBubbleGroup():
 
         self.scene.add_object(speechBubble) # add the box
         return speechBubble
+
+
 
     def createButtons(self, line):
         choices = line.choices
@@ -189,16 +199,29 @@ class ArenaDialogueBubbleGroup():
                                 position = CHOICE_BUBBLE_POSITION, color = CHOICE_BUBBLE_COLOR, textColor = CHOICE_TEXT_COLOR)
                 
             self.buttons.append(nextButton)
+
         return self.buttons
 
     def createNewButtons(self, line):
+        #self.updateSpeechBubble(line.text)
+        
         self.createSpeechBubble(line)
+        
         self.createButtons(line)
         self.runCommands(line)
 
     def clearButtons(self):
-        self.scene.delete_object(self.speechBubble)
+
+        #if(self.speechBubble != None and self.scene.all_objects[self.speechBubble.object_id] != None):
+        #    print("blub")
+
+        if(self.speechBubble != None):
+            if(self.speechBubble.object_id != None):
+                if(self.scene.all_objects.get(self.speechBubble.object_id) != None):
+                    self.scene.delete_object(self.speechBubble)
       
+        #self.updateSpeechBubble("")
+
         for button in self.buttons:
             self.scene.delete_object(button.box)
             self.scene.delete_object(button.text)
@@ -211,17 +234,40 @@ class ArenaDialogueBubbleGroup():
     # ------------HELPER VARIABLES-------------- #
     # ------------------------------------------ #
 
+    '''
     def nodeWithNameExists(self, nodeName):
-        return True
-    
+        return True    
     def nodeWithIndexExists(self, nodeIndex):
-        return True
+        return (0 <= nodeIndex and nodeIndex < len(self.dialogue.nodes))
+    '''
 
     def gotoNodeWithName(self, nodeName):
-        printRedB("Yo")
+        nodeIndex = self.dialogue.getNodeIndexFromString(nodeName)
+        if(nodeIndex >= 0):
+            self.gotoNodeWithIndex(nodeIndex)
+            printBlueB("Going to node with name \"" + nodeName + "\".")
+        else:
+            printWarning("No node with name \"" + nodeName + "\" exists! Ignoring gotoNodeWithName() request.")
 
     def gotoNodeWithIndex(self, nodeIndex):
-        printRedB("Yo")
+        if(0 <= nodeIndex and nodeIndex < len(self.dialogue.nodes)):
+            self.clearButtons()    
+            self.dialogue.currentNode = self.dialogue.nodes[nodeIndex]
+            self.dialogue.currentNode.currentLineIndex = 0
+            self.createNewButtons(self.dialogue.currentNode.lines[0])
+
+        else:
+            printWarning("No node with index [" + str(nodeIndex) + "] exists! Ignoring gotoNodeWithIndex() request.")
+
+    def advanceToNextLine(self):
+        self.clearButtons()
+        self.dialogue.currentNode.currentLineIndex = self.dialogue.currentNode.currentLineIndex + 1
+
+        if(self.dialogue.currentNode.currentLineIndex < len(self.dialogue.currentNode.lines)):
+            self.createNewButtons(self.dialogue.currentNode.lines[self.dialogue.currentNode.currentLineIndex])
+        elif(self.dialogue.currentNode.currentLineIndex == len(self.dialogue.currentNode.lines)):
+            printRedB("\n(---Finished NPC interaction.---)")
+        
 
     #functions to control choice button click behaviour
     def onClickChoiceButton(self, scene, evt, msg):
@@ -237,13 +283,15 @@ class ArenaDialogueBubbleGroup():
             
             printYellow("  Choice Button with text \"" + choiceText + "\" pressed! Going to Node [" + choiceNodeName + "]:")
             
+            self.gotoNodeWithName(choiceNodeName)
+            '''
             self.clearButtons()
             #get the current line represented by the selections
-        
             self.dialogue.currentNode = self.dialogue.nodes[self.dialogue.getNodeIndexFromString(choiceNodeName)]
             self.dialogue.currentNode.currentLineIndex = 0
-            self.createNewButtons(self.dialogue.currentNode.lines[self.dialogue.currentNode.currentLineIndex])
-                
+            self.createNewButtons(self.dialogue.currentNode.lines[0])
+            '''
+
             #bubbles.createNewButtons( dialogue.currentNode.currentLine )
 
     #functions to control choice button click behaviour
@@ -251,11 +299,14 @@ class ArenaDialogueBubbleGroup():
         if evt.type == "mousedown":
             printCyan("  Next Button Pressed!")
             
+            self.advanceToNextLine()
+            '''
             self.clearButtons()
             self.dialogue.currentNode.currentLineIndex = self.dialogue.currentNode.currentLineIndex + 1
 
             if(self.dialogue.currentNode.currentLineIndex <= len(self.dialogue.currentNode.lines)):
                 self.createNewButtons(self.dialogue.currentNode.lines[self.dialogue.currentNode.currentLineIndex])
+            '''
 
 
 # ------------------------------------------ #

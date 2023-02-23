@@ -94,14 +94,14 @@ def teleporter_handler():
         if user.data.position.distance_to(npc.root.data.position) <= ENTER_DISTANCE:
             npc.exited = False
             if(npc.entered == False):
-                print("entered!")
+                print("User entered area of NPC with name \"" + NPC_NAME + "\"!")
                 npc.entered = True
                 npc.bubbles.gotoNodeWithName(ENTER_NODE)
 
         else:
             npc.entered = False
             if(npc.exited == False):
-                print("exited!")
+                print("User exited area of NPC with name \"" + NPC_NAME + "\"!")
                 npc.exited = True
                 npc.bubbles.gotoNodeWithName(EXIT_NODE)
 

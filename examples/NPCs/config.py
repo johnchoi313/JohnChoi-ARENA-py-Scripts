@@ -9,7 +9,7 @@ DIALOGUE_FILENAME = "cartoon_dialogue.json"
 
 #ENTER/EXIT SPECIAL EVENT NODES 
 ENTER_DISTANCE = 5
-ENTER_NODE = "Enter"
+ENTER_NODE = "Start"
 EXIT_NODE = "Exit"
 
 #NPC (name Alphanumeric only plus _)
