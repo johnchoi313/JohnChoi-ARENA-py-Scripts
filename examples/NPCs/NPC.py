@@ -25,6 +25,8 @@ class NPC:
         self.entered = False
         self.exited = False
         
+        self.userCount = 0
+
         # create Dialogue, and show contents
         self.dialogue = Dialogue(DIALOGUE_FILENAME)
 
@@ -86,43 +88,43 @@ def ProgramStart():
     npc.dialogue.printInfo()
     npc.bubbles.start()
 
-@scene.run_forever(interval_ms=UPDATE_INTERVAL)
-def EnterExit_Handler():
-    for user in scene.get_user_list():
-        #print("distance: " + str(user.data.position.distance_to(npc.npc.data.position)))
-        if user.data.position.distance_to(npc.root.data.position) <= ENTER_DISTANCE:
-            npc.exited = False
-            if(npc.entered == False):
-                print("User entered area of NPC with name \"" + NPC_NAME + "\"!")
-                npc.entered = True
-                npc.bubbles.gotoNodeWithName(ENTER_NODE)
+@scene.run_forever(interval_ms=ENTER_INTERVAL)
+def EnterExit_Handler(): #checks whether or not a user is in range of NPC
 
-        else:
+    users = scene.get_user_list()
+    sceneUserCount = len(scene.get_user_list())
+
+    userCount = 0
+
+    for user in scene.get_user_list():
+        if user.data.position.distance_to(npc.root.data.position) <= ENTER_DISTANCE:
+            userCount+=1
+
+    if(npc.userCount != userCount):
+        print(str(userCount) + " users in area of NPC with name \"" + NPC_NAME + "\".")
+        if(userCount > 0 and npc.entered == False):
+            #print("User entered area of NPC with name \"" + NPC_NAME + "\"!")
+            npc.entered = True
+            npc.bubbles.gotoNodeWithName(ENTER_NODE)
+
+        if(userCount == 0 and npc.entered == True):
+            #print("User exited area of NPC with name \"" + NPC_NAME + "\"!")
             npc.entered = False
-            if(npc.exited == False):
-                print("User exited area of NPC with name \"" + NPC_NAME + "\"!")
-                npc.exited = True
-                npc.bubbles.gotoNodeWithName(EXIT_NODE)
+            npc.bubbles.gotoNodeWithName(EXIT_NODE)
+    
+        npc.userCount = userCount
 
 
 @scene.run_forever(interval_ms=SPEECH_INTERVAL)
-def Speech_Handler():
-
-
-    #npc.bubbles.currentSpeech
-
+def Speech_Handler(): #iteratively adds characters to speech bubble
     if(npc.bubbles.speechBubble != None):
         if(npc.bubbles.speechBubble.object_id != None):
             if(npc.bubbles.scene.all_objects.get(npc.bubbles.speechBubble.object_id) != None):
-                
                 if(0 <= npc.bubbles.speechIndex and npc.bubbles.speechIndex < len(npc.bubbles.speech)):
                     npc.bubbles.speechIndex += 1
                 else:
                     npc.bubbles.speechIndex = len(npc.bubbles.speech)
-                    
-
                 npc.bubbles.speechBubble.data.text = npc.bubbles.speech[:npc.bubbles.speechIndex]
-            
                 scene.update_object(npc.bubbles.speechBubble)
 
 scene.run_tasks()
