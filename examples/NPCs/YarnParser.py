@@ -58,6 +58,9 @@ class Dialogue:
                 for c in range(len(line.commands)):            
                     printGreen("    <<"+str(c)+">> commandType: " + line.commands[c].type)
                     printGreen(         "          commandText: " + line.commands[c].text)
+                    if(len(line.commands[c].args) > 0):
+                        for a in range(len(line.commands[c].args)):
+                            printGreen(     "          --commandArgs["+str(a)+"]: " + line.commands[c].args[a])
                 #extract choices (format [[choiceText|choiceNode]])
                 for c in range(len(line.choices)):
                     printMagenta("    [["+str(c)+"]] choiceText: " + line.choices[c].text)
@@ -119,6 +122,8 @@ class Command:
         if(len(textString) >= 2 and textString[0] == '(' and textString[-1] == ')'):
             textString = textString[1:-1] #remove first and last '()' chars
             args = textString.split(',')
+        else:
+            args = [textString]
         return args
 
 class Choice:

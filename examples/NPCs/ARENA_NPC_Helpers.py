@@ -75,14 +75,14 @@ class ArenaDialogueBubbleGroup():
         #run through each command:
         for command in commands:
         
-            #<<print "text">>
+            #<<print ("text")>>
             if(command.type.lower() == "print".lower()):
                 printYellow("    " + command.text)
 
-            #<<hide objectName>> (this shows an object with the name if it exists)
+            #<<hide (objectName)>> (this shows an object with the name if it exists)
             elif(command.type.lower() == "hide".lower()):
                 printYellow("    " + command.text)
-            #<<show objectName>> (this shows an object with the name if it exists)
+            #<<show (objectName)>> (this shows an object with the name if it exists)
             elif(command.type.lower() == "show".lower()):
                 printYellow("    " + command.text)
                 
@@ -113,27 +113,29 @@ class ArenaDialogueBubbleGroup():
             elif(command.type.lower() == "lookAt".lower()):
                 print("    " + command.text)
 
-            #<<playSound >>
+            #<<playSound ()>>
             elif(command.type.lower() == "playSound".lower()):                
-                self.npc = Box(sound = Sound(positional=True, poolSize=1, loop=False, autoplay=True, src=command.text))
-                self.scene.add_object(self.npc);
+                #self.npc = Box(sound = Sound(positional=True, poolSize=1, loop=False, autoplay=True, src=command.text))
+                #self.scene.add_object(self.npc);
+                print("    " + command.text)
 
-            #<<loopSound >>
+            #<<loopSound ()>>
             elif(command.type.lower() == "loopSound".lower()):
-                self.npc = Box(sound = Sound(positional=True, poolSize=1, loop=True, autoplay=True, src=command.text))
-                self.scene.add_object(self.npc);
+                #self.npc = Box(sound = Sound(positional=True, poolSize=1, loop=True, autoplay=True, src=command.text))
+                # self.scene.add_object(self.npc);
+                print("    " + command.text)
 
-            #<<playAnimation >>
+            #<<playAnimation ()>>
             elif(command.type.lower() == "playAnimation".lower()):
                 self.gltf.dispatch_animation(
                     AnimationMixer(clip=command.text, loop="once")
                 )
-            #<<loopAnimation >>
+            #<<loopAnimation ()>>
             elif(command.type.lower() == "loopAnimation".lower()):
                 self.gltf.dispatch_animation(
                     AnimationMixer(clip=command.text, loop="repeat")
                 )
-            #<<loopAnimation >>
+            #<<loopAnimation ()>>
             elif(command.type.lower() == "stopAnimation".lower()):
                 self.gltf.dispatch_animation(
                     AnimationMixer(clip=command.text, loop="repeat")
@@ -177,7 +179,7 @@ class ArenaDialogueBubbleGroup():
                 printMagenta(         "          choiceNode: " + choices[c].node)
         
                 choiceButton = Button(self.scene, self.npc, self.npc.object_id + "_choiceButton_"+str(c), choices[c].text, self.onClickChoiceButton, 
-                                      position = (CHOICE_BUBBLE_POSITION[0], CHOICE_BUBBLE_POSITION[1] + c * CHOICE_BUBBLE_OFFSET_Y, CHOICE_BUBBLE_POSITION[2]), 
+                                      position = (CHOICE_BUBBLE_POSITION[0], CHOICE_BUBBLE_POSITION[1] + (len(choices) - c - 1) * CHOICE_BUBBLE_OFFSET_Y, CHOICE_BUBBLE_POSITION[2]), 
                                       color = CHOICE_BUBBLE_COLOR, textColor = CHOICE_TEXT_COLOR)
 
                 self.buttons.append(choiceButton)
@@ -268,7 +270,7 @@ class ArenaDialogueBubbleGroup():
             choiceText = self.dialogue.currentNode.lines[self.dialogue.currentNode.currentLineIndex].choices[choiceButtonNumber].text
             choiceNodeName = self.dialogue.currentNode.lines[self.dialogue.currentNode.currentLineIndex].choices[choiceButtonNumber].node
             
-            printYellow("  Choice Button with text \"" + choiceText + "\" pressed!")
+            printCyan("  Choice Button with text \"" + choiceText + "\" pressed!")
             
             #Going to Node with name \"" + choiceNodeName + "\":")
             

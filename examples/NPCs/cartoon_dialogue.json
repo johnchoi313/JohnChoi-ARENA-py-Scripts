@@ -2,12 +2,12 @@
 	{
 		"title": "Start",
 		"tags": "",
-		"body": "triangle: Hello!\ntriangle: This is running on pygame <<print pygame.version.ver>>\nsquare: Hello! What's wrong with you face?\ntriangle:What do you mean? <<arena>>\nsquare:I'm just messing with you.\nsquare: Your face *is* missing a corner though\ntriangle:What's wrong with YOUR face?\n[[ignore|Node2]][[punch|Node3]]",
+		"body": "triangle: Hello!\ntriangle: This is running on pygame <<print pygame.version.ver>>\nsquare: Hello! What's wrong with you face?\ntriangle:What do you mean? <<arena something>>\nsquare:I'm just messing with you.\nsquare: Your face *is* missing a corner though\ntriangle:What's wrong with YOUR face?\n[[ignore|Node2]][[punch|Node3]]",
 		"position": {
-			"x": 162,
-			"y": -479
+			"x": 160,
+			"y": -480
 		},
-		"colorID": 8
+		"colorID": 7
 	},
 	{
 		"title": "Node2",
@@ -24,8 +24,8 @@
 		"tags": "",
 		"body": "/triangle shake\nsquare: ouch\n/triangle exit stage_right\n/square exit stage_left\n[[Move|Move]] [[Rotate|Rotate]] [[LookAt|LookAt]] [[Anim|Anim]] [[Sound|Sound]]",
 		"position": {
-			"x": 1046,
-			"y": -728
+			"x": 1045,
+			"y": -729
 		},
 		"colorID": 7
 	},
@@ -84,8 +84,8 @@
 		"tags": "",
 		"body": "Hey you entered!",
 		"position": {
-			"x": 406,
-			"y": -792
+			"x": 404,
+			"y": -794
 		},
 		"colorID": 0
 	},
