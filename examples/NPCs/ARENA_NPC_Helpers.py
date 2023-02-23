@@ -6,7 +6,6 @@ from config import *
 from YarnParser import *
 from ColorPrinter import *
 
-
 # ------------------------------------------ #
 # ------------HELPER VARIABLES-------------- #
 # ------------------------------------------ #
@@ -17,19 +16,9 @@ class ArenaDialogueBubbleGroup():
         self.npc = npc
         self.gltf = gltf
         self.dialogue = dialogue
-        
-        '''
-        #SPEECH SETTINGS
-        self.SPEECH_TEXT_COLOR = (0,0,0)
-        self.SPEECH_TEXT_POSITION = (0,0,0)
-        self.SPEECH_TEXT_SCALE = (0.4,0.4,0.4)
-        #CHOICE SETTINGS
-        self.CHOICE_TEXT_COLOR = (0,0,0)
-        self.CHOICE_BUBBLE_COLOR = (0,0,0)
-        self.CHOICE_BUBBLE_POSITION = (0,0,0)
-        self.CHOICE_BUBBLE_OFFSET_Y = 2
-        '''
-        
+        self.speech = ""
+        self.speechIndex = 0
+
         #create bubbles to init types
         self.createBubbles()
 
@@ -164,22 +153,20 @@ class ArenaDialogueBubbleGroup():
     '''
 
     def createSpeechBubble(self, line):
-        speech = line.text
-        
+        self.speech = line.text
+        self.speechIndex = 0
+
         speechBubble = Text(
             object_id=self.npc.object_id + "_speechBubble",
-            text=speech,
+            text="",
             parent=self.npc,
             align="center",
             color = SPEECH_TEXT_COLOR,            
             position=SPEECH_TEXT_POSITION,
             scale=SPEECH_TEXT_SCALE,
         )
-
         self.scene.add_object(speechBubble) # add the box
         return speechBubble
-
-
 
     def createButtons(self, line):
         choices = line.choices
@@ -245,7 +232,7 @@ class ArenaDialogueBubbleGroup():
         nodeIndex = self.dialogue.getNodeIndexFromString(nodeName)
         if(nodeIndex >= 0):
             self.gotoNodeWithIndex(nodeIndex)
-            printBlueB("Going to node with name \"" + nodeName + "\".")
+            printBlueB("Going to node with name \"" + nodeName + "\"...")
         else:
             printWarning("No node with name \"" + nodeName + "\" exists! Ignoring gotoNodeWithName() request.")
 
@@ -281,7 +268,9 @@ class ArenaDialogueBubbleGroup():
             choiceText = self.dialogue.currentNode.lines[self.dialogue.currentNode.currentLineIndex].choices[choiceButtonNumber].text
             choiceNodeName = self.dialogue.currentNode.lines[self.dialogue.currentNode.currentLineIndex].choices[choiceButtonNumber].node
             
-            printYellow("  Choice Button with text \"" + choiceText + "\" pressed! Going to Node [" + choiceNodeName + "]:")
+            printYellow("  Choice Button with text \"" + choiceText + "\" pressed!")
+            
+            #Going to Node with name \"" + choiceNodeName + "\":")
             
             self.gotoNodeWithName(choiceNodeName)
             '''

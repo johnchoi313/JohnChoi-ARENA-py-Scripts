@@ -81,14 +81,13 @@ scene = Scene(host=HOST, namespace=NAMESPACE, scene=SCENE)
 npc = NPC(scene)
 
 @scene.run_once
-def programStart():
+def ProgramStart():
     npc.dialogue.printJson()
     npc.dialogue.printInfo()
     npc.bubbles.start()
 
 @scene.run_forever(interval_ms=UPDATE_INTERVAL)
-def teleporter_handler():
-
+def EnterExit_Handler():
     for user in scene.get_user_list():
         #print("distance: " + str(user.data.position.distance_to(npc.npc.data.position)))
         if user.data.position.distance_to(npc.root.data.position) <= ENTER_DISTANCE:
@@ -105,5 +104,25 @@ def teleporter_handler():
                 npc.exited = True
                 npc.bubbles.gotoNodeWithName(EXIT_NODE)
 
+
+@scene.run_forever(interval_ms=SPEECH_INTERVAL)
+def Speech_Handler():
+
+
+    #npc.bubbles.currentSpeech
+
+    if(npc.bubbles.speechBubble != None):
+        if(npc.bubbles.speechBubble.object_id != None):
+            if(npc.bubbles.scene.all_objects.get(npc.bubbles.speechBubble.object_id) != None):
+                
+                if(0 <= npc.bubbles.speechIndex and npc.bubbles.speechIndex < len(npc.bubbles.speech)):
+                    npc.bubbles.speechIndex += 1
+                else:
+                    npc.bubbles.speechIndex = len(npc.bubbles.speech)
+                    
+
+                npc.bubbles.speechBubble.data.text = npc.bubbles.speech[:npc.bubbles.speechIndex]
+            
+                scene.update_object(npc.bubbles.speechBubble)
 
 scene.run_tasks()
