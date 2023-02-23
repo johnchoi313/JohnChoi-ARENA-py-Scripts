@@ -21,10 +21,7 @@ from ARENA_NPC_Helpers import *
 class NPC:
     def __init__(self, scene):
         self.scene = scene
-
         self.entered = False
-        self.exited = False
-        
         self.userCount = 0
 
         # create Dialogue, and show contents
@@ -52,25 +49,8 @@ class NPC:
             persist=True
         )
         scene.add_object(self.gltf)
-
-        '''
-        #NPC Collider
-        npcCollider = Sphere(
-            object_id=NPC_NAME + "(Collider)",
-            scale=COLLIDER_SCALE,
-            color=COLLIDER_COLOR,
-            material = Material(opacity=COLLIDER_OPACITY, transparent=True),
-            parent=npc,
-            #evt_handler=buttonHandler,
-            persist=True
-        )
-        scene.add_object(npcCollider)
-        '''
         
         self.bubbles = ArenaDialogueBubbleGroup(self.scene, self.root , self.gltf, self.dialogue)
-        #self.bubbles.setSpeechSettings(SPEECH_TEXT_COLOR, SPEECH_TEXT_POSITION, SPEECH_TEXT_SCALE)
-        #self.bubbles.setButtonSettings(CHOICE_TEXT_COLOR, CHOICE_BUBBLE_COLOR, CHOICE_BUBBLE_POSITION, CHOICE_BUBBLE_OFFSET_Y)
-
 
 # ------------------------------------------ #
 # --------MAIN LOOP/INITIALIZATION---------- #
@@ -90,11 +70,14 @@ def ProgramStart():
 
 @scene.run_forever(interval_ms=ENTER_INTERVAL)
 def EnterExit_Handler(): #checks whether or not a user is in range of NPC
-
     users = scene.get_user_list()
     sceneUserCount = len(scene.get_user_list())
-
     userCount = 0
+
+    #strange bug - closing browser does not send exit message?
+    if(scene.get_user_list() == None):
+        users = []
+        sceneUserCount = 0
 
     for user in scene.get_user_list():
         if user.data.position.distance_to(npc.root.data.position) <= ENTER_DISTANCE:
@@ -102,18 +85,14 @@ def EnterExit_Handler(): #checks whether or not a user is in range of NPC
 
     if(npc.userCount != userCount):
         print(str(userCount) + " users in area of NPC with name \"" + NPC_NAME + "\".")
-        if(userCount > 0 and npc.entered == False):
-            #print("User entered area of NPC with name \"" + NPC_NAME + "\"!")
+        if(userCount > 0 and npc.entered == False): # At least one user in range of NPC starts interaction.
             npc.entered = True
             npc.bubbles.gotoNodeWithName(ENTER_NODE)
-
-        if(userCount == 0 and npc.entered == True):
-            #print("User exited area of NPC with name \"" + NPC_NAME + "\"!")
+        if(userCount == 0 and npc.entered == True): # All users left, so end interaction.
             npc.entered = False
             npc.bubbles.gotoNodeWithName(EXIT_NODE)
     
-        npc.userCount = userCount
-
+    npc.userCount = userCount
 
 @scene.run_forever(interval_ms=SPEECH_INTERVAL)
 def Speech_Handler(): #iteratively adds characters to speech bubble

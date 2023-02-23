@@ -36,30 +36,6 @@ class ArenaDialogueBubbleGroup():
         self.speechBubble = self.createSpeechBubble(line)
         self.buttons = self.createButtons(line)
 
-    '''
-    #customization functions   
-    def setColors(self, speechTextColor, choiceBubbleColor, choiceTextColor):
-        self.SPEECH_TEXT_COLOR = speechTextColor
-        self.CHOICE_BUBBLE_COLOR = choiceBubbleColor
-        self.CHOICE_TEXT_COLOR = choiceTextColor
-    
-    def setPositionOffsets(self, speechTextPosition, choiceBubblePosition, choiceBubbleOffsetY):
-        self.SPEECH_TEXT_POSITION = speechTextPosition
-        self.CHOICE_BUBBLE_POSITION = choiceBubblePosition
-        self.CHOICE_BUBBLE_OFFSET_Y = choiceBubbleOffsetY
-
-    def setSpeechSettings(self, speechTextColor, speechTextPosition, speechTextScale):
-        self.SPEECH_TEXT_COLOR = speechTextColor
-        self.SPEECH_TEXT_POSITION = speechTextPosition
-        self.SPEECH_TEXT_SCALE = speechTextScale
-
-    def setButtonSettings(self, choiceTextColor, choiceBubbleColor, choiceBubblePosition, choiceBubbleOffsetY):
-        self.CHOICE_TEXT_COLOR = choiceTextColor
-        self.CHOICE_BUBBLE_COLOR = choiceBubbleColor
-        self.CHOICE_BUBBLE_POSITION = choiceBubblePosition
-        self.CHOICE_BUBBLE_OFFSET_Y = choiceBubbleOffsetY
-    '''
-        
     #runs commands
     def runCommands(self, line):
         commands = line.commands
@@ -144,16 +120,6 @@ class ArenaDialogueBubbleGroup():
         return
 
     #functions to create chat bubble from current line (at parent position)
-    '''
-    def updateSpeechBubble(self, speech):
-        self.speechBubble = Text(
-            object_id=self.npc.object_id + "_speechBubble",
-            text=speech,
-        )
-
-        self.scene.update_object(self.speechBubble) # add the box
-    '''
-
     def createSpeechBubble(self, line):
         self.speech = line.text
         self.speechIndex = 0
@@ -192,24 +158,15 @@ class ArenaDialogueBubbleGroup():
         return self.buttons
 
     def createNewButtons(self, line):
-        #self.updateSpeechBubble(line.text)
-        
         self.createSpeechBubble(line)
-        
         self.createButtons(line)
         self.runCommands(line)
 
     def clearButtons(self):
-
-        #if(self.speechBubble != None and self.scene.all_objects[self.speechBubble.object_id] != None):
-        #    print("blub")
-
         if(self.speechBubble != None):
             if(self.speechBubble.object_id != None):
                 if(self.scene.all_objects.get(self.speechBubble.object_id) != None):
                     self.scene.delete_object(self.speechBubble)
-      
-        #self.updateSpeechBubble("")
 
         for button in self.buttons:
             self.scene.delete_object(button.box)
@@ -257,12 +214,9 @@ class ArenaDialogueBubbleGroup():
         elif(self.dialogue.currentNode.currentLineIndex == len(self.dialogue.currentNode.lines)):
             printRedB("\n(---Finished NPC interaction.---)")
         
-
     #functions to control choice button click behaviour
     def onClickChoiceButton(self, scene, evt, msg):
         if evt.type == "mousedown":
-            #print("Choice Button Pressed!")
-
             choiceButtonID = msg["object_id"]
             filterLen = len(self.npc.object_id + "_choiceButton_")
 
@@ -271,34 +225,14 @@ class ArenaDialogueBubbleGroup():
             choiceNodeName = self.dialogue.currentNode.lines[self.dialogue.currentNode.currentLineIndex].choices[choiceButtonNumber].node
             
             printCyan("  Choice Button with text \"" + choiceText + "\" pressed!")
-            
-            #Going to Node with name \"" + choiceNodeName + "\":")
-            
+                        
             self.gotoNodeWithName(choiceNodeName)
-            '''
-            self.clearButtons()
-            #get the current line represented by the selections
-            self.dialogue.currentNode = self.dialogue.nodes[self.dialogue.getNodeIndexFromString(choiceNodeName)]
-            self.dialogue.currentNode.currentLineIndex = 0
-            self.createNewButtons(self.dialogue.currentNode.lines[0])
-            '''
-
-            #bubbles.createNewButtons( dialogue.currentNode.currentLine )
 
     #functions to control choice button click behaviour
     def onClickNextButton(self, scene, evt, msg):
         if evt.type == "mousedown":
             printCyan("  Next Button Pressed!")
-            
             self.advanceToNextLine()
-            '''
-            self.clearButtons()
-            self.dialogue.currentNode.currentLineIndex = self.dialogue.currentNode.currentLineIndex + 1
-
-            if(self.dialogue.currentNode.currentLineIndex <= len(self.dialogue.currentNode.lines)):
-                self.createNewButtons(self.dialogue.currentNode.lines[self.dialogue.currentNode.currentLineIndex])
-            '''
-
 
 # ------------------------------------------ #
 # --------------ARENA CLASSES--------------- #
