@@ -1,7 +1,6 @@
 
 
 from ColorPrinter import *
-from ARENA_NPC_Helpers import *
 
 import copy
 import json

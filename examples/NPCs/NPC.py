@@ -12,7 +12,7 @@ from time import gmtime, strftime
 from config import *
 from YarnParser import *
 from ColorPrinter import *
-from ARENA_NPC_Helpers import *
+from ArenaDialogueBubbleGroup import *
 
 # ------------------------------------------ #
 # --------MAIN LOOP/INITIALIZATION---------- #
@@ -84,7 +84,7 @@ def EnterExit_Handler(): #checks whether or not a user is in range of NPC
             userCount+=1
 
     if(npc.userCount != userCount):
-        print(str(userCount) + " users in area of NPC with name \"" + NPC_NAME + "\".")
+        printLightRedB(str(userCount) + " users in area of NPC with name \"" + NPC_NAME + "\".")
         if(userCount > 0 and npc.entered == False): # At least one user in range of NPC starts interaction.
             npc.entered = True
             npc.bubbles.gotoNodeWithName(ENTER_NODE)
