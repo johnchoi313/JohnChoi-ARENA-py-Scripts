@@ -15,7 +15,7 @@ from ColorPrinter import *
 from ArenaDialogueBubbleGroup import *
 
 # ------------------------------------------ #
-# --------MAIN LOOP/INITIALIZATION---------- #
+# -----------MAIN NPC MASTERCLASS----------- #
 # ------------------------------------------ #
 
 class NPC:
@@ -53,7 +53,7 @@ class NPC:
         self.bubbles = ArenaDialogueBubbleGroup(self.scene, self.root , self.gltf, self.dialogue)
 
 # ------------------------------------------ #
-# --------MAIN LOOP/INITIALIZATION---------- #
+# --------MAIN LOOPS/INITIALIZATION--------- #
 # ------------------------------------------ #
 
 # setup ARENA scene

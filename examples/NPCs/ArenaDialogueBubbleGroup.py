@@ -8,7 +8,7 @@ from YarnParser import *
 from ColorPrinter import *
 
 # ------------------------------------------ #
-# ------------HELPER VARIABLES-------------- #
+# -----------ARENA BUBBLE GROUP------------- #
 # ------------------------------------------ #
 
 class ArenaDialogueBubbleGroup():
@@ -19,23 +19,23 @@ class ArenaDialogueBubbleGroup():
         self.dialogue = dialogue
         self.speech = ""
         self.speechIndex = 0
-
-        #create bubbles to init types
-        self.createBubbles()
-
+        self.initializeBubbles()
     #reinitializes and restarts the interaction
     def start(self):
         printGreenB("\n(---Starting NPC interaction:---)")
         self.clearButtons()
-        self.createBubbles()
-
+        self.initializeBubbles()
     #creates new bubbles
-    def createBubbles(self, line = None):
+    def initializeBubbles(self, line = None):
         if(line == None):
             self.dialogue.currentNode.currentLine = self.dialogue.currentNode.lines[0]
             line = self.dialogue.currentNode.currentLine
         self.speechBubble = self.createSpeechBubble(line)
         self.buttons = self.createButtons(line)
+
+    # ------------------------------------------ #
+    # ------------RUNNING COMMANDS-------------- #
+    # ------------------------------------------ #
 
     #runs commands
     def runCommands(self, line):
@@ -120,7 +120,27 @@ class ArenaDialogueBubbleGroup():
 
         return
 
-    #functions to create chat bubble from current line (at parent position)
+    # ------------------------------------------ #
+    # -------------BUTTON CREATION-------------- #
+    # ------------------------------------------ #
+
+    def createNewButtons(self, line):
+        self.createSpeechBubble(line)
+        self.createButtons(line)
+        self.runCommands(line)
+
+    def clearButtons(self):
+        if(self.speechBubble != None):
+            if(self.speechBubble.object_id != None):
+                if(self.scene.all_objects.get(self.speechBubble.object_id) != None):
+                    self.scene.delete_object(self.speechBubble)
+
+        for button in self.buttons:
+            self.scene.delete_object(button.box)
+            self.scene.delete_object(button.text)
+            
+        self.buttons = []
+
     def createSpeechBubble(self, line):
         self.speech = line.text
         self.speechIndex = 0
@@ -158,28 +178,29 @@ class ArenaDialogueBubbleGroup():
 
         return self.buttons
 
-    def createNewButtons(self, line):
-        self.createSpeechBubble(line)
-        self.createButtons(line)
-        self.runCommands(line)
+    # ------------------------------------------ #
+    # ------------EVENT PROCESSING-------------- #
+    # ------------------------------------------ #
 
-    def clearButtons(self):
-        if(self.speechBubble != None):
-            if(self.speechBubble.object_id != None):
-                if(self.scene.all_objects.get(self.speechBubble.object_id) != None):
-                    self.scene.delete_object(self.speechBubble)
+    #functions to control choice button click behaviour
+    def onClickChoiceButton(self, scene, evt, msg):
+        if evt.type == "mousedown":
+            choiceButtonID = msg["object_id"]
+            filterLen = len(self.npc.object_id + "_choiceButton_")
 
-        for button in self.buttons:
-            self.scene.delete_object(button.box)
-            self.scene.delete_object(button.text)
+            choiceButtonNumber = int(choiceButtonID[filterLen:])
+            choiceText = self.dialogue.currentNode.lines[self.dialogue.currentNode.currentLineIndex].choices[choiceButtonNumber].text
+            choiceNodeName = self.dialogue.currentNode.lines[self.dialogue.currentNode.currentLineIndex].choices[choiceButtonNumber].node
             
-        self.buttons = []
+            printCyan("  Choice Button with text \"" + choiceText + "\" pressed!")
+                        
+            self.gotoNodeWithName(choiceNodeName)
 
-        return
-
-    # ------------------------------------------ #
-    # ------------HELPER VARIABLES-------------- #
-    # ------------------------------------------ #
+    #functions to control choice button click behaviour
+    def onClickNextButton(self, scene, evt, msg):
+        if evt.type == "mousedown":
+            printCyan("  Next Button Pressed!")
+            self.advanceToNextLine()
 
     '''
     def nodeWithNameExists(self, nodeName):
@@ -215,22 +236,3 @@ class ArenaDialogueBubbleGroup():
         elif(self.dialogue.currentNode.currentLineIndex == len(self.dialogue.currentNode.lines)):
             printRedB("\n(---Finished NPC interaction.---)")
         
-    #functions to control choice button click behaviour
-    def onClickChoiceButton(self, scene, evt, msg):
-        if evt.type == "mousedown":
-            choiceButtonID = msg["object_id"]
-            filterLen = len(self.npc.object_id + "_choiceButton_")
-
-            choiceButtonNumber = int(choiceButtonID[filterLen:])
-            choiceText = self.dialogue.currentNode.lines[self.dialogue.currentNode.currentLineIndex].choices[choiceButtonNumber].text
-            choiceNodeName = self.dialogue.currentNode.lines[self.dialogue.currentNode.currentLineIndex].choices[choiceButtonNumber].node
-            
-            printCyan("  Choice Button with text \"" + choiceText + "\" pressed!")
-                        
-            self.gotoNodeWithName(choiceNodeName)
-
-    #functions to control choice button click behaviour
-    def onClickNextButton(self, scene, evt, msg):
-        if evt.type == "mousedown":
-            printCyan("  Next Button Pressed!")
-            self.advanceToNextLine()
