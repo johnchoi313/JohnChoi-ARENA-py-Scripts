@@ -1,5 +1,3 @@
-from arena import *
-
 #ARENA SETTINGS
 HOST = "mqtt.arenaxr.org"
 NAMESPACE = "johnchoi"
@@ -42,14 +40,7 @@ CHOICE_BUBBLE_COLOR = (200,200,200)
 CHOICE_BUBBLE_POSITION = (0,0.2,0.6)
 CHOICE_BUBBLE_OFFSET_Y = 0.1
 
-#DEFAULT SOUNDS (set these to None if you don't want default sound effects)
-SOUND_NEXT = Sound(positional=True, poolSize=1, autoplay=True, src="store/users/wiselab/audio/september.mp3"),
-SOUND_CHOICE = Sound(positional=True, poolSize=1, autoplay=True, src="store/users/wiselab/audio/september.mp3"),
-SOUND_ENTER = Sound(positional=True, poolSize=1, autoplay=True, src="store/users/wiselab/audio/september.mp3"),
-SOUND_EXIT = Sound(positional=True, poolSize=1, autoplay=True, src="store/users/wiselab/audio/september.mp3"),
-SOUND_TALKING = Sound(positional=True, poolSize=1, autoplay=True, src="store/users/wiselab/audio/september.mp3")
-
-#DEFAULT ANIMATIONS (set these to None if you don't want default animations)
-ANIM_IDLE = AnimationMixer(clip="idle", loop="repeat"),
-ANIM_WALK = AnimationMixer(clip="walk", loop="repeat"),
-ANIM_TALK = AnimationMixer(clip="talk", loop="repeat")
+#USE DEFAULT ACTIONS
+USE_DEFAULT_ANIMATIONS = True
+USE_DEFAULT_MORPHS = True
+USE_DEFAULT_SOUNDS = True
