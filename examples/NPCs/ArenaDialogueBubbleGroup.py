@@ -49,7 +49,8 @@ class ArenaDialogueBubbleGroup():
                 for a in range(len(commands[c].args)):
                     printGreen(     "          --commandArgs["+str(a)+"]: " + commands[c].args[a])
                 
-        #run through each command:
+        #run through each command: 
+        #--parentheses () optional for one argument, required for multiple, separated by commas.
         for command in commands:
         
             ###------MISCELLANEOUS------###
@@ -58,17 +59,34 @@ class ArenaDialogueBubbleGroup():
             if(command.type.lower() == "print".lower()):
                 printYellow("    " + command.text)
 
-            #<<setMorph (morphTarget, value)>> (sets a morph target to value)
-            elif(command.type.lower() == "setMorph".lower()):
-                printYellow("    " + command.text)
-
             ###------VISIBILITY------###
 
-            #<<hide (objectName)>> (this shows an object with the name if it exists)
+            #<<hide ("objectName")>> (this shows an object with the name if it exists)
             elif(command.type.lower() == "hide".lower()):
                 printYellow("    " + command.text)
-            #<<show (objectName)>> (this shows an object with the name if it exists)
+            #<<show ("objectName")>> (this shows an object with the name if it exists)
             elif(command.type.lower() == "show".lower()):
+                printYellow("    " + command.text)
+
+            ###------QUICK ACTION MAPPINGS------###
+
+            #<<sound ("soundMappingName")>>
+            elif(command.type.lower() == "sound".lower()):
+                printYellow("    " + command.text)
+            #<<animation ("animationMappingName")>>
+            elif(command.type.lower() == "animation".lower()):
+                printYellow("    " + command.text)
+            #<<transform ("transformMappingName")>>
+            elif(command.type.lower() == "transform".lower()):
+                printYellow("    " + command.text)
+            #<<morph ("morphMappingName")>>
+            elif(command.type.lower() == "morph".lower()):
+                printYellow("    " + command.text)
+
+            '''
+
+            #<<setMorph (morphTarget, value)>> (sets a morph target to value)
+            elif(command.type.lower() == "setMorph".lower()):
                 printYellow("    " + command.text)
 
             ###------TRANSFORMS------###
@@ -76,18 +94,6 @@ class ArenaDialogueBubbleGroup():
             #<<move (x,y,z)>>
             elif(command.type.lower() == "move".lower()):
                 printYellow("    " + command.text)
-
-                '''
-                self.npc.dispatch_animation(
-                    Animation(
-                        property="rotation",
-                        start=(0,0,0),
-                        end=(0,180,0),
-                        easing="linear",
-                        dur=1000
-                    )
-                )
-                '''
             #<<rotate (x,y,z)>>
             elif(command.type.lower() == "rotate".lower()):
                 print("    " + command.text)
@@ -118,22 +124,25 @@ class ArenaDialogueBubbleGroup():
 
             ###------ANIMATIONS------###
 
-            #<<playAnimation ()>>
+            #<<playAnimation (animationName, crossFade, timeScale)>>
             elif(command.type.lower() == "playAnimation".lower()):
                 self.gltf.dispatch_animation(
                     AnimationMixer(clip=command.text, loop="once")
                 )
-            #<<loopAnimation ()>>
+            #<<loopAnimation (animationName, crossFade, timeScale)>>
             elif(command.type.lower() == "loopAnimation".lower()):
                 self.gltf.dispatch_animation(
                     AnimationMixer(clip=command.text, loop="repeat")
                 )
-            #<<stopAnimation ()>>
+            #<<stopAnimation (animationName, crossFade, timeScale)>>
             elif(command.type.lower() == "stopAnimation".lower()):
                 self.gltf.dispatch_animation(
                     AnimationMixer(clip=command.text, loop="repeat")
+
                 )
 
+            '''
+            
         return
 
     # ------------------------------------------ #
@@ -251,4 +260,3 @@ class ArenaDialogueBubbleGroup():
             self.createNewButtons(self.dialogue.currentNode.lines[self.dialogue.currentNode.currentLineIndex])
         elif(self.dialogue.currentNode.currentLineIndex == len(self.dialogue.currentNode.lines)):
             printRedB("\n(---Finished NPC interaction.---)")
-        

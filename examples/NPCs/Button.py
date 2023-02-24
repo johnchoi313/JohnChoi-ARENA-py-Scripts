@@ -46,8 +46,6 @@ class Button():
             clickable=True,
             persist=True,
             evt_handler=buttonHandler,
-        
         )
         self.scene.add_object(button)
         return button
-    

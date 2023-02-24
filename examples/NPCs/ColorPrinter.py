@@ -82,6 +82,3 @@ def printLightWhiteB(text):
     print(Fore.BLACK + Back.LIGHTWHITE_EX + text + Fore.RESET + Back.RESET)
 def printLightYellowB(text):
     print(Fore.BLACK + Back.LIGHTYELLOW_EX + text + Fore.RESET + Back.RESET)
-
-
-
