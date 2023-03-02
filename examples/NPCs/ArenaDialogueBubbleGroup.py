@@ -47,24 +47,24 @@ class ArenaDialogueBubbleGroup():
 
     def PlayAnimationFromMapping(self, key):
         if(key in animationMappings):
-            self.npc.dispatch_animation(animationMappings[command.args[0]])
+            self.npc.dispatch_animation(animationMappings[key])
             self.scene.run_animations(self.npc)
         else:
-            printWarning("    " + "Cannot play animation \"" + command.text + "\" because no such mapping exists in mappings.py.")
+            printWarning("    " + "Cannot play animation \"" + key + "\" because no such mapping exists in mappings.py.")
 
     def PlayTransformFromMapping(self, key):
-        if(key in soundMappings):
-            self.npc.data.sound=soundMappings[key]
-            self.scene.update_object(self.npc)
+        if(key in transformMappings):
+            self.npc.dispatch_animation(transformMappings[key])
+            self.scene.run_animations(self.npc)
         else:
-            printWarning("    " + "Cannot play sound \"" + key + "\" because no such mapping exists in mappings.py.")
+            printWarning("    " + "Cannot play transform \"" + key + "\" because no such mapping exists in mappings.py.")
 
     def PlayMorphFromMapping(self, key):
-        if(key in soundMappings):
-            self.npc.data.sound=soundMappings[key]
-            self.scene.update_object(self.npc)
+        if(key in morphMappings):
+            self.npc.xr_logo.update_morph(morphMappings[key])
+            #self.scene.update_object(self.npc)
         else:
-            printWarning("    " + "Cannot play sound \"" + key + "\" because no such mapping exists in mappings.py.")
+            printWarning("    " + "Cannot play morph \"" + key + "\" because no such mapping exists in mappings.py.")
 
     def SetVisible(self, key, visible):            
         if (self.scene.all_objects.get(key) is not None):
@@ -72,6 +72,7 @@ class ArenaDialogueBubbleGroup():
             self.scene.update_object(self.scene.all_objects.get[key])
         else:
             printWarning("    " + "Cannot set visibility of object with name \"" + key + "\" because no such object exists in scene.")
+
 
 
     #runs commands
@@ -129,66 +130,6 @@ class ArenaDialogueBubbleGroup():
                 printYellow("    " + command.text)
                 self.PlayMorphFromMapping(command.args[0])
 
-            '''
-
-            #<<setMorph (morphTarget, value)>> (sets a morph target to value)
-            elif(command.type.lower() == "setMorph".lower()):
-                printYellow("    " + command.text)
-
-            ###------TRANSFORMS------###
-
-            #<<move (x,y,z)>>
-            elif(command.type.lower() == "move".lower()):
-                printYellow("    " + command.text)
-            #<<rotate (x,y,z)>>
-            elif(command.type.lower() == "rotate".lower()):
-                print("    " + command.text)
-            #<<scale (x,y,z)>>
-            elif(command.type.lower() == "scale".lower()):
-                print("    " + command.text)
-            #<<lookAt (x,y,z)>>
-            elif(command.type.lower() == "lookAt".lower()):
-                print("    " + command.text)
-
-            ###------SOUNDS------###
-
-            #<<playSound ()>>
-            elif(command.type.lower() == "playSound".lower()):                
-                #self.npc = Box(sound = Sound(positional=True, poolSize=1, loop=False, autoplay=True, src=command.text))
-                #self.scene.add_object(self.npc);
-                print("    " + command.text)
-            #<<loopSound ()>>
-            elif(command.type.lower() == "loopSound".lower()):
-                #self.npc = Box(sound = Sound(positional=True, poolSize=1, loop=True, autoplay=True, src=command.text))
-                # self.scene.add_object(self.npc);
-                print("    " + command.text)
-            #<<stopSound ()>>
-            elif(command.type.lower() == "stopSound".lower()):
-                #self.npc = Box(sound = Sound(positional=True, poolSize=1, loop=True, autoplay=True, src=command.text))
-                # self.scene.add_object(self.npc);
-                print("    " + command.text)
-
-            ###------ANIMATIONS------###
-
-            #<<playAnimation (animationName, crossFade, timeScale)>>
-            elif(command.type.lower() == "playAnimation".lower()):
-                self.gltf.dispatch_animation(
-                    AnimationMixer(clip=command.text, loop="once")
-                )
-            #<<loopAnimation (animationName, crossFade, timeScale)>>
-            elif(command.type.lower() == "loopAnimation".lower()):
-                self.gltf.dispatch_animation(
-                    AnimationMixer(clip=command.text, loop="repeat")
-                )
-            #<<stopAnimation (animationName, crossFade, timeScale)>>
-            elif(command.type.lower() == "stopAnimation".lower()):
-                self.gltf.dispatch_animation(
-                    AnimationMixer(clip=command.text, loop="repeat")
-
-                )
-
-            '''
-            
         return
 
     # ------------------------------------------ #
