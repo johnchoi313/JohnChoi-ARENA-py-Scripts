@@ -4,6 +4,7 @@ from arena import *
 
 from Button import *
 from config import *
+from mappings import *
 from YarnParser import *
 from ColorPrinter import *
 
@@ -37,6 +38,42 @@ class ArenaDialogueBubbleGroup():
     # ------------RUNNING COMMANDS-------------- #
     # ------------------------------------------ #
 
+    def PlaySoundFromMapping(self, key):
+        if(key in soundMappings):
+            self.npc.data.sound=soundMappings[key]
+            self.scene.update_object(self.npc)
+        else:
+            printWarning("    " + "Cannot play sound \"" + key + "\" because no such mapping exists in mappings.py.")
+
+    def PlayAnimationFromMapping(self, key):
+        if(key in animationMappings):
+            self.npc.dispatch_animation(animationMappings[command.args[0]])
+            self.scene.run_animations(self.npc)
+        else:
+            printWarning("    " + "Cannot play animation \"" + command.text + "\" because no such mapping exists in mappings.py.")
+
+    def PlayTransformFromMapping(self, key):
+        if(key in soundMappings):
+            self.npc.data.sound=soundMappings[key]
+            self.scene.update_object(self.npc)
+        else:
+            printWarning("    " + "Cannot play sound \"" + key + "\" because no such mapping exists in mappings.py.")
+
+    def PlayMorphFromMapping(self, key):
+        if(key in soundMappings):
+            self.npc.data.sound=soundMappings[key]
+            self.scene.update_object(self.npc)
+        else:
+            printWarning("    " + "Cannot play sound \"" + key + "\" because no such mapping exists in mappings.py.")
+
+    def SetVisible(self, key, visible):            
+        if (self.scene.all_objects.get(key) is not None):
+            self.scene.all_objects.get[key].data.visible = visible
+            self.scene.update_object(self.scene.all_objects.get[key])
+        else:
+            printWarning("    " + "Cannot set visibility of object with name \"" + key + "\" because no such object exists in scene.")
+
+
     #runs commands
     def runCommands(self, line):
         commands = line.commands
@@ -61,27 +98,36 @@ class ArenaDialogueBubbleGroup():
 
             ###------VISIBILITY------###
 
-            #<<hide ("objectName")>> (this shows an object with the name if it exists)
-            elif(command.type.lower() == "hide".lower()):
-                printYellow("    " + command.text)
             #<<show ("objectName")>> (this shows an object with the name if it exists)
             elif(command.type.lower() == "show".lower()):
                 printYellow("    " + command.text)
+                self.SetVisible(command.args[0], True)
+            #<<hide ("objectName")>> (this shows an object with the name if it exists)
+            elif(command.type.lower() == "hide".lower()):
+                printYellow("    " + command.text)
+                self.SetVisible(command.args[0], False)
 
             ###------QUICK ACTION MAPPINGS------###
 
             #<<sound ("soundMappingName")>>
             elif(command.type.lower() == "sound".lower()):
                 printYellow("    " + command.text)
+                self.PlaySoundFromMapping(command.args[0])
+
             #<<animation ("animationMappingName")>>
             elif(command.type.lower() == "animation".lower()):
                 printYellow("    " + command.text)
+                self.PlayAnimationFromMapping(command.args[0])
+
             #<<transform ("transformMappingName")>>
             elif(command.type.lower() == "transform".lower()):
                 printYellow("    " + command.text)
+                self.PlayTransformFromMapping(command.args[0])
+
             #<<morph ("morphMappingName")>>
             elif(command.type.lower() == "morph".lower()):
                 printYellow("    " + command.text)
+                self.PlayMorphFromMapping(command.args[0])
 
             '''
 

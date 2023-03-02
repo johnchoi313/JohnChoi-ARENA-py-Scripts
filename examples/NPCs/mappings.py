@@ -43,7 +43,7 @@ animationMappings = {
 # Shorthand transform names mapped to transform action over time
 # --Animation Schema: https://docs.arenaxr.org/content/schemas/message/animation.html 
 # --Animation Example: https://github.com/arenaxr/arena-py/blob/master/examples/attributes/animation.py 
-transformMapping = {
+transformMappings = {
     "point1" : [              
         Animation(property="rotation", end=(0,180,0), easing="linear", dur=1000),
         Animation(property="position", end=(0,0,-10), easing="linear", dur=1000)   

@@ -13,8 +13,8 @@ ENTER_NODE = "Start"
 EXIT_NODE = "Exit"
 
 #NPC (name Alphanumeric only plus '_', no spaces!)
-NPC_NAME = "NPC_cactus"
-NPC_GLTF_URL = "/store/users/johnchoi/Characters/Cactus/Cactus.gltf"
+NPC_NAME = "NPC_JunkoChan"
+NPC_GLTF_URL = "/store/users/johnchoi/Characters/JunkoChan/JunkoChan.glb"
 
 #USE DEFAULT ACTIONS
 USE_DEFAULT_ANIMATIONS = True
@@ -29,7 +29,7 @@ ROOT_COLOR = (255,100,16)
 ROOT_OPACITY = 0.3
 
 #NPC GLTF TRANSFORM
-GLTF_SCALE = (1,1,1)
+GLTF_SCALE = (.5,.5,.5)
 GLTF_POSITION = (0,0,0)
 GLTF_ROTATION = (0,180,0)
 
