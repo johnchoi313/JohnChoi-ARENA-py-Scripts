@@ -1,0 +1,492 @@
+[
+	{
+		"title": "Morphs",
+		"tags": "",
+		"body": "Here is a list of all the morphs in this dialogue:\n[[Morph_Smile]][[Morph_Frown]]",
+		"position": {
+			"x": -305,
+			"y": -648
+		},
+		"colorID": 2
+	},
+	{
+		"title": "Animations",
+		"tags": "",
+		"body": "Here is a list of all the animations in this dialogue:\n[[Anim_Idle]][[Anim_Walk]][[Anim_Talk]]",
+		"position": {
+			"x": -309,
+			"y": -263
+		},
+		"colorID": 3
+	},
+	{
+		"title": "Transforms",
+		"tags": "",
+		"body": "Here is a list of all the transforms in this dialogue:\n[[Transform_Move]][[Transform_Move]][[Transform_Point1]][[Transform_Point2]][[Transform_Point3]]",
+		"position": {
+			"x": -300,
+			"y": 159
+		},
+		"colorID": 4
+	},
+	{
+		"title": "Exit",
+		"tags": "",
+		"body": "Empty Text",
+		"position": {
+			"x": -1864,
+			"y": -1113
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Enter",
+		"tags": "",
+		"body": "Empty Text\n[[Actions]][[Dialogue]][[Exit]]",
+		"position": {
+			"x": -1532,
+			"y": -1111
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Sounds",
+		"tags": "",
+		"body": "Here is a list of all the sounds in this dialogue:\n[[Sound_Next]][[Sound_Choice]][[Sound_Enter]][[Sound_Exit]][[Sound_Talking]]",
+		"position": {
+			"x": -312,
+			"y": -1013
+		},
+		"colorID": 1
+	},
+	{
+		"title": "Morph_Smile",
+		"tags": "",
+		"body": "Playing morph \"smile\": <<morph smile>>\n[[Morphs]][[Actions]][[End]]",
+		"position": {
+			"x": 71,
+			"y": -641
+		},
+		"colorID": 2
+	},
+	{
+		"title": "End",
+		"tags": "",
+		"body": "Empty Text\n[[Restart|Enter]]",
+		"position": {
+			"x": 2162,
+			"y": -481
+		},
+		"colorID": 8
+	},
+	{
+		"title": "Morph_Frown",
+		"tags": "",
+		"body": "Playing morph \"frown\": <<morph frown>>\n[[Morphs]][[Actions]][[End]]",
+		"position": {
+			"x": 292,
+			"y": -639
+		},
+		"colorID": 2
+	},
+	{
+		"title": "Anim_Idle",
+		"tags": "",
+		"body": "Playing animation \"idle\": <<animation idle>>\n[[Animations]][[Actions]][[End]]",
+		"position": {
+			"x": 113,
+			"y": -255
+		},
+		"colorID": 3
+	},
+	{
+		"title": "Anim_Walk",
+		"tags": "",
+		"body": "Playing animation \"walk\": <<animation walk>>\n[[Animations]][[Actions]][[End]]",
+		"position": {
+			"x": 323,
+			"y": -258
+		},
+		"colorID": 3
+	},
+	{
+		"title": "Anim_Talk",
+		"tags": "",
+		"body": "Playing animation \"talk\": <<animation talk>>\n[[Animations]][[Actions]][[End]]",
+		"position": {
+			"x": 543,
+			"y": -262
+		},
+		"colorID": 3
+	},
+	{
+		"title": "Node_5",
+		"tags": "",
+		"body": "Playing animation \"idle\": <<animation idle>>\n[[Animations]][[Actions]][[End]]",
+		"position": {
+			"x": 751,
+			"y": -269
+		},
+		"colorID": 3
+	},
+	{
+		"title": "Sound_Next",
+		"tags": "",
+		"body": "Playing sound \"next\": <<sound next>>\n[[Sounds]][[Actions]][[End]]",
+		"position": {
+			"x": 38,
+			"y": -1016
+		},
+		"colorID": 1
+	},
+	{
+		"title": "Sound_Choice",
+		"tags": "",
+		"body": "Playing sound \"choice\": <<sound choice>>\n[[Sounds]][[Actions]][[End]]",
+		"position": {
+			"x": 249,
+			"y": -1019
+		},
+		"colorID": 1
+	},
+	{
+		"title": "Sound_Enter",
+		"tags": "",
+		"body": "Playing sound \"enter\": <<sound enter>>\n[[Sounds]][[Actions]][[End]]",
+		"position": {
+			"x": 473,
+			"y": -1018
+		},
+		"colorID": 1
+	},
+	{
+		"title": "Sound_Exit",
+		"tags": "",
+		"body": "Playing sound \"exit\": <<sound exit>>\n[[Sounds]][[Actions]][[End]]",
+		"position": {
+			"x": 692,
+			"y": -1025
+		},
+		"colorID": 1
+	},
+	{
+		"title": "Transform_Move",
+		"tags": "",
+		"body": "Playing transform \"move\": <<transform move>>\n[[Transforms]][[Actions]][[End]]",
+		"position": {
+			"x": 133,
+			"y": 154
+		},
+		"colorID": 4
+	},
+	{
+		"title": "Transform_Rotate",
+		"tags": "",
+		"body": "Playing transform \"rotate\": <<transform rotate>>\n[[Transforms]][[Actions]][[End]]",
+		"position": {
+			"x": 346,
+			"y": 150
+		},
+		"colorID": 4
+	},
+	{
+		"title": "Transform_Point1",
+		"tags": "",
+		"body": "Playing transform \"point1\": <<transform point1>>\n[[Transforms]][[Actions]][[End]]",
+		"position": {
+			"x": 564,
+			"y": 157
+		},
+		"colorID": 4
+	},
+	{
+		"title": "Transform_Point2",
+		"tags": "",
+		"body": "Playing transform \"point2\": <<transform point2>>\n[[Transforms]][[Actions]][[End]]",
+		"position": {
+			"x": 774,
+			"y": 155
+		},
+		"colorID": 4
+	},
+	{
+		"title": "Node_14",
+		"tags": "",
+		"body": "Playing animation \"idle\": <<animation idle>>\n[[Animations]][[Actions]][[End]]",
+		"position": {
+			"x": 970,
+			"y": -275
+		},
+		"colorID": 3
+	},
+	{
+		"title": "Transform_Point3",
+		"tags": "",
+		"body": "Playing transform \"point3\": <<transform point3>>\n[[Transforms]][[Actions]][[End]]",
+		"position": {
+			"x": 993,
+			"y": 158
+		},
+		"colorID": 4
+	},
+	{
+		"title": "Actions",
+		"tags": "",
+		"body": "Empty Text\n[[Sounds]]\n[[Morphs]]\n[[Transforms]]\n[[Animations]]\n[[End]]",
+		"position": {
+			"x": -870,
+			"y": -487
+		},
+		"colorID": 8
+	},
+	{
+		"title": "Sound_Talking",
+		"tags": "",
+		"body": "Playing sound \"talking\": <<sound talking>>\n[[Sounds]][[Actions]][[End]]",
+		"position": {
+			"x": 906,
+			"y": -1029
+		},
+		"colorID": 1
+	},
+	{
+		"title": "Dialogue",
+		"tags": "",
+		"body": "ChatGPT generated to query:\n\"make a simple dialogue tree about a topic of your choice\"\n[[Play Dialogue|Intro]]",
+		"position": {
+			"x": -1490,
+			"y": -1950
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Conclusion",
+		"tags": "",
+		"body": "Empty Text\n[[Enter]]",
+		"position": {
+			"x": 4222,
+			"y": -1415
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Question_1",
+		"tags": "",
+		"body": "Do you have any programming experience?\n[[Yes|Question_1a]][[No|Concepts]]",
+		"position": {
+			"x": -754,
+			"y": -1944
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Question_1a",
+		"tags": "",
+		"body": "What languages have you programmed in before?\n[[Python]][[Java]][[JavaScript]]",
+		"position": {
+			"x": -300,
+			"y": -2031
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Concepts",
+		"tags": "",
+		"body": "Empty Text",
+		"position": {
+			"x": -306,
+			"y": -1703
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Python",
+		"tags": "",
+		"body": "Empty Text",
+		"position": {
+			"x": 73,
+			"y": -2192
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Java",
+		"tags": "",
+		"body": "Empty Text",
+		"position": {
+			"x": 293,
+			"y": -2192
+		},
+		"colorID": 0
+	},
+	{
+		"title": "JavaScript",
+		"tags": "",
+		"body": "Empty Text",
+		"position": {
+			"x": 513,
+			"y": -2192
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Question 2",
+		"tags": "",
+		"body": "What is your goal for learning this new language?\n[[To get a job]]\n[[To build a personal project]]\n[[to learn something new]]",
+		"position": {
+			"x": 852,
+			"y": -1974
+		},
+		"colorID": 0
+	},
+	{
+		"title": "To get a job",
+		"tags": "",
+		"body": "Empty Text",
+		"position": {
+			"x": 972,
+			"y": -2194
+		},
+		"colorID": 0
+	},
+	{
+		"title": "To build a personal project",
+		"tags": "",
+		"body": "Empty Text",
+		"position": {
+			"x": 1192,
+			"y": -2194
+		},
+		"colorID": 0
+	},
+	{
+		"title": "to learn something new",
+		"tags": "",
+		"body": "Empty Text",
+		"position": {
+			"x": 1412,
+			"y": -2194
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Question_3",
+		"tags": "",
+		"body": "What type of resources do you prefer for learning?\n[[Books]][[Videos]][[Online Courses]]",
+		"position": {
+			"x": 1799,
+			"y": -1970
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Books",
+		"tags": "",
+		"body": "Empty Text",
+		"position": {
+			"x": 1919,
+			"y": -2190
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Videos",
+		"tags": "",
+		"body": "Empty Text",
+		"position": {
+			"x": 2139,
+			"y": -2190
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Online Courses",
+		"tags": "",
+		"body": "Empty Text",
+		"position": {
+			"x": 2359,
+			"y": -2190
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Question_4",
+		"tags": "",
+		"body": "What level of proficiency do you want to achieve?\n[[basic understanding]][[intermediate understanding]][[advanced understanding]]",
+		"position": {
+			"x": 2736,
+			"y": -1973
+		},
+		"colorID": 0
+	},
+	{
+		"title": "intermediate understanding",
+		"tags": "",
+		"body": "Empty Text",
+		"position": {
+			"x": 3077,
+			"y": -2194
+		},
+		"colorID": 0
+	},
+	{
+		"title": "advanced understanding",
+		"tags": "",
+		"body": "Empty Text",
+		"position": {
+			"x": 3296,
+			"y": -2193
+		},
+		"colorID": 0
+	},
+	{
+		"title": "basic understanding",
+		"tags": "",
+		"body": "Empty Text",
+		"position": {
+			"x": 2856,
+			"y": -2193
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Question_5",
+		"tags": "",
+		"body": "Do you prefer a structured or unstructured learning approach?\n[[Structured]][[Unstructu]]",
+		"position": {
+			"x": 3713,
+			"y": -1960
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Structured",
+		"tags": "",
+		"body": "Empty Text",
+		"position": {
+			"x": 3833,
+			"y": -2180
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Unstructu",
+		"tags": "",
+		"body": "Empty Text",
+		"position": {
+			"x": 4053,
+			"y": -2180
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Intro",
+		"tags": "",
+		"body": "I'm going to talk about how to use ARENA!\nFirst I am going to ask some questions to you.\n[[Question_1]]",
+		"position": {
+			"x": -1113,
+			"y": -1945
+		},
+		"colorID": 0
+	}
+]

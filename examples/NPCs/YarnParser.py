@@ -128,10 +128,10 @@ class Choice:
         self.text = self.getTextFromChoice(choiceString)
         self.node = self.getNodeFromChoice(choiceString)
     def getTextFromChoice(self, choiceString): #[Input: String choice in [[]] ] -> [Output: Choice TEXT, split by '|'.]
-        if(choiceString.count('|') != 1): return ""
+        if(choiceString.count('|') != 1): return choiceString
         choiceText = choiceString.split('|')[0]
         return choiceText         
     def getNodeFromChoice(self, choiceString): #[Input: String choice in [[]] ] -> [Output: Choice NODE, split by '|'.]
-        if(choiceString.count('|') != 1): return ""
+        if(choiceString.count('|') != 1): return choiceString
         choiceNode = choiceString.split('|')[1]
         return choiceNode 

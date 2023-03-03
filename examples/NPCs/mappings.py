@@ -57,3 +57,10 @@ morphMappings = {
     "smile" : [Morph(morphtarget="eyeTop",value=0.0), Morph(morphtarget="eyeBottom",value=0.0)],
     "frown" : [Morph(morphtarget="eyeTop",value=0.0), Morph(morphtarget="eyeBottom",value=0.0)]
 }
+
+# Shorthand url names mapped to (Website URL, volume, loop)
+# --Url Schema: https://docs.arenaxr.org/content/schemas/message-examples.html#goto-url 
+# --Url Example: https://github.com/arenaxr/arena-py/blob/master/examples/attributes/goto_url.py 
+urlMappings = {
+    "next" : GotoUrl(dest="popup", on="mousedown", url="https://www.conix.io/")
+}

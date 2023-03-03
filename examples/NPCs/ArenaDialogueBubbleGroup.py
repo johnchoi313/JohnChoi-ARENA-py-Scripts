@@ -44,6 +44,8 @@ class ArenaDialogueBubbleGroup():
             self.scene.update_object(self.npc)
         else:
             printWarning("    " + "Cannot play sound \"" + key + "\" because no such mapping exists in mappings.py.")
+    def PlaySound(self, sound):
+        return
 
     def PlayAnimationFromMapping(self, key):
         if(key in animationMappings):
@@ -51,6 +53,8 @@ class ArenaDialogueBubbleGroup():
             self.scene.run_animations(self.npc)
         else:
             printWarning("    " + "Cannot play animation \"" + key + "\" because no such mapping exists in mappings.py.")
+    def PlayAnimationMixer(self, animationMixer):
+        return
 
     def PlayTransformFromMapping(self, key):
         if(key in transformMappings):
@@ -58,6 +62,8 @@ class ArenaDialogueBubbleGroup():
             self.scene.run_animations(self.npc)
         else:
             printWarning("    " + "Cannot play transform \"" + key + "\" because no such mapping exists in mappings.py.")
+    def PlayAnimation(self, animation):
+        return
 
     def PlayMorphFromMapping(self, key):
         if(key in morphMappings):
@@ -65,6 +71,18 @@ class ArenaDialogueBubbleGroup():
             #self.scene.update_object(self.npc)
         else:
             printWarning("    " + "Cannot play morph \"" + key + "\" because no such mapping exists in mappings.py.")
+    def PlayMorph(self, morphs):
+        return
+
+    def PlayUrlFromMapping(self, key):
+        if(key in morphMappings):
+            self.npc.xr_logo.update_morph(morphMappings[key])
+            #self.scene.update_object(self.npc)
+        else:
+            printWarning("    " + "Cannot play morph \"" + key + "\" because no such mapping exists in mappings.py.")
+    def PlayUrl(self, morphs):
+        return
+
 
     def SetVisible(self, key, visible):            
         if (self.scene.all_objects.get(key) is not None):
@@ -72,8 +90,6 @@ class ArenaDialogueBubbleGroup():
             self.scene.update_object(self.scene.all_objects.get[key])
         else:
             printWarning("    " + "Cannot set visibility of object with name \"" + key + "\" because no such object exists in scene.")
-
-
 
     #runs commands
     def runCommands(self, line):
@@ -129,6 +145,12 @@ class ArenaDialogueBubbleGroup():
             elif(command.type.lower() == "morph".lower()):
                 printYellow("    " + command.text)
                 self.PlayMorphFromMapping(command.args[0])
+
+            #<<url ("urlMappingName")>>
+            elif(command.type.lower() == "url".lower()):
+                printYellow("    " + command.text)
+                self.PlayUrlFromMapping(command.args[0])
+
 
         return
 
