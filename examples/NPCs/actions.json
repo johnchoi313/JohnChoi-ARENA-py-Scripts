@@ -24,7 +24,7 @@
 		"tags": "",
 		"body": "Here is a list of all the transforms in this dialogue:\n[[Transform_Move]][[Transform_Move]][[Transform_Point1]][[Transform_Point2]][[Transform_Point3]]",
 		"position": {
-			"x": -300,
+			"x": -301,
 			"y": 159
 		},
 		"colorID": 4
@@ -252,9 +252,9 @@
 	{
 		"title": "Dialogue",
 		"tags": "",
-		"body": "ChatGPT generated to query:\n\"make a simple dialogue tree about a topic of your choice\"\n[[Play Dialogue|Intro]]",
+		"body": "ChatGPT generated to query:\n\"make a simple dialogue tree about a topic of your choice.\"\nSure, here's a simple dialogue tree about learning a new programming language:\n[[Play Dialogue|Intro]]",
 		"position": {
-			"x": -1490,
+			"x": -1491,
 			"y": -1950
 		},
 		"colorID": 0
@@ -262,7 +262,7 @@
 	{
 		"title": "Conclusion",
 		"tags": "",
-		"body": "Empty Text\n[[Enter]]",
+		"body": "This is just a basic example of a dialogue tree about learning a new programming language. \nDepending on the language and the audience, the tree could be much more complex and tailored to the learner's needs.\n[[Enter]]",
 		"position": {
 			"x": 4222,
 			"y": -1415
@@ -452,10 +452,10 @@
 	{
 		"title": "Question_5",
 		"tags": "",
-		"body": "Do you prefer a structured or unstructured learning approach?\n[[Structured]][[Unstructu]]",
+		"body": "Do you prefer a structured or unstructured learning approach?\n[[Structured]][[Unstructured]]",
 		"position": {
-			"x": 3713,
-			"y": -1960
+			"x": 3712,
+			"y": -1961
 		},
 		"colorID": 0
 	},
@@ -470,12 +470,12 @@
 		"colorID": 0
 	},
 	{
-		"title": "Unstructu",
+		"title": "Unstructured",
 		"tags": "",
 		"body": "Empty Text",
 		"position": {
-			"x": 4053,
-			"y": -2180
+			"x": 4052,
+			"y": -2181
 		},
 		"colorID": 0
 	},
@@ -484,8 +484,68 @@
 		"tags": "",
 		"body": "I'm going to talk about how to use ARENA!\nFirst I am going to ask some questions to you.\n[[Question_1]]",
 		"position": {
-			"x": -1113,
-			"y": -1945
+			"x": -1114,
+			"y": -1946
+		},
+		"colorID": 0
+	},
+	{
+		"title": "URLs",
+		"tags": "",
+		"body": "Here is a list of all the URLs in this dialogue:\n[[URL_1]][[URL_2]][[URL_3]][[URL_4]][[URL_5]]",
+		"position": {
+			"x": -300,
+			"y": 478
+		},
+		"colorID": 0
+	},
+	{
+		"title": "URL_1",
+		"tags": "",
+		"body": "Going to URL_1: <<url www.wikipedia.com>>\n[[URLs]][[Actions]][[End]]",
+		"position": {
+			"x": 126,
+			"y": 471
+		},
+		"colorID": 0
+	},
+	{
+		"title": "URL_2",
+		"tags": "",
+		"body": "Going to URL_1: <<url www.wikipedia.com>>\n[[URLs]][[Actions]][[End]]",
+		"position": {
+			"x": 346,
+			"y": 471
+		},
+		"colorID": 0
+	},
+	{
+		"title": "URL_3",
+		"tags": "",
+		"body": "Going to URL_1: <<url www.wikipedia.com>>\n[[URLs]][[Actions]][[End]]",
+		"position": {
+			"x": 566,
+			"y": 471
+		},
+		"colorID": 0
+	},
+	{
+		"title": "URL_4",
+		"tags": "",
+		"body": "Going to URL_1: <<url www.wikipedia.com>>\n[[URLs]][[Actions]][[End]]",
+		"position": {
+			"x": 786,
+			"y": 471
+		},
+		"colorID": 0
+	},
+	{
+		"title": "URL_5",
+		"tags": "",
+		"body": "Going to URL_1: <<url www.wikipedia.com>>\n[[URLs]][[Actions]][[End]]",
+		"position": {
+			"x": 1006,
+			"y": 471
 		},
 		"colorID": 0
 	}
