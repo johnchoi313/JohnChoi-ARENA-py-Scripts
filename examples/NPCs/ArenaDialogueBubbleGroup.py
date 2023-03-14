@@ -52,7 +52,6 @@ class ArenaDialogueBubbleGroup():
         sound = Sound(volume=1, autoplay=True, src=url)
         self.PlaySound(sound)
     def PlaySound(self, SOUND):
-        printWhiteB("Playing sound")
         self.npc.data.sound=None #resets so can play same sound again
         self.scene.update_object(self.npc)
         self.npc.data.sound=SOUND
