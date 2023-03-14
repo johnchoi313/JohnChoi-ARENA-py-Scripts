@@ -4,12 +4,12 @@ NAMESPACE = "johnchoi"
 SCENE = "NPC"
 
 #DIALOGUE TREE FILE
-DIALOGUE_FILENAME = "cartoon_dialogue.json"
+DIALOGUE_FILENAME = "actions.json"
 
 #ENTER/EXIT SPECIAL EVENT NODES 
 ENTER_INTERVAL = 100
 ENTER_DISTANCE = 10
-ENTER_NODE = "Start"
+ENTER_NODE = "Enter"
 EXIT_NODE = "Exit"
 
 #NPC (name Alphanumeric only plus '_', no spaces!)

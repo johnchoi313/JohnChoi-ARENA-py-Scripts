@@ -38,52 +38,69 @@ class ArenaDialogueBubbleGroup():
     # ------------RUNNING COMMANDS-------------- #
     # ------------------------------------------ #
 
+    #Sounds
     def PlaySoundFromMapping(self, key):
         if(key in soundMappings):
-            self.npc.data.sound=soundMappings[key]
-            self.scene.update_object(self.npc)
+            self.PlaySound(soundMappings[key])
         else:
-            printWarning("    " + "Cannot play sound \"" + key + "\" because no such mapping exists in mappings.py.")
+            printWarning("    " + "Attempting to play sound from URL \"" + key + "\" because no such mapping exists in mappings.py.")
+            self.PlaySoundFromUrl(key)
+    def PlaySoundFromUrl(self, url):
+        sound = Sound(positional=True, poolSize=1, autoplay=True, src=url)
+        self.npc.PlaySound(sound)
     def PlaySound(self, sound):
-        return
+        self.npc.data.sound=sound
+        self.scene.update_object(self.npc)
 
+    #Animations
     def PlayAnimationFromMapping(self, key):
         if(key in animationMappings):
-            self.npc.dispatch_animation(animationMappings[key])
-            self.scene.run_animations(self.npc)
-        else:
-            printWarning("    " + "Cannot play animation \"" + key + "\" because no such mapping exists in mappings.py.")
-    def PlayAnimationMixer(self, animationMixer):
-        return
+            self.npc.PlayAnimation(animationMappings[key])
+        else: 
+            printWarning("    " + "Attempting to play animation from name \"" + key + "\" because no such mapping exists in mappings.py.")
+            self.npc.PlayAnimationFromName(key)
+    def PlayAnimationFromName(self, name):
+        animation = AnimationMixer(clip=name, loop="once")
+        self.npc.PlayAnimation(animation)
+    def PlayAnimation(self, animation):
+        self.npc.dispatch_animation(animation)
+        self.scene.run_animations(self.npc)
 
+    #Transforms
     def PlayTransformFromMapping(self, key):
         if(key in transformMappings):
-            self.npc.dispatch_animation(transformMappings[key])
-            self.scene.run_animations(self.npc)
+            self.PlayTransform(transformMappings[key])
         else:
             printWarning("    " + "Cannot play transform \"" + key + "\" because no such mapping exists in mappings.py.")
-    def PlayAnimation(self, animation):
+    def PlayTransform(self, transform):
+        self.npc.dispatch_animation(transform)
+        self.scene.run_animations(self.npc)
         return
 
+    #Morphs
     def PlayMorphFromMapping(self, key):
         if(key in morphMappings):
-            self.npc.xr_logo.update_morph(morphMappings[key])
-            #self.scene.update_object(self.npc)
+            self.PlayMorph(morphMappings[key])
         else:
             printWarning("    " + "Cannot play morph \"" + key + "\" because no such mapping exists in mappings.py.")
     def PlayMorph(self, morphs):
-        return
+        self.npc.xr_logo.update_morph(morphs)
 
+    #GotoUrl
     def PlayUrlFromMapping(self, key):
-        if(key in morphMappings):
-            self.npc.xr_logo.update_morph(morphMappings[key])
-            #self.scene.update_object(self.npc)
+        if(key in urlMappings):
+            self.PlayGotoUrl(urlMappings[key])
         else:
-            printWarning("    " + "Cannot play morph \"" + key + "\" because no such mapping exists in mappings.py.")
-    def PlayUrl(self, morphs):
-        return
-
-
+            printWarning("    " + "Attempting to directly play URL \"" + key + "\" because no such mapping exists in mappings.py.")
+            self.PlayUrl(key)
+    def PlayUrl(self, link):
+        gotoUrl = GotoUrl(dest="popup", on="mousedown", url=link)
+        self.PlayGotoUrl(gotoUrl)
+    def PlayGotoUrl(self, gotoUrl):
+        self.npc.data.goto_url=gotoUrl
+        self.scene.update_object(self.npc)
+        
+    #Visibility
     def SetVisible(self, key, visible):            
         if (self.scene.all_objects.get(key) is not None):
             self.scene.all_objects.get[key].data.visible = visible
