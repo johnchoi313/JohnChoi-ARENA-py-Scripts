@@ -70,5 +70,9 @@ morphMappings = {
 # --Url Schema: https://docs.arenaxr.org/content/schemas/message-examples.html#goto-url 
 # --Url Example: https://github.com/arenaxr/arena-py/blob/master/examples/attributes/goto_url.py 
 urlMappings = {
-    "next" : GotoUrl(dest="popup", on="mousedown", url="https://www.conix.io/")
+    "youtube"   : GotoUrl(dest="popup", on="mousedown", url="https://www.youtube.com/watch?v=cBkWhkAZ9ds"),
+    "wikipedia" : GotoUrl(dest="popup", on="mousedown", url="https://en.wikipedia.org/wiki/Fish"),
+    "arena"     : GotoUrl(dest="popup", on="mousedown", url="https://arenaxr.org/"),
+    "conix"     : GotoUrl(dest="newtab", on="mousedown", url="https://conix.io/"),
+    "island"    : GotoUrl(dest="sametab", on="mousedown", url="https://arenaxr.org/public/island")    
 }

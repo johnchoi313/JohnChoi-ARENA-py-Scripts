@@ -27,7 +27,8 @@ class Button():
             color=buttonColor,
 
             parent = button,
-            persist=True,
+
+            persist=False
         )
         self.scene.add_object(buttonText)
         return buttonText
@@ -44,7 +45,9 @@ class Button():
 
             parent = self.npc,
             clickable=True,
-            persist=True,
+            
+            persist=False,
+
             evt_handler=buttonHandler,
         )
         self.scene.add_object(button)

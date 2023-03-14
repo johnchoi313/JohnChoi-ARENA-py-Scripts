@@ -492,7 +492,7 @@
 	{
 		"title": "URLs",
 		"tags": "",
-		"body": "Here is a list of all the URLs in this dialogue:\n[[URL_1]][[URL_2]][[URL_3]][[URL_4]][[URL_5]]",
+		"body": "Here is a list of all the URLs in this dialogue:\n[[Wikipedia Fish PopUp]][[Youtube Frog PopUp]][[Arena Popup]][[Conix NewTab]][[NewScene Island SameTab]]",
 		"position": {
 			"x": -300,
 			"y": 478
@@ -500,9 +500,9 @@
 		"colorID": 0
 	},
 	{
-		"title": "URL_1",
+		"title": "Wikipedia Fish PopUp",
 		"tags": "",
-		"body": "Going to URL_1: <<url www.wikipedia.com>>\n[[URLs]][[Actions]][[End]]",
+		"body": "Going to URL_1: <<url https://en.wikipedia.org/wiki/Fish>>\n[[URLs]][[Actions]][[End]]",
 		"position": {
 			"x": 126,
 			"y": 471
@@ -510,39 +510,39 @@
 		"colorID": 0
 	},
 	{
-		"title": "URL_2",
+		"title": "Youtube Frog PopUp",
 		"tags": "",
-		"body": "Going to URL_1: <<url www.wikipedia.com>>\n[[URLs]][[Actions]][[End]]",
+		"body": "Going to URL_2: <<url https://www.youtube.com/watch?v=cBkWhkAZ9ds>>\n[[URLs]][[Actions]][[End]]",
 		"position": {
-			"x": 346,
+			"x": 347,
+			"y": 470
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Arena Popup",
+		"tags": "",
+		"body": "Going to URL_3: <<url arena>>\n[[URLs]][[Actions]][[End]]",
+		"position": {
+			"x": 568,
+			"y": 468
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Conix NewTab",
+		"tags": "",
+		"body": "Going to URL_1: <<url conix>>\n[[URLs]][[Actions]][[End]]",
+		"position": {
+			"x": 787,
 			"y": 471
 		},
 		"colorID": 0
 	},
 	{
-		"title": "URL_3",
+		"title": "NewScene Island SameTab",
 		"tags": "",
-		"body": "Going to URL_1: <<url www.wikipedia.com>>\n[[URLs]][[Actions]][[End]]",
-		"position": {
-			"x": 566,
-			"y": 471
-		},
-		"colorID": 0
-	},
-	{
-		"title": "URL_4",
-		"tags": "",
-		"body": "Going to URL_1: <<url www.wikipedia.com>>\n[[URLs]][[Actions]][[End]]",
-		"position": {
-			"x": 786,
-			"y": 471
-		},
-		"colorID": 0
-	},
-	{
-		"title": "URL_5",
-		"tags": "",
-		"body": "Going to URL_1: <<url www.wikipedia.com>>\n[[URLs]][[Actions]][[End]]",
+		"body": "Going to URL_1: <<url island>>\n[[URLs]][[Actions]][[End]]",
 		"position": {
 			"x": 1006,
 			"y": 471

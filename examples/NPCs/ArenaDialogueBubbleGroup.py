@@ -2,6 +2,9 @@
 from asyncio import create_subprocess_exec
 from arena import *
 
+import string
+import random
+
 from Button import *
 from config import *
 from mappings import *
@@ -108,6 +111,12 @@ class ArenaDialogueBubbleGroup():
         else:
             printWarning("    " + "Cannot set visibility of object with name \"" + key + "\" because no such object exists in scene.")
 
+    #Clear extra properties
+    def ClearCommandProperties(self):
+        self.npc.data.goto_url = None
+        return
+
+
     #runs commands
     def runCommands(self, line):
         commands = line.commands
@@ -179,7 +188,7 @@ class ArenaDialogueBubbleGroup():
         self.createSpeechBubble(line)
         self.createButtons(line)
         self.runCommands(line)
-
+        
     def clearButtons(self):
         if(self.speechBubble != None):
             if(self.speechBubble.object_id != None):
@@ -190,7 +199,7 @@ class ArenaDialogueBubbleGroup():
             self.scene.delete_object(button.box)
             self.scene.delete_object(button.text)
             
-        self.buttons = []
+        self.commands = []
 
     def createSpeechBubble(self, line):
         self.speech = line.text
@@ -216,18 +225,21 @@ class ArenaDialogueBubbleGroup():
                 printMagenta("    [["+str(c)+"]] choiceText: " + choices[c].text)
                 printMagenta(         "          choiceNode: " + choices[c].node)
         
-                choiceButton = Button(self.scene, self.npc, self.npc.object_id + "_choiceButton_"+str(c), choices[c].text, self.onClickChoiceButton, 
+                choiceButton = Button(self.scene, self.npc, self.npc.object_id + "_choiceButton_" + self.randomUUID(UUID_LEN)+"_"+str(c), choices[c].text, self.onClickChoiceButton, 
                                       position = (CHOICE_BUBBLE_POSITION[0], CHOICE_BUBBLE_POSITION[1] + (len(choices) - c - 1) * CHOICE_BUBBLE_OFFSET_Y, CHOICE_BUBBLE_POSITION[2]), 
                                       color = CHOICE_BUBBLE_COLOR, textColor = CHOICE_TEXT_COLOR)
 
                 self.buttons.append(choiceButton)
         else: 
-            nextButton = Button(self.scene, self.npc, self.npc.object_id + "_nextButton", "[Next]", self.onClickNextButton, 
+            nextButton = Button(self.scene, self.npc, self.npc.object_id + "_nextButton_" + self.randomUUID(UUID_LEN), "[Next]", self.onClickNextButton, 
                                 position = CHOICE_BUBBLE_POSITION, color = CHOICE_BUBBLE_COLOR, textColor = CHOICE_TEXT_COLOR)
                 
             self.buttons.append(nextButton)
 
         return self.buttons
+
+    def randomUUID(self, n = 6):
+        return ''.join(random.choices(string.ascii_uppercase + string.digits, k=n))
 
     # ------------------------------------------ #
     # ------------EVENT PROCESSING-------------- #
@@ -237,7 +249,7 @@ class ArenaDialogueBubbleGroup():
     def onClickChoiceButton(self, scene, evt, msg):
         if evt.type == "mousedown":
             choiceButtonID = msg["object_id"]
-            filterLen = len(self.npc.object_id + "_choiceButton_")
+            filterLen = len(self.npc.object_id + "_choiceButton_") + UUID_LEN + 1
 
             choiceButtonNumber = int(choiceButtonID[filterLen:])
             choiceText = self.dialogue.currentNode.lines[self.dialogue.currentNode.currentLineIndex].choices[choiceButtonNumber].text
@@ -247,11 +259,16 @@ class ArenaDialogueBubbleGroup():
                         
             self.gotoNodeWithName(choiceNodeName)
 
+            self.ClearCommandProperties()
+
+
     #functions to control choice button click behaviour
     def onClickNextButton(self, scene, evt, msg):
         if evt.type == "mousedown":
             printCyan("  Next Button Pressed!")
             self.advanceToNextLine()
+
+            self.ClearCommandProperties()
 
     '''
     def nodeWithNameExists(self, nodeName):
