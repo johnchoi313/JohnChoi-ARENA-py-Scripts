@@ -10,6 +10,7 @@ from datetime import timezone
 from time import gmtime, strftime
 
 from config import *
+from mappings import *
 from YarnParser import *
 from ColorPrinter import *
 from ArenaDialogueBubbleGroup import *
@@ -35,6 +36,7 @@ class NPC:
             scale=ROOT_SCALE,
             color=ROOT_COLOR,
             material = Material(opacity=ROOT_OPACITY, transparent=True),
+            sound = None,
             persist=True
         )
         scene.add_object(self.root)
