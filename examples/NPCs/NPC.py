@@ -88,9 +88,14 @@ def EnterExit_Handler(): #checks whether or not a user is in range of NPC
         if(userCount > 0 and npc.entered == False): # At least one user in range of NPC starts interaction.
             npc.entered = True
             npc.bubbles.gotoNodeWithName(ENTER_NODE)
+
+            npc.bubbles.PlaySound(SOUND_ENTER)
+
         if(userCount == 0 and npc.entered == True): # All users left, so end interaction.
             npc.entered = False
             npc.bubbles.gotoNodeWithName(EXIT_NODE)
+
+            npc.bubbles.PlaySound(SOUND_EXIT)
     
     npc.userCount = userCount
 

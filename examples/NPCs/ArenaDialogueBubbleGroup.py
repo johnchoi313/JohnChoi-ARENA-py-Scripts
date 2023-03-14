@@ -49,9 +49,10 @@ class ArenaDialogueBubbleGroup():
             printWarning("    " + "Attempting to play sound from URL \"" + key + "\" because no such mapping exists in mappings.py.")
             self.PlaySoundFromUrl(key)
     def PlaySoundFromUrl(self, url):
-        sound = Sound(positional=True, poolSize=1, autoplay=True, src=url)
+        sound = Sound(volume=1, autoplay=True, src=url)
         self.npc.PlaySound(sound)
     def PlaySound(self, sound):
+        printBlack("Playing sound")
         self.npc.data.sound=sound
         self.scene.update_object(self.npc)
 
@@ -115,7 +116,6 @@ class ArenaDialogueBubbleGroup():
     def ClearCommandProperties(self):
         self.npc.data.goto_url = None
         return
-
 
     #runs commands
     def runCommands(self, line):
@@ -261,6 +261,7 @@ class ArenaDialogueBubbleGroup():
 
             self.ClearCommandProperties()
 
+            self.PlaySound(SOUND_CHOICE)
 
     #functions to control choice button click behaviour
     def onClickNextButton(self, scene, evt, msg):
@@ -269,6 +270,8 @@ class ArenaDialogueBubbleGroup():
             self.advanceToNextLine()
 
             self.ClearCommandProperties()
+
+            self.PlaySound(SOUND_NEXT)
 
     '''
     def nodeWithNameExists(self, nodeName):
