@@ -18,6 +18,7 @@ ANIM_TALK = AnimationMixer(clip="NailGun_Idle", loop="repeat")
 MORPH_OPEN  = [Morph(morphtarget="eyeTop",value=0.0), Morph(morphtarget="eyeBottom",value=0.0)]
 MORPH_CLOSE = [Morph(morphtarget="eyeTop",value=0.0), Morph(morphtarget="eyeBottom",value=0.0)]
 MORPH_BLINK = [Morph(morphtarget="eyeTop",value=0.0), Morph(morphtarget="eyeBottom",value=0.0)]
+MORPH_RESET = [Morph(morphtarget="eyeTop",value=0.0), Morph(morphtarget="eyeBottom",value=0.0)]
 
 #---PRE-DEFINED QUICK ACTION MAPPINGS (for use in Yarn, because who wants to type all this out every time?)---#
 
@@ -36,26 +37,28 @@ soundMappings = {
 # --AnimationMixer Schema: https://docs.arenaxr.org/content/schemas/message/animation-mixer.html 
 # --AnimationMixer Example: https://github.com/arenaxr/arena-py/blob/master/examples/attributes/animation_mixer.py 
 animationMappings = {
-    "idle" : AnimationMixer(clip="*", loop="repeat"),
-    "walk" : AnimationMixer(clip="*", loop="repeat"),
-    "talk" : AnimationMixer(clip="*", loop="repeat")
+    "idle" : AnimationMixer(clip="Idle", loop="repeat"),
+    "walk" : AnimationMixer(clip="Walk", loop="repeat"),
+    "talk" : AnimationMixer(clip="NailGun_Idle", loop="repeat")
 }
 
 # Shorthand transform names mapped to transform action over time
 # --Animation Schema: https://docs.arenaxr.org/content/schemas/message/animation.html 
 # --Animation Example: https://github.com/arenaxr/arena-py/blob/master/examples/attributes/animation.py 
 transformMappings = {
+    
+    
     "point1" : [              
-        Animation(property="rotation", end=(0,180,0), easing="linear", dur=1000),
-        Animation(property="position", end=(0,0,-10), easing="linear", dur=1000)   
+        Animation(property="position", end=(0,0,0), easing="linear", dur=1000),  
+        Animation(property="rotation", end=(0,0,0), easing="linear", dur=1000)
     ],
     "point2" : [              
-        Animation(property="rotation", end=(0,180,0), easing="linear", dur=1000),
-        Animation(property="position", end=(0,0,-10), easing="linear", dur=1000)   
+        Animation(property="position", end=(0,0,-10), easing="linear", dur=1000),  
+        Animation(property="rotation", end=(0,180,0), easing="linear", dur=1000)
     ],
     "point3" : [              
-        Animation(property="rotation", end=(0,180,0), easing="linear", dur=1000),
-        Animation(property="position", end=(0,0,-10), easing="linear", dur=1000)   
+        Animation(property="position", end=(10,0,0), easing="linear", dur=1000),
+        Animation(property="rotation", end=(0,180,0), easing="linear", dur=1000)
     ]
 }
 
@@ -63,9 +66,15 @@ transformMappings = {
 # --Morph Schema: https://docs.arenaxr.org/content/python/animations.html#gltf-morphs
 # --Morph Example: https://github.com/arenaxr/arena-py/blob/master/examples/attributes/morph.py
 morphMappings = {
-    "smile" : [Morph(morphtarget="eyeTop",value=0.0), Morph(morphtarget="eyeBottom",value=0.0)],
-    "frown" : [Morph(morphtarget="eyeTop",value=0.0), Morph(morphtarget="eyeBottom",value=0.0)],
-    "blink" : [Morph(morphtarget="eyeTop",value=0.0), Morph(morphtarget="eyeBottom",value=0.0)]
+    "smile" : (Morph(morphtarget="Smile",value=1.0)),
+    "blink" : (Morph(morphtarget="Blink",value=1.0)),
+
+    "open" : (Morph(morphtarget="a",value=1.0)),
+
+    "><" : (Morph(morphtarget="><",value=1.0)),
+    "@@" : (Morph(morphtarget="@@",value=1.0)),
+
+    "reset" : (Morph(morphtarget="Smile",value=0.0), Morph(morphtarget="Blink",value=0.0))
 }
 
 # Shorthand url names mapped to (Website URL, volume, loop)

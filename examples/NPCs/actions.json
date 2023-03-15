@@ -2,7 +2,7 @@
 	{
 		"title": "Morphs",
 		"tags": "",
-		"body": "Here is a list of all the morphs in this dialogue:\n[[Morph_Smile]][[Morph_Frown]]",
+		"body": "Here is a list of all the morphs in this dialogue:\n[[Morph_Smile]][[Morph_Blink]][[Morph_Open]][[Morph_Squint]][[Morph_Dizzy]][[Morph_Reset]]",
 		"position": {
 			"x": -305,
 			"y": -648
@@ -12,7 +12,7 @@
 	{
 		"title": "Animations",
 		"tags": "",
-		"body": "Here is a list of all the animations in this dialogue:\n[[Anim_Idle]][[Anim_Walk]][[Anim_Talk]]",
+		"body": "Here is a list of all the animations in this dialogue:\n[[Anim_Idle]][[Anim_Walk]][[Anim_Talk]][[Anim_Crouch]][[Anim_Jump]][[Anim_Happy]]",
 		"position": {
 			"x": -309,
 			"y": -263
@@ -80,16 +80,6 @@
 		"colorID": 8
 	},
 	{
-		"title": "Morph_Frown",
-		"tags": "",
-		"body": "Playing morph \"frown\": <<morph frown>>\n[[Morphs]][[Actions]][[End]]",
-		"position": {
-			"x": 292,
-			"y": -639
-		},
-		"colorID": 2
-	},
-	{
 		"title": "Anim_Idle",
 		"tags": "",
 		"body": "Playing animation \"idle\": <<animation idle>>\n[[Animations]][[Actions]][[End]]",
@@ -120,12 +110,12 @@
 		"colorID": 3
 	},
 	{
-		"title": "Node_5",
+		"title": "Anim_Crouch",
 		"tags": "",
 		"body": "Playing animation \"idle\": <<animation idle>>\n[[Animations]][[Actions]][[End]]",
 		"position": {
 			"x": 751,
-			"y": -269
+			"y": -261
 		},
 		"colorID": 3
 	},
@@ -174,8 +164,8 @@
 		"tags": "",
 		"body": "Playing transform \"move\": <<transform move>>\n[[Transforms]][[Actions]][[End]]",
 		"position": {
-			"x": 133,
-			"y": 154
+			"x": 139,
+			"y": 158
 		},
 		"colorID": 4
 	},
@@ -184,8 +174,8 @@
 		"tags": "",
 		"body": "Playing transform \"rotate\": <<transform rotate>>\n[[Transforms]][[Actions]][[End]]",
 		"position": {
-			"x": 346,
-			"y": 150
+			"x": 354,
+			"y": 156
 		},
 		"colorID": 4
 	},
@@ -210,12 +200,12 @@
 		"colorID": 4
 	},
 	{
-		"title": "Node_14",
+		"title": "Anim_Jump",
 		"tags": "",
 		"body": "Playing animation \"idle\": <<animation idle>>\n[[Animations]][[Actions]][[End]]",
 		"position": {
-			"x": 970,
-			"y": -275
+			"x": 957,
+			"y": -259
 		},
 		"colorID": 3
 	},
@@ -548,5 +538,65 @@
 			"y": 471
 		},
 		"colorID": 0
+	},
+	{
+		"title": "Morph_Blink",
+		"tags": "",
+		"body": "Playing morph \"frown\": <<morph blink>>\n[[Morphs]][[Actions]][[End]]",
+		"position": {
+			"x": 286,
+			"y": -641
+		},
+		"colorID": 2
+	},
+	{
+		"title": "Morph_Open",
+		"tags": "",
+		"body": "Playing morph \"open\": <<morph open>>\n[[Morphs]][[Actions]][[End]]",
+		"position": {
+			"x": 502,
+			"y": -641
+		},
+		"colorID": 2
+	},
+	{
+		"title": "Morph_Squint",
+		"tags": "",
+		"body": "Playing morph \"squint\": <<morph squint>>\n[[Morphs]][[Actions]][[End]]",
+		"position": {
+			"x": 710,
+			"y": -642
+		},
+		"colorID": 2
+	},
+	{
+		"title": "Morph_Dizzy",
+		"tags": "",
+		"body": "Playing morph \"dizzy\": <<morph dizzy>>\n[[Morphs]][[Actions]][[End]]",
+		"position": {
+			"x": 921,
+			"y": -643
+		},
+		"colorID": 2
+	},
+	{
+		"title": "Morph_Reset",
+		"tags": "",
+		"body": "Playing morph \"reset\": <<morph reset>>\n[[Morphs]][[Actions]][[End]]",
+		"position": {
+			"x": 1136,
+			"y": -641
+		},
+		"colorID": 2
+	},
+	{
+		"title": "Anim_Happy",
+		"tags": "",
+		"body": "Playing animation \"idle\": <<animation idle>>\n[[Animations]][[Actions]][[End]]",
+		"position": {
+			"x": 1170,
+			"y": -260
+		},
+		"colorID": 3
 	}
 ]

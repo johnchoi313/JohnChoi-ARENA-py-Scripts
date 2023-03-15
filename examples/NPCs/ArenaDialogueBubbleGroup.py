@@ -49,28 +49,40 @@ class ArenaDialogueBubbleGroup():
             printWarning("    " + "Attempting to play sound from URL \"" + key + "\" because no such mapping exists in mappings.py.")
             self.PlaySoundFromUrl(key)
     def PlaySoundFromUrl(self, url):
+
+
+        printWhiteB("Play sound from url \'" + url + "\"")
         sound = Sound(volume=1, autoplay=True, src=url)
         self.PlaySound(sound)
-    def PlaySound(self, SOUND):
+    def PlaySound(self, sound):
+
+        printWhiteB("Playing sound...")
+
         self.npc.data.sound=None #resets so can play same sound again
         self.scene.update_object(self.npc)
-        self.npc.data.sound=SOUND
+        self.npc.data.sound=sound
         self.scene.update_object(self.npc)
+
+
 
     #Animations
     def PlayAnimationFromMapping(self, key):
         if(key in animationMappings):
-            self.npc.PlayAnimation(animationMappings[key])
+            self.PlayAnimation(animationMappings[key])
         else: 
             printWarning("    " + "Attempting to play animation from name \"" + key + "\" because no such mapping exists in mappings.py.")
-            self.npc.PlayAnimationFromName(key)
-    def PlayAnimationFromName(self, name):
-        animation = AnimationMixer(clip=name, loop="once")
-        self.npc.PlayAnimation(animation)
-    def PlayAnimation(self, animation):
-        self.npc.dispatch_animation(animation)
-        self.scene.run_animations(self.npc)
+            self.PlayAnimationFromName(key)
 
+    def PlayAnimationFromName(self, name):
+        printWhiteB("Play animation from name \'" + name + "\"")
+        animation = AnimationMixer(clip=name, loop="once")
+        self.PlayAnimation(animation)
+
+    def PlayAnimation(self, animation):
+        printWhiteB("Playing animation...")
+        self.gltf.dispatch_animation(animation)
+        self.scene.run_animations(self.gltf)
+        
     #Transforms
     def PlayTransformFromMapping(self, key):
         if(key in transformMappings):
@@ -78,9 +90,11 @@ class ArenaDialogueBubbleGroup():
         else:
             printWarning("    " + "Cannot play transform \"" + key + "\" because no such mapping exists in mappings.py.")
     def PlayTransform(self, transform):
+        printWhiteB("Playing transform...")
         self.npc.dispatch_animation(transform)
         self.scene.run_animations(self.npc)
-        return
+        self.scene.update_object(self.npc)
+
 
     #Morphs
     def PlayMorphFromMapping(self, key):
@@ -89,7 +103,9 @@ class ArenaDialogueBubbleGroup():
         else:
             printWarning("    " + "Cannot play morph \"" + key + "\" because no such mapping exists in mappings.py.")
     def PlayMorph(self, morphs):
-        self.npc.xr_logo.update_morph(morphs)
+        printWhiteB("Playing morph...")
+        self.gltf.update_morph(morphs)
+        self.scene.update_object(self.gltf)
 
     #GotoUrl
     def PlayUrlFromMapping(self, key):
@@ -99,9 +115,17 @@ class ArenaDialogueBubbleGroup():
             printWarning("    " + "Attempting to directly play URL \"" + key + "\" because no such mapping exists in mappings.py.")
             self.PlayUrl(key)
     def PlayUrl(self, link):
+        printWhiteB("Play url with link \'" + link + "\"")
+        
         gotoUrl = GotoUrl(dest="popup", on="mousedown", url=link)
         self.PlayGotoUrl(gotoUrl)
+
     def PlayGotoUrl(self, gotoUrl):
+
+        printWhiteB("Playing gotoUrl...")
+        self.npc.data.goto_url=None
+        self.scene.update_object(self.npc)
+
         self.npc.data.goto_url=gotoUrl
         self.scene.update_object(self.npc)
         
@@ -197,8 +221,14 @@ class ArenaDialogueBubbleGroup():
                     self.scene.delete_object(self.speechBubble)
 
         for button in self.buttons:
-            self.scene.delete_object(button.box)
-            self.scene.delete_object(button.text)
+            if(button.box != None):
+                if(button.box.object_id != None):
+                    if(self.scene.all_objects.get(button.box.object_id) != None):
+                        self.scene.delete_object(button.box)
+            if(button.text != None):
+                if(button.text.object_id != None):
+                    if(self.scene.all_objects.get(button.text.object_id) != None):
+                        self.scene.delete_object(button.text)
             
         self.commands = []
 
@@ -262,7 +292,8 @@ class ArenaDialogueBubbleGroup():
 
             self.ClearCommandProperties()
 
-            self.PlaySound(SOUND_CHOICE)
+            if(USE_DEFAULT_SOUNDS):
+                self.PlaySound(SOUND_CHOICE)
 
     #functions to control choice button click behaviour
     def onClickNextButton(self, scene, evt, msg):
@@ -272,7 +303,8 @@ class ArenaDialogueBubbleGroup():
 
             self.ClearCommandProperties()
 
-            self.PlaySound(SOUND_NEXT)
+            if(USE_DEFAULT_SOUNDS):
+                self.PlaySound(SOUND_NEXT)
 
     '''
     def nodeWithNameExists(self, nodeName):
