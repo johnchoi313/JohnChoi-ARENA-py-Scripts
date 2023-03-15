@@ -24,6 +24,11 @@ class ArenaDialogueBubbleGroup():
         self.speech = ""
         self.speechIndex = 0
         self.initializeBubbles()
+
+        
+        self.talking = False
+        self.isTalking = False
+
     #reinitializes and restarts the interaction
     def start(self):
         printGreenB("\n(---Starting NPC interaction:---)")
@@ -271,6 +276,15 @@ class ArenaDialogueBubbleGroup():
 
     def randomUUID(self, n = 6):
         return ''.join(random.choices(string.ascii_uppercase + string.digits, k=n))
+
+    def checkIfArenaObjectExists(self, obj):
+        if(obj != None):
+            if(obj.object_id != None):
+                if(self.scene.all_objects.get(obj.object_id) != None):
+                    return True
+
+        return False
+
 
     # ------------------------------------------ #
     # ------------EVENT PROCESSING-------------- #

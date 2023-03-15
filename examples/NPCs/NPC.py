@@ -25,6 +25,9 @@ class NPC:
         self.entered = False
         self.userCount = 0
 
+        self.talking = False
+        
+
         # create Dialogue, and show contents
         self.dialogue = Dialogue(DIALOGUE_FILENAME)
 
@@ -103,16 +106,44 @@ def EnterExit_Handler(): #checks whether or not a user is in range of NPC
     
     npc.userCount = userCount
 
+
+
+
+
 @scene.run_forever(interval_ms=SPEECH_INTERVAL)
 def Speech_Handler(): #iteratively adds characters to speech bubble
-    if(npc.bubbles.speechBubble != None):
-        if(npc.bubbles.speechBubble.object_id != None):
-            if(npc.bubbles.scene.all_objects.get(npc.bubbles.speechBubble.object_id) != None):
-                if(0 <= npc.bubbles.speechIndex and npc.bubbles.speechIndex < len(npc.bubbles.speech)):
-                    npc.bubbles.speechIndex += 1
-                else:
-                    npc.bubbles.speechIndex = len(npc.bubbles.speech)
-                npc.bubbles.speechBubble.data.text = npc.bubbles.speech[:npc.bubbles.speechIndex]
-                scene.update_object(npc.bubbles.speechBubble)
+    
+    if(npc.bubbles.checkIfArenaObjectExists(npc.bubbles.speechBubble)):
+    
+        if(0 <= npc.bubbles.speechIndex and npc.bubbles.speechIndex < len(npc.bubbles.speech)):
+            npc.bubbles.speechIndex += 1
+        
+            if(not npc.talking):
+                npc.bubbles.PlayAnimation(ANIM_TALK)
+
+            npc.talking = True
+
+        else:
+            npc.bubbles.speechIndex = len(npc.bubbles.speech)
+
+            if(npc.talking):
+                npc.bubbles.PlayAnimation(ANIM_IDLE)
+
+            npc.talking = False
+
+        '''
+        if(npc.isTalking != npc.talking):
+            if(npc.talking):
+                printWhiteB("Changed from talking to not talking")
+                npc.bubbles.PlayAnimation(ANIM_IDLE)
+            else:
+                printWhiteB("Changed from not talking to talking")
+                npc.bubbles.PlayAnimation(ANIM_TALK)
+        '''
+
+        npc.isTalking = npc.talking
+
+        npc.bubbles.speechBubble.data.text = npc.bubbles.speech[:npc.bubbles.speechIndex]
+        scene.update_object(npc.bubbles.speechBubble)
 
 scene.run_tasks()

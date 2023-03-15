@@ -10,9 +10,9 @@ SOUND_EXIT    = Sound(volume=0.8, autoplay=True, positional=True, src="store/use
 SOUND_TALKING = Sound(volume=1.0, autoplay=True, positional=True, src="store/users/johnchoi/Sounds/NPC/Talking.wav")
 
 #DEFAULT ANIMATIONS (set these to None if you don't want default animations, or set USE_DEFAULT_ANIMATIONS = False)
-ANIM_IDLE = AnimationMixer(clip="Idle", loop="repeat")
-ANIM_WALK = AnimationMixer(clip="Walk", loop="repeat")
-ANIM_TALK = AnimationMixer(clip="NailGun_Idle", loop="repeat")
+ANIM_IDLE = AnimationMixer(clip="Idle", loop="repeat", crossFadeDuration=0.5)
+ANIM_WALK = AnimationMixer(clip="Walk", loop="repeat", crossFadeDuration=0.5)
+ANIM_TALK = AnimationMixer(clip="NailGun_Idle", loop="repeat", crossFadeDuration=0.5)
 
 #DEFAULT MORPHS (set these to None if you don't want default morphs, or set USE_DEFAULT_MORPHS = False)
 MORPH_OPEN  = [Morph(morphtarget="eyeTop",value=0.0), Morph(morphtarget="eyeBottom",value=0.0)]
@@ -66,15 +66,12 @@ transformMappings = {
 # --Morph Schema: https://docs.arenaxr.org/content/python/animations.html#gltf-morphs
 # --Morph Example: https://github.com/arenaxr/arena-py/blob/master/examples/attributes/morph.py
 morphMappings = {
-    "smile" : (Morph(morphtarget="Smile",value=1.0)),
-    "blink" : (Morph(morphtarget="Blink",value=1.0)),
-
-    "open" : (Morph(morphtarget="a",value=1.0)),
-
-    "><" : (Morph(morphtarget="><",value=1.0)),
-    "@@" : (Morph(morphtarget="@@",value=1.0)),
-
-    "reset" : (Morph(morphtarget="Smile",value=0.0), Morph(morphtarget="Blink",value=0.0))
+    "smile" :  (Morph(morphtarget="Smile",value=1.0)),
+    "blink" :  (Morph(morphtarget="Blink",value=1.0)),
+    "open" :   (Morph(morphtarget="a",value=1.0)),
+    "squint" : (Morph(morphtarget="><",value=1.0)),
+    "dizzy" :  (Morph(morphtarget="@@",value=1.0)),
+    "reset" :  (Morph(morphtarget="Smile",value=0.0), Morph(morphtarget="Blink",value=0.0))
 }
 
 # Shorthand url names mapped to (Website URL, volume, loop)
