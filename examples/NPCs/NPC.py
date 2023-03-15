@@ -27,15 +27,14 @@ class NPC:
 
         self.talking = False
         
-
         # create Dialogue, and show contents
         self.dialogue = Dialogue(DIALOGUE_FILENAME)
 
         #NPC ROOT OBJECT (with debug box)
         self.root = Box(
             object_id=NPC_NAME,
-            position=ROOT_POSITION,
-            rotation=ROOT_ROTATION,
+            #position=ROOT_POSITION,
+            #rotation=ROOT_ROTATION,
             scale=ROOT_SCALE,
             color=ROOT_COLOR,
             material = Material(opacity=ROOT_OPACITY, transparent=True),
@@ -85,9 +84,9 @@ def EnterExit_Handler(): #checks whether or not a user is in range of NPC
         sceneUserCount = 0
 
     for user in scene.get_user_list():
-        if user.data.position.distance_to(npc.root.data.position) <= ENTER_DISTANCE:
-            userCount+=1
-
+        #if user.data.position.distance_to(npc.root.data.position) <= ENTER_DISTANCE:
+        userCount+=1
+    
     if(npc.userCount != userCount):
         printLightRedB(str(userCount) + " users in area of NPC with name \"" + NPC_NAME + "\".")
         if(userCount > 0 and npc.entered == False): # At least one user in range of NPC starts interaction.
@@ -115,33 +114,41 @@ def Speech_Handler(): #iteratively adds characters to speech bubble
     
     if(npc.bubbles.checkIfArenaObjectExists(npc.bubbles.speechBubble)):
     
-        if(0 <= npc.bubbles.speechIndex and npc.bubbles.speechIndex < len(npc.bubbles.speech)):
-            npc.bubbles.speechIndex += 1
-        
-            if(not npc.talking):
-                npc.bubbles.PlayAnimation(ANIM_TALK)
 
-            npc.talking = True
+        #if walking, let walk, hide buttons
+        if(npc.bubbles.transformTimer > 0):
+            npc.bubbles.transformTimer = npc.bubbles.transformTimer - SPEECH_INTERVAL
+
 
         else:
-            npc.bubbles.speechIndex = len(npc.bubbles.speech)
 
-            if(npc.talking):
-                npc.bubbles.PlayAnimation(ANIM_IDLE)
+            if(0 <= npc.bubbles.speechIndex and npc.bubbles.speechIndex < len(npc.bubbles.speech)):
+                npc.bubbles.speechIndex += 1
+            
+                if(USE_DEFAULT_ANIMATIONS and not npc.talking and not npc.bubbles.animationUsedThisLine):
+                    npc.bubbles.PlayAnimation(ANIM_TALK)
 
-            npc.talking = False
+                npc.talking = True
 
-        '''
-        if(npc.isTalking != npc.talking):
-            if(npc.talking):
-                printWhiteB("Changed from talking to not talking")
-                npc.bubbles.PlayAnimation(ANIM_IDLE)
             else:
-                printWhiteB("Changed from not talking to talking")
-                npc.bubbles.PlayAnimation(ANIM_TALK)
-        '''
+                npc.bubbles.speechIndex = len(npc.bubbles.speech)
 
-        npc.isTalking = npc.talking
+                if(USE_DEFAULT_ANIMATIONS and npc.talking and not npc.bubbles.animationUsedThisLine):
+                    npc.bubbles.PlayAnimation(ANIM_IDLE)
+
+                npc.talking = False
+
+            '''
+            if(npc.isTalking != npc.talking):
+                if(npc.talking):
+                    printWhiteB("Changed from talking to not talking")
+                    npc.bubbles.PlayAnimation(ANIM_IDLE)
+                else:
+                    printWhiteB("Changed from not talking to talking")
+                    npc.bubbles.PlayAnimation(ANIM_TALK)
+            '''
+
+            npc.isTalking = npc.talking
 
         npc.bubbles.speechBubble.data.text = npc.bubbles.speech[:npc.bubbles.speechIndex]
         scene.update_object(npc.bubbles.speechBubble)

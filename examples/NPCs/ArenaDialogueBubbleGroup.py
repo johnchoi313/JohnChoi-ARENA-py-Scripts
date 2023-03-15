@@ -25,15 +25,21 @@ class ArenaDialogueBubbleGroup():
         self.speechIndex = 0
         self.initializeBubbles()
 
-        
-        self.talking = False
-        self.isTalking = False
+        self.animationUsedThisLine = False
+        self.transformUsedThisLine = False
+
+        self.lastTransform = TRANSFORM_RESET
+        self.transformTimer = 0
+
 
     #reinitializes and restarts the interaction
     def start(self):
         printGreenB("\n(---Starting NPC interaction:---)")
         self.clearButtons()
         self.initializeBubbles()
+
+        self.PlayTransform(self.lastTransform)
+
     #creates new bubbles
     def initializeBubbles(self, line = None):
         if(line == None):
@@ -80,7 +86,7 @@ class ArenaDialogueBubbleGroup():
 
     def PlayAnimationFromName(self, name):
         printWhiteB("Play animation from name \'" + name + "\"")
-        animation = AnimationMixer(clip=name, loop="once")
+        animation = AnimationMixer(clip=name, loop="once", crossFadeDuration=0.5, timeScale = 1)
         self.PlayAnimation(animation)
 
     def PlayAnimation(self, animation):
@@ -98,7 +104,13 @@ class ArenaDialogueBubbleGroup():
         printWhiteB("Playing transform...")
         self.npc.dispatch_animation(transform)
         self.scene.run_animations(self.npc)
-        self.scene.update_object(self.npc)
+        #self.scene.update_object(self.npc)
+
+
+        if(self.lastTransform == transform):
+            self.transformUsedThisLine = False
+        else:
+            self.lastTransform = transform
 
 
     #Morphs
@@ -133,7 +145,11 @@ class ArenaDialogueBubbleGroup():
 
         self.npc.data.goto_url=gotoUrl
         self.scene.update_object(self.npc)
-        
+        #urls are persistent? I don't know why
+        self.npc.data.goto_url=None
+        self.scene.update_object(self.npc)
+
+
     #Visibility
     def SetVisible(self, key, visible):            
         if (self.scene.all_objects.get(key) is not None):
@@ -150,6 +166,8 @@ class ArenaDialogueBubbleGroup():
     #runs commands
     def runCommands(self, line):
         commands = line.commands
+        self.animationUsedThisLine = False
+        self.transformUsedThisLine = False
 
         #print details
         for c in range(len(commands)):            
@@ -159,6 +177,7 @@ class ArenaDialogueBubbleGroup():
                 for a in range(len(commands[c].args)):
                     printGreen(     "          --commandArgs["+str(a)+"]: " + commands[c].args[a])
                 
+    
         #run through each command: 
         #--parentheses () optional for one argument, required for multiple, separated by commas.
         for command in commands:
@@ -190,13 +209,15 @@ class ArenaDialogueBubbleGroup():
             #<<animation ("animationMappingName")>>
             elif(command.type.lower() == "animation".lower()):
                 printYellow("    " + command.text)
+                self.animationUsedThisLine = True
                 self.PlayAnimationFromMapping(command.args[0])
-
+                
             #<<transform ("transformMappingName")>>
             elif(command.type.lower() == "transform".lower()):
                 printYellow("    " + command.text)
+                self.transformUsedThisLine = True
                 self.PlayTransformFromMapping(command.args[0])
-
+                
             #<<morph ("morphMappingName")>>
             elif(command.type.lower() == "morph".lower()):
                 printYellow("    " + command.text)
@@ -207,6 +228,12 @@ class ArenaDialogueBubbleGroup():
                 printYellow("    " + command.text)
                 self.PlayUrlFromMapping(command.args[0])
 
+
+        if(self.transformUsedThisLine):
+            self.PlayAnimation(ANIM_WALK)
+            self.transformTimer = TRANSFORM_TIMER
+        else:
+            self.PlayTransform(self.lastTransform)
 
         return
 
@@ -220,20 +247,16 @@ class ArenaDialogueBubbleGroup():
         self.runCommands(line)
         
     def clearButtons(self):
-        if(self.speechBubble != None):
-            if(self.speechBubble.object_id != None):
-                if(self.scene.all_objects.get(self.speechBubble.object_id) != None):
-                    self.scene.delete_object(self.speechBubble)
+
+        
+        if(self.checkIfArenaObjectExists(self.speechBubble)):
+            self.scene.delete_object(self.speechBubble)
 
         for button in self.buttons:
-            if(button.box != None):
-                if(button.box.object_id != None):
-                    if(self.scene.all_objects.get(button.box.object_id) != None):
-                        self.scene.delete_object(button.box)
-            if(button.text != None):
-                if(button.text.object_id != None):
-                    if(self.scene.all_objects.get(button.text.object_id) != None):
-                        self.scene.delete_object(button.text)
+            if(self.checkIfArenaObjectExists(button.box)):
+                self.scene.delete_object(button.box)
+            if(self.checkIfArenaObjectExists(button.text)):
+                self.scene.delete_object(button.text)
             
         self.commands = []
 
@@ -263,12 +286,12 @@ class ArenaDialogueBubbleGroup():
         
                 choiceButton = Button(self.scene, self.npc, self.npc.object_id + "_choiceButton_" + self.randomUUID(UUID_LEN)+"_"+str(c), choices[c].text, self.onClickChoiceButton, 
                                       position = (CHOICE_BUBBLE_POSITION[0], CHOICE_BUBBLE_POSITION[1] + (len(choices) - c - 1) * CHOICE_BUBBLE_OFFSET_Y, CHOICE_BUBBLE_POSITION[2]), 
-                                      color = CHOICE_BUBBLE_COLOR, textColor = CHOICE_TEXT_COLOR)
+                                      buttonScale = CHOICE_BUBBLE_SCALE, textScale = CHOICE_TEXT_SCALE, color = CHOICE_BUBBLE_COLOR, textColor = CHOICE_TEXT_COLOR)
 
                 self.buttons.append(choiceButton)
         else: 
             nextButton = Button(self.scene, self.npc, self.npc.object_id + "_nextButton_" + self.randomUUID(UUID_LEN), "[Next]", self.onClickNextButton, 
-                                position = CHOICE_BUBBLE_POSITION, color = CHOICE_BUBBLE_COLOR, textColor = CHOICE_TEXT_COLOR)
+                                position = CHOICE_BUBBLE_POSITION, buttonScale = CHOICE_BUBBLE_SCALE, textScale = CHOICE_TEXT_SCALE, color = CHOICE_BUBBLE_COLOR, textColor = CHOICE_TEXT_COLOR)
                 
             self.buttons.append(nextButton)
 

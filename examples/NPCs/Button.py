@@ -7,12 +7,12 @@ from YarnParser import *
 from ColorPrinter import *
 
 class Button():
-    def __init__(self, scene, npc, name, text, eventHandler, position, color, textColor):
+    def __init__(self, scene, npc, name, text, eventHandler, position, buttonScale, textScale, color, textColor):
         self.scene = scene
         self.npc = npc
 
-        self.box = self.makeButtonBox(name, text, eventHandler, color, position, buttonTextColor=textColor)
-        self.text = self.makeButtonText(self.box, name, text, buttonColor=textColor)
+        self.box = self.makeButtonBox(name, text, eventHandler, color, position, buttonTextColor=textColor, buttonScale = buttonScale)
+        self.text = self.makeButtonText(self.box, name, text, buttonColor=textColor, buttonScale = textScale)
 
     def makeButtonText(self, button, buttonID, buttonText, buttonColor = (255,255,255), buttonPos = (0, 0, 0.5), buttonRot = (0,0,0), buttonScale = (0.5, 2, 1)):
         buttonText = Text(

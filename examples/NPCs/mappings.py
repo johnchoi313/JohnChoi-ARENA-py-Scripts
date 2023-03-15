@@ -1,4 +1,6 @@
 from arena import *
+from config import *
+from mappings import *
 
 #---PRE-DEFINED DEFAULT ACTIONS (triggered when talking/moving/clicking/etc)---#
 
@@ -10,15 +12,18 @@ SOUND_EXIT    = Sound(volume=0.8, autoplay=True, positional=True, src="store/use
 SOUND_TALKING = Sound(volume=1.0, autoplay=True, positional=True, src="store/users/johnchoi/Sounds/NPC/Talking.wav")
 
 #DEFAULT ANIMATIONS (set these to None if you don't want default animations, or set USE_DEFAULT_ANIMATIONS = False)
-ANIM_IDLE = AnimationMixer(clip="Idle", loop="repeat", crossFadeDuration=0.5)
-ANIM_WALK = AnimationMixer(clip="Walk", loop="repeat", crossFadeDuration=0.5)
-ANIM_TALK = AnimationMixer(clip="NailGun_Idle", loop="repeat", crossFadeDuration=0.5)
+ANIM_IDLE = AnimationMixer(clip="Idle", loop="repeat", timeScale = 1, crossFadeDuration=0.5)
+ANIM_WALK = AnimationMixer(clip="Walk", loop="repeat", timeScale = 2, crossFadeDuration=0.5)
+ANIM_TALK = AnimationMixer(clip="NailGun_Idle", loop="repeat", timeScale = 1, crossFadeDuration=0.5)
 
 #DEFAULT MORPHS (set these to None if you don't want default morphs, or set USE_DEFAULT_MORPHS = False)
 MORPH_OPEN  = [Morph(morphtarget="eyeTop",value=0.0), Morph(morphtarget="eyeBottom",value=0.0)]
 MORPH_CLOSE = [Morph(morphtarget="eyeTop",value=0.0), Morph(morphtarget="eyeBottom",value=0.0)]
 MORPH_BLINK = [Morph(morphtarget="eyeTop",value=0.0), Morph(morphtarget="eyeBottom",value=0.0)]
 MORPH_RESET = [Morph(morphtarget="eyeTop",value=0.0), Morph(morphtarget="eyeBottom",value=0.0)]
+
+TRANSFORM_RESET = [ Animation(property="position", end=ROOT_POSITION, easing="easeInOutSine", dur=TRANSFORM_TIMER), 
+                    Animation(property="rotation", end=ROOT_ROTATION, easing="linear", dur=TRANSFORM_TIMER*0.5) ]
 
 #---PRE-DEFINED QUICK ACTION MAPPINGS (for use in Yarn, because who wants to type all this out every time?)---#
 
@@ -37,9 +42,14 @@ soundMappings = {
 # --AnimationMixer Schema: https://docs.arenaxr.org/content/schemas/message/animation-mixer.html 
 # --AnimationMixer Example: https://github.com/arenaxr/arena-py/blob/master/examples/attributes/animation_mixer.py 
 animationMappings = {
-    "idle" : AnimationMixer(clip="Idle", loop="repeat"),
-    "walk" : AnimationMixer(clip="Walk", loop="repeat"),
-    "talk" : AnimationMixer(clip="NailGun_Idle", loop="repeat")
+    "idle" : AnimationMixer(clip="Idle", loop="repeat", crossFadeDuration=0.5, timeScale = 1),
+    "walk" : AnimationMixer(clip="Walk", loop="repeat", crossFadeDuration=0.5, timeScale = 1),
+    "talk" : AnimationMixer(clip="NailGun_Idle", loop="repeat", crossFadeDuration=0.5, timeScale = 1),
+    
+    "crouch" : AnimationMixer(clip="Crouch", loop="repeat", crossFadeDuration=0.5, timeScale = 1),
+    "jump"   : AnimationMixer(clip="Jump", loop="once", crossFadeDuration=0.5, timeScale = 1),
+    "happy"  : AnimationMixer(clip="Happy", loop="once", crossFadeDuration=0.5, timeScale = 1)
+
 }
 
 # Shorthand transform names mapped to transform action over time
@@ -49,16 +59,16 @@ transformMappings = {
     
     
     "point1" : [              
-        Animation(property="position", end=(0,0,0), easing="linear", dur=1000),  
-        Animation(property="rotation", end=(0,0,0), easing="linear", dur=1000)
+        Animation(property="position", end=(0,0,0), easing="easeInOutSine", dur=TRANSFORM_TIMER),  
+        Animation(property="rotation", end=(0,0,0), easing="linear", dur=TRANSFORM_TIMER*0.5)
     ],
     "point2" : [              
-        Animation(property="position", end=(0,0,-10), easing="linear", dur=1000),  
-        Animation(property="rotation", end=(0,180,0), easing="linear", dur=1000)
+        Animation(property="position", end=(0,0,-10), easing="easeInOutSine", dur=TRANSFORM_TIMER),  
+        Animation(property="rotation", end=(0,300*DTR,0), easing="linear", dur=TRANSFORM_TIMER*0.5)
     ],
     "point3" : [              
-        Animation(property="position", end=(10,0,0), easing="linear", dur=1000),
-        Animation(property="rotation", end=(0,180,0), easing="linear", dur=1000)
+        Animation(property="position", end=(10,0,0), easing="easeInOutSine", dur=TRANSFORM_TIMER),
+        Animation(property="rotation", end=(0,180*DTR,0), easing="linear", dur=TRANSFORM_TIMER*0.5)
     ]
 }
 

@@ -112,9 +112,9 @@
 	{
 		"title": "Anim_Crouch",
 		"tags": "",
-		"body": "Playing animation \"idle\": <<animation idle>>\n[[Animations]][[Actions]][[End]]",
+		"body": "Playing animation \"crouch\": <<animation crouch>>\n[[Animations]][[Actions]][[End]]",
 		"position": {
-			"x": 751,
+			"x": 752,
 			"y": -261
 		},
 		"colorID": 3
@@ -202,10 +202,10 @@
 	{
 		"title": "Anim_Jump",
 		"tags": "",
-		"body": "Playing animation \"idle\": <<animation idle>>\n[[Animations]][[Actions]][[End]]",
+		"body": "Playing animation \"jump\": <<animation jump>>\n[[Animations]][[Actions]][[End]]",
 		"position": {
-			"x": 957,
-			"y": -259
+			"x": 959,
+			"y": -257
 		},
 		"colorID": 3
 	},
@@ -592,10 +592,10 @@
 	{
 		"title": "Anim_Happy",
 		"tags": "",
-		"body": "Playing animation \"idle\": <<animation idle>>\n[[Animations]][[Actions]][[End]]",
+		"body": "Playing animation \"happy\": <<animation happy>>\n[[Animations]][[Actions]][[End]]",
 		"position": {
-			"x": 1170,
-			"y": -260
+			"x": 1171,
+			"y": -262
 		},
 		"colorID": 3
 	}
