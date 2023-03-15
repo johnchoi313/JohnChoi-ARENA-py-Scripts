@@ -230,7 +230,8 @@ class ArenaDialogueBubbleGroup():
 
 
         if(self.transformUsedThisLine):
-            self.PlayAnimation(ANIM_WALK)
+            if(USE_DEFAULT_ANIMATIONS):
+                self.PlayAnimation(ANIM_WALK)
             self.transformTimer = TRANSFORM_TIMER
         else:
             self.PlayTransform(self.lastTransform)

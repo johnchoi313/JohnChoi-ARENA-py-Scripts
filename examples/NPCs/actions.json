@@ -22,7 +22,7 @@
 	{
 		"title": "Transforms",
 		"tags": "",
-		"body": "Here is a list of all the transforms in this dialogue:\n[[Transform_Move]][[Transform_Move]][[Transform_Point1]][[Transform_Point2]][[Transform_Point3]]",
+		"body": "Here is a list of all the transforms in this dialogue:\n[[Transform_Point4]][[Transform_Point4]][[Transform_Point1]][[Transform_Point2]][[Transform_Point3]]",
 		"position": {
 			"x": -301,
 			"y": 159
@@ -160,22 +160,22 @@
 		"colorID": 1
 	},
 	{
-		"title": "Transform_Move",
+		"title": "Transform_Point4",
 		"tags": "",
 		"body": "Playing transform \"move\": <<transform move>>\n[[Transforms]][[Actions]][[End]]",
 		"position": {
-			"x": 139,
-			"y": 158
+			"x": 963,
+			"y": 151
 		},
 		"colorID": 4
 	},
 	{
-		"title": "Transform_Rotate",
+		"title": "Transform_Point0",
 		"tags": "",
 		"body": "Playing transform \"rotate\": <<transform rotate>>\n[[Transforms]][[Actions]][[End]]",
 		"position": {
-			"x": 354,
-			"y": 156
+			"x": 107,
+			"y": 149
 		},
 		"colorID": 4
 	},
@@ -184,8 +184,8 @@
 		"tags": "",
 		"body": "Playing transform \"point1\": <<transform point1>>\n[[Transforms]][[Actions]][[End]]",
 		"position": {
-			"x": 564,
-			"y": 157
+			"x": 317,
+			"y": 150
 		},
 		"colorID": 4
 	},
@@ -194,8 +194,8 @@
 		"tags": "",
 		"body": "Playing transform \"point2\": <<transform point2>>\n[[Transforms]][[Actions]][[End]]",
 		"position": {
-			"x": 774,
-			"y": 155
+			"x": 527,
+			"y": 148
 		},
 		"colorID": 4
 	},
@@ -214,8 +214,8 @@
 		"tags": "",
 		"body": "Playing transform \"point3\": <<transform point3>>\n[[Transforms]][[Actions]][[End]]",
 		"position": {
-			"x": 993,
-			"y": 158
+			"x": 746,
+			"y": 151
 		},
 		"colorID": 4
 	},

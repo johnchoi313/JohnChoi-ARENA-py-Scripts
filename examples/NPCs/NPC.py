@@ -125,28 +125,31 @@ def Speech_Handler(): #iteratively adds characters to speech bubble
             if(0 <= npc.bubbles.speechIndex and npc.bubbles.speechIndex < len(npc.bubbles.speech)):
                 npc.bubbles.speechIndex += 1
             
+                #start talking animation if not started already
                 if(USE_DEFAULT_ANIMATIONS and not npc.talking and not npc.bubbles.animationUsedThisLine):
                     npc.bubbles.PlayAnimation(ANIM_TALK)
 
+                #move mouth up and down if blendshapes applicable
+                if(USE_DEFAULT_MORPHS):
+                    if(npc.bubbles.speechIndex % 2 == 0):
+                        npc.bubbles.PlayMorph(MORPH_OPEN)
+                    else:
+                        npc.bubbles.PlayMorph(MORPH_CLOSE)
+                    
                 npc.talking = True
 
             else:
                 npc.bubbles.speechIndex = len(npc.bubbles.speech)
 
+                #play idle if not started already.
                 if(USE_DEFAULT_ANIMATIONS and npc.talking and not npc.bubbles.animationUsedThisLine):
                     npc.bubbles.PlayAnimation(ANIM_IDLE)
 
-                npc.talking = False
+                #close mouth if blendshapes applicable
+                if(USE_DEFAULT_MORPHS and npc.talking):
+                    npc.bubbles.PlayMorph(MORPH_CLOSE)
 
-            '''
-            if(npc.isTalking != npc.talking):
-                if(npc.talking):
-                    printWhiteB("Changed from talking to not talking")
-                    npc.bubbles.PlayAnimation(ANIM_IDLE)
-                else:
-                    printWhiteB("Changed from not talking to talking")
-                    npc.bubbles.PlayAnimation(ANIM_TALK)
-            '''
+                npc.talking = False
 
             npc.isTalking = npc.talking
 
