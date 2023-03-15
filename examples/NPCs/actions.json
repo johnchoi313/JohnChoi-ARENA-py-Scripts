@@ -4,7 +4,7 @@
 		"tags": "",
 		"body": "Here is a list of all the morphs in this dialogue:\n[[Morph_Smile]][[Morph_Blink]][[Morph_Open]][[Morph_Squint]][[Morph_Dizzy]][[Morph_Reset]]",
 		"position": {
-			"x": -305,
+			"x": -303,
 			"y": -648
 		},
 		"colorID": 2
@@ -14,7 +14,7 @@
 		"tags": "",
 		"body": "Here is a list of all the animations in this dialogue:\n[[Anim_Idle]][[Anim_Walk]][[Anim_Talk]][[Anim_Crouch]][[Anim_Jump]][[Anim_Happy]]",
 		"position": {
-			"x": -309,
+			"x": -304,
 			"y": -263
 		},
 		"colorID": 3
@@ -24,17 +24,17 @@
 		"tags": "",
 		"body": "Here is a list of all the transforms in this dialogue:\n[[Transform_Point4]][[Transform_Point4]][[Transform_Point1]][[Transform_Point2]][[Transform_Point3]]",
 		"position": {
-			"x": -301,
-			"y": 159
+			"x": -297,
+			"y": 160
 		},
 		"colorID": 4
 	},
 	{
 		"title": "Exit",
 		"tags": "",
-		"body": "Empty Text",
+		"body": "You went out of the range of the NPC character!\nCome closer to reinitiate dialogue.",
 		"position": {
-			"x": -1864,
+			"x": -1862,
 			"y": -1113
 		},
 		"colorID": 0
@@ -42,9 +42,9 @@
 	{
 		"title": "Enter",
 		"tags": "",
-		"body": "Empty Text\n[[Actions]][[Dialogue]][[Exit]]",
+		"body": "Hello! This is the test Yarn file for the NPC character.\nPress \"Actions\" to test linked command actions, or \"Dialogue\" to run a simple dialogue.\n[[Actions]][[Dialogue]][[Exit]]",
 		"position": {
-			"x": -1532,
+			"x": -1530,
 			"y": -1111
 		},
 		"colorID": 0
@@ -54,7 +54,7 @@
 		"tags": "",
 		"body": "Here is a list of all the sounds in this dialogue:\n[[Sound_Next]][[Sound_Choice]][[Sound_Enter]][[Sound_Exit]][[Sound_Talking]]",
 		"position": {
-			"x": -312,
+			"x": -310,
 			"y": -1013
 		},
 		"colorID": 1
@@ -64,7 +64,7 @@
 		"tags": "",
 		"body": "Playing morph \"smile\": <<morph smile>>\n[[Morphs]][[Actions]][[End]]",
 		"position": {
-			"x": 71,
+			"x": 73,
 			"y": -641
 		},
 		"colorID": 2
@@ -72,9 +72,9 @@
 	{
 		"title": "End",
 		"tags": "",
-		"body": "Empty Text\n[[Restart|Enter]]",
+		"body": "This is the end. \nClick \"Restart\" to back to main menu.\n[[Restart|Enter]]",
 		"position": {
-			"x": 2162,
+			"x": 2164,
 			"y": -481
 		},
 		"colorID": 8
@@ -84,7 +84,7 @@
 		"tags": "",
 		"body": "Playing animation \"idle\": <<animation idle>>\n[[Animations]][[Actions]][[End]]",
 		"position": {
-			"x": 113,
+			"x": 118,
 			"y": -255
 		},
 		"colorID": 3
@@ -94,7 +94,7 @@
 		"tags": "",
 		"body": "Playing animation \"walk\": <<animation walk>>\n[[Animations]][[Actions]][[End]]",
 		"position": {
-			"x": 323,
+			"x": 328,
 			"y": -258
 		},
 		"colorID": 3
@@ -104,7 +104,7 @@
 		"tags": "",
 		"body": "Playing animation \"talk\": <<animation talk>>\n[[Animations]][[Actions]][[End]]",
 		"position": {
-			"x": 543,
+			"x": 548,
 			"y": -262
 		},
 		"colorID": 3
@@ -114,7 +114,7 @@
 		"tags": "",
 		"body": "Playing animation \"crouch\": <<animation crouch>>\n[[Animations]][[Actions]][[End]]",
 		"position": {
-			"x": 752,
+			"x": 757,
 			"y": -261
 		},
 		"colorID": 3
@@ -124,7 +124,7 @@
 		"tags": "",
 		"body": "Playing sound \"next\": <<sound next>>\n[[Sounds]][[Actions]][[End]]",
 		"position": {
-			"x": 38,
+			"x": 40,
 			"y": -1016
 		},
 		"colorID": 1
@@ -134,7 +134,7 @@
 		"tags": "",
 		"body": "Playing sound \"choice\": <<sound choice>>\n[[Sounds]][[Actions]][[End]]",
 		"position": {
-			"x": 249,
+			"x": 251,
 			"y": -1019
 		},
 		"colorID": 1
@@ -144,7 +144,7 @@
 		"tags": "",
 		"body": "Playing sound \"enter\": <<sound enter>>\n[[Sounds]][[Actions]][[End]]",
 		"position": {
-			"x": 473,
+			"x": 475,
 			"y": -1018
 		},
 		"colorID": 1
@@ -154,7 +154,7 @@
 		"tags": "",
 		"body": "Playing sound \"exit\": <<sound exit>>\n[[Sounds]][[Actions]][[End]]",
 		"position": {
-			"x": 692,
+			"x": 694,
 			"y": -1025
 		},
 		"colorID": 1
@@ -162,20 +162,20 @@
 	{
 		"title": "Transform_Point4",
 		"tags": "",
-		"body": "Playing transform \"move\": <<transform move>>\n[[Transforms]][[Actions]][[End]]",
+		"body": "Playing transform \"point4\": <<transform point4>>\n[[Transforms]][[Actions]][[End]]",
 		"position": {
-			"x": 963,
-			"y": 151
+			"x": 967,
+			"y": 152
 		},
 		"colorID": 4
 	},
 	{
 		"title": "Transform_Point0",
 		"tags": "",
-		"body": "Playing transform \"rotate\": <<transform rotate>>\n[[Transforms]][[Actions]][[End]]",
+		"body": "Playing transform \"point0\": <<transform point0>>\n[[Transforms]][[Actions]][[End]]",
 		"position": {
-			"x": 107,
-			"y": 149
+			"x": 111,
+			"y": 150
 		},
 		"colorID": 4
 	},
@@ -184,8 +184,8 @@
 		"tags": "",
 		"body": "Playing transform \"point1\": <<transform point1>>\n[[Transforms]][[Actions]][[End]]",
 		"position": {
-			"x": 317,
-			"y": 150
+			"x": 321,
+			"y": 151
 		},
 		"colorID": 4
 	},
@@ -194,8 +194,8 @@
 		"tags": "",
 		"body": "Playing transform \"point2\": <<transform point2>>\n[[Transforms]][[Actions]][[End]]",
 		"position": {
-			"x": 527,
-			"y": 148
+			"x": 531,
+			"y": 149
 		},
 		"colorID": 4
 	},
@@ -204,7 +204,7 @@
 		"tags": "",
 		"body": "Playing animation \"jump\": <<animation jump>>\n[[Animations]][[Actions]][[End]]",
 		"position": {
-			"x": 959,
+			"x": 964,
 			"y": -257
 		},
 		"colorID": 3
@@ -214,18 +214,18 @@
 		"tags": "",
 		"body": "Playing transform \"point3\": <<transform point3>>\n[[Transforms]][[Actions]][[End]]",
 		"position": {
-			"x": 746,
-			"y": 151
+			"x": 750,
+			"y": 152
 		},
 		"colorID": 4
 	},
 	{
 		"title": "Actions",
 		"tags": "",
-		"body": "Empty Text\n[[Sounds]][[Morphs]][[Transforms]][[Animations]][[URLs]]\n[[End]]",
+		"body": "Empty Text\n[[Sounds]][[Morphs]][[Transforms]][[Animations]][[URLs]][[Miscellaneous]]\n[[End]]",
 		"position": {
-			"x": -870,
-			"y": -487
+			"x": -864,
+			"y": -441
 		},
 		"colorID": 8
 	},
@@ -234,7 +234,7 @@
 		"tags": "",
 		"body": "Playing sound \"talking\": <<sound talking>>\n[[Sounds]][[Actions]][[End]]",
 		"position": {
-			"x": 906,
+			"x": 908,
 			"y": -1029
 		},
 		"colorID": 1
@@ -244,307 +244,307 @@
 		"tags": "",
 		"body": "ChatGPT generated to query:\n\"make a simple dialogue tree about a topic of your choice.\"\nSure, here's a simple dialogue tree about learning a new programming language:\n[[Play Dialogue|Intro]]",
 		"position": {
-			"x": -1491,
+			"x": -1489,
 			"y": -1950
 		},
-		"colorID": 0
+		"colorID": 6
 	},
 	{
 		"title": "Conclusion",
 		"tags": "",
 		"body": "This is just a basic example of a dialogue tree about learning a new programming language. \nDepending on the language and the audience, the tree could be much more complex and tailored to the learner's needs.\n[[Enter]]",
 		"position": {
-			"x": 4222,
-			"y": -1415
+			"x": 3764,
+			"y": -1447
 		},
-		"colorID": 0
+		"colorID": 6
 	},
 	{
 		"title": "Question_1",
 		"tags": "",
 		"body": "Do you have any programming experience?\n[[Yes|Question_1a]][[No|Concepts]]",
 		"position": {
-			"x": -754,
+			"x": -752,
 			"y": -1944
 		},
-		"colorID": 0
+		"colorID": 6
 	},
 	{
 		"title": "Question_1a",
 		"tags": "",
 		"body": "What languages have you programmed in before?\n[[Python]][[Java]][[JavaScript]]",
 		"position": {
-			"x": -300,
+			"x": -298,
 			"y": -2031
 		},
-		"colorID": 0
+		"colorID": 6
 	},
 	{
 		"title": "Concepts",
 		"tags": "",
-		"body": "Empty Text",
+		"body": "Okay!\nHere are some basic programming concepts:\n[[Variables]][[Control structures]][[Functions]][[Data Types]][[Operators]][[Input/Output]][[Debugging]]",
 		"position": {
-			"x": -306,
-			"y": -1703
+			"x": -300,
+			"y": -1705
 		},
-		"colorID": 0
+		"colorID": 6
 	},
 	{
 		"title": "Python",
 		"tags": "",
 		"body": "Empty Text",
 		"position": {
-			"x": 73,
+			"x": 75,
 			"y": -2192
 		},
-		"colorID": 0
+		"colorID": 6
 	},
 	{
 		"title": "Java",
 		"tags": "",
 		"body": "Empty Text",
 		"position": {
-			"x": 293,
+			"x": 295,
 			"y": -2192
 		},
-		"colorID": 0
+		"colorID": 6
 	},
 	{
 		"title": "JavaScript",
 		"tags": "",
 		"body": "Empty Text",
 		"position": {
-			"x": 513,
+			"x": 515,
 			"y": -2192
 		},
-		"colorID": 0
+		"colorID": 6
 	},
 	{
 		"title": "Question 2",
 		"tags": "",
-		"body": "What is your goal for learning this new language?\n[[To get a job]]\n[[To build a personal project]]\n[[to learn something new]]",
+		"body": "What is your goal for learning how to use ARENA?\n[[To get a job]]\n[[To build a personal project]]\n[[to learn something new]]",
 		"position": {
-			"x": 852,
-			"y": -1974
+			"x": 754,
+			"y": -2058
 		},
-		"colorID": 0
+		"colorID": 6
 	},
 	{
 		"title": "To get a job",
 		"tags": "",
 		"body": "Empty Text",
 		"position": {
-			"x": 972,
+			"x": 974,
 			"y": -2194
 		},
-		"colorID": 0
+		"colorID": 6
 	},
 	{
 		"title": "To build a personal project",
 		"tags": "",
 		"body": "Empty Text",
 		"position": {
-			"x": 1192,
+			"x": 1194,
 			"y": -2194
 		},
-		"colorID": 0
+		"colorID": 6
 	},
 	{
 		"title": "to learn something new",
 		"tags": "",
 		"body": "Empty Text",
 		"position": {
-			"x": 1412,
+			"x": 1414,
 			"y": -2194
 		},
-		"colorID": 0
+		"colorID": 6
 	},
 	{
 		"title": "Question_3",
 		"tags": "",
 		"body": "What type of resources do you prefer for learning?\n[[Books]][[Videos]][[Online Courses]]",
 		"position": {
-			"x": 1799,
+			"x": 1801,
 			"y": -1970
 		},
-		"colorID": 0
+		"colorID": 6
 	},
 	{
 		"title": "Books",
 		"tags": "",
 		"body": "Empty Text",
 		"position": {
-			"x": 1919,
+			"x": 1921,
 			"y": -2190
 		},
-		"colorID": 0
+		"colorID": 6
 	},
 	{
 		"title": "Videos",
 		"tags": "",
 		"body": "Empty Text",
 		"position": {
-			"x": 2139,
+			"x": 2141,
 			"y": -2190
 		},
-		"colorID": 0
+		"colorID": 6
 	},
 	{
 		"title": "Online Courses",
 		"tags": "",
 		"body": "Empty Text",
 		"position": {
-			"x": 2359,
+			"x": 2361,
 			"y": -2190
 		},
-		"colorID": 0
+		"colorID": 6
 	},
 	{
 		"title": "Question_4",
 		"tags": "",
 		"body": "What level of proficiency do you want to achieve?\n[[basic understanding]][[intermediate understanding]][[advanced understanding]]",
 		"position": {
-			"x": 2736,
+			"x": 2738,
 			"y": -1973
 		},
-		"colorID": 0
+		"colorID": 6
 	},
 	{
 		"title": "intermediate understanding",
 		"tags": "",
 		"body": "Empty Text",
 		"position": {
-			"x": 3077,
+			"x": 3079,
 			"y": -2194
 		},
-		"colorID": 0
+		"colorID": 6
 	},
 	{
 		"title": "advanced understanding",
 		"tags": "",
 		"body": "Empty Text",
 		"position": {
-			"x": 3296,
+			"x": 3298,
 			"y": -2193
 		},
-		"colorID": 0
+		"colorID": 6
 	},
 	{
 		"title": "basic understanding",
 		"tags": "",
 		"body": "Empty Text",
 		"position": {
-			"x": 2856,
+			"x": 2858,
 			"y": -2193
 		},
-		"colorID": 0
+		"colorID": 6
 	},
 	{
 		"title": "Question_5",
 		"tags": "",
 		"body": "Do you prefer a structured or unstructured learning approach?\n[[Structured]][[Unstructured]]",
 		"position": {
-			"x": 3712,
+			"x": 3714,
 			"y": -1961
 		},
-		"colorID": 0
+		"colorID": 6
 	},
 	{
 		"title": "Structured",
 		"tags": "",
 		"body": "Empty Text",
 		"position": {
-			"x": 3833,
+			"x": 3835,
 			"y": -2180
 		},
-		"colorID": 0
+		"colorID": 6
 	},
 	{
 		"title": "Unstructured",
 		"tags": "",
 		"body": "Empty Text",
 		"position": {
-			"x": 4052,
+			"x": 4054,
 			"y": -2181
 		},
-		"colorID": 0
+		"colorID": 6
 	},
 	{
 		"title": "Intro",
 		"tags": "",
 		"body": "I'm going to talk about how to use ARENA!\nFirst I am going to ask some questions to you.\n[[Question_1]]",
 		"position": {
-			"x": -1114,
+			"x": -1112,
 			"y": -1946
 		},
-		"colorID": 0
+		"colorID": 6
 	},
 	{
 		"title": "URLs",
 		"tags": "",
 		"body": "Here is a list of all the URLs in this dialogue:\n[[Wikipedia Fish PopUp]][[Youtube Frog PopUp]][[Arena Popup]][[Conix NewTab]][[NewScene Island SameTab]]",
 		"position": {
-			"x": -300,
-			"y": 478
+			"x": -290,
+			"y": 474
 		},
-		"colorID": 0
+		"colorID": 5
 	},
 	{
 		"title": "Wikipedia Fish PopUp",
 		"tags": "",
-		"body": "Going to URL_1: <<url https://en.wikipedia.org/wiki/Fish>>\n[[URLs]][[Actions]][[End]]",
+		"body": "Going to Wikipedia: <<url https://en.wikipedia.org/wiki/Fish>>\n[[URLs]][[Actions]][[End]]",
 		"position": {
-			"x": 126,
-			"y": 471
+			"x": 131,
+			"y": 472
 		},
-		"colorID": 0
+		"colorID": 5
 	},
 	{
 		"title": "Youtube Frog PopUp",
 		"tags": "",
-		"body": "Going to URL_2: <<url https://www.youtube.com/watch?v=cBkWhkAZ9ds>>\n[[URLs]][[Actions]][[End]]",
+		"body": "Going to YouTube: <<url https://www.youtube.com/watch?v=cBkWhkAZ9ds>>\n[[URLs]][[Actions]][[End]]",
 		"position": {
-			"x": 347,
-			"y": 470
+			"x": 353,
+			"y": 471
 		},
-		"colorID": 0
+		"colorID": 5
 	},
 	{
 		"title": "Arena Popup",
 		"tags": "",
-		"body": "Going to URL_3: <<url arena>>\n[[URLs]][[Actions]][[End]]",
+		"body": "Going to Arena: <<url arena>>\n[[URLs]][[Actions]][[End]]",
 		"position": {
-			"x": 568,
-			"y": 468
+			"x": 573,
+			"y": 469
 		},
-		"colorID": 0
+		"colorID": 5
 	},
 	{
 		"title": "Conix NewTab",
 		"tags": "",
-		"body": "Going to URL_1: <<url conix>>\n[[URLs]][[Actions]][[End]]",
+		"body": "Going to Conix: <<url conix>>\n[[URLs]][[Actions]][[End]]",
 		"position": {
-			"x": 787,
-			"y": 471
+			"x": 792,
+			"y": 472
 		},
-		"colorID": 0
+		"colorID": 5
 	},
 	{
 		"title": "NewScene Island SameTab",
 		"tags": "",
-		"body": "Going to URL_1: <<url island>>\n[[URLs]][[Actions]][[End]]",
+		"body": "Going to Island: <<url island>>\n[[URLs]][[Actions]][[End]]",
 		"position": {
-			"x": 1006,
-			"y": 471
+			"x": 1011,
+			"y": 472
 		},
-		"colorID": 0
+		"colorID": 5
 	},
 	{
 		"title": "Morph_Blink",
 		"tags": "",
 		"body": "Playing morph \"frown\": <<morph blink>>\n[[Morphs]][[Actions]][[End]]",
 		"position": {
-			"x": 286,
+			"x": 288,
 			"y": -641
 		},
 		"colorID": 2
@@ -554,7 +554,7 @@
 		"tags": "",
 		"body": "Playing morph \"open\": <<morph open>>\n[[Morphs]][[Actions]][[End]]",
 		"position": {
-			"x": 502,
+			"x": 504,
 			"y": -641
 		},
 		"colorID": 2
@@ -564,7 +564,7 @@
 		"tags": "",
 		"body": "Playing morph \"squint\": <<morph squint>>\n[[Morphs]][[Actions]][[End]]",
 		"position": {
-			"x": 710,
+			"x": 712,
 			"y": -642
 		},
 		"colorID": 2
@@ -574,7 +574,7 @@
 		"tags": "",
 		"body": "Playing morph \"dizzy\": <<morph dizzy>>\n[[Morphs]][[Actions]][[End]]",
 		"position": {
-			"x": 921,
+			"x": 923,
 			"y": -643
 		},
 		"colorID": 2
@@ -584,7 +584,7 @@
 		"tags": "",
 		"body": "Playing morph \"reset\": <<morph reset>>\n[[Morphs]][[Actions]][[End]]",
 		"position": {
-			"x": 1136,
+			"x": 1138,
 			"y": -641
 		},
 		"colorID": 2
@@ -594,9 +594,119 @@
 		"tags": "",
 		"body": "Playing animation \"happy\": <<animation happy>>\n[[Animations]][[Actions]][[End]]",
 		"position": {
-			"x": 1171,
+			"x": 1176,
 			"y": -262
 		},
 		"colorID": 3
+	},
+	{
+		"title": "Miscellaneous",
+		"tags": "",
+		"body": "Empty Text\n[[Print]][[Show]][[Hide]]",
+		"position": {
+			"x": -294,
+			"y": 770
+		},
+		"colorID": 6
+	},
+	{
+		"title": "Print",
+		"tags": "",
+		"body": "Using print command: <<print (\"hello you are a fish\")>>\n[[Miscellaneous]][[Actions]][[End]]",
+		"position": {
+			"x": 112,
+			"y": 758
+		},
+		"colorID": 6
+	},
+	{
+		"title": "Show",
+		"tags": "",
+		"body": "Using show command: <<show bob>>\n[[Miscellaneous]][[Actions]][[End]]",
+		"position": {
+			"x": 334,
+			"y": 757
+		},
+		"colorID": 6
+	},
+	{
+		"title": "Hide",
+		"tags": "",
+		"body": "Using hide command: <<hide bob>>\n[[Miscellaneous]][[Actions]][[End]]",
+		"position": {
+			"x": 559,
+			"y": 755
+		},
+		"colorID": 6
+	},
+	{
+		"title": "Variables",
+		"tags": "",
+		"body": "Empty Text\n[[Concepts]][[Next Question|Question 2]]",
+		"position": {
+			"x": -297,
+			"y": -1448
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Control structures",
+		"tags": "",
+		"body": "Empty Text\n[[Concepts]][[Next Question|Question 2]]",
+		"position": {
+			"x": -77,
+			"y": -1448
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Functions",
+		"tags": "",
+		"body": "Empty Text\n[[Concepts]][[Next Question|Question 2]]",
+		"position": {
+			"x": 143,
+			"y": -1448
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Data Types",
+		"tags": "",
+		"body": "Empty Text\n[[Concepts]][[Next Question|Question 2]]",
+		"position": {
+			"x": 363,
+			"y": -1448
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Operators",
+		"tags": "",
+		"body": "Empty Text\n[[Concepts]][[Next Question|Question 2]]",
+		"position": {
+			"x": 583,
+			"y": -1448
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Input/Output",
+		"tags": "",
+		"body": "Empty Text\n[[Concepts]][[Next Question|Question 2]]",
+		"position": {
+			"x": 803,
+			"y": -1448
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Debugging",
+		"tags": "",
+		"body": "Empty Text\n[[Concepts]][[Next Question|Question 2]]",
+		"position": {
+			"x": 1023,
+			"y": -1448
+		},
+		"colorID": 0
 	}
 ]

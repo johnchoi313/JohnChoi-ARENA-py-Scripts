@@ -58,11 +58,16 @@ animationMappings = {
 # --Animation Example: https://github.com/arenaxr/arena-py/blob/master/examples/attributes/animation.py 
 transformMappings = {
     
+    "point0" : [              
+        Animation(property="position", end=(0,0,0), easing="easeInOutSine", dur=TRANSFORM_TIMER),  
+        Animation(property="rotation", end=(0,0,0), easing="linear", dur=TRANSFORM_TIMER*0.5)
+    ],
     
     "point1" : [              
         Animation(property="position", end=(0,0,0), easing="easeInOutSine", dur=TRANSFORM_TIMER),  
         Animation(property="rotation", end=(0,0,0), easing="linear", dur=TRANSFORM_TIMER*0.5)
     ],
+
     "point2" : [              
         Animation(property="position", end=(0,0,-10), easing="easeInOutSine", dur=TRANSFORM_TIMER),  
         Animation(property="rotation", end=(0,300*DTR,0), easing="linear", dur=TRANSFORM_TIMER*0.5)
@@ -70,7 +75,14 @@ transformMappings = {
     "point3" : [              
         Animation(property="position", end=(10,0,0), easing="easeInOutSine", dur=TRANSFORM_TIMER),
         Animation(property="rotation", end=(0,180*DTR,0), easing="linear", dur=TRANSFORM_TIMER*0.5)
+    ],
+
+    "point4" : [              
+        Animation(property="position", end=(10,0,0), easing="easeInOutSine", dur=TRANSFORM_TIMER),
+        Animation(property="rotation", end=(0,180*DTR,0), easing="linear", dur=TRANSFORM_TIMER*0.5)
     ]
+
+
 }
 
 # Shorthand morph names mapped to list of morph target names with weights
