@@ -50,6 +50,7 @@ class NPC:
             rotation=GLTF_ROTATION,
             scale=GLTF_SCALE,
             parent=self.root,
+            debug=True,
             persist=True
         )
         scene.add_object(self.gltf)
