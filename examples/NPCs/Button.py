@@ -24,8 +24,6 @@ class Button():
             position=buttonPos,
             rotation=buttonRot,
             scale=buttonScale,
-
-            #color=buttonColor,
             
             material = Material(color = buttonColor, transparent = False, opacity=1),
 

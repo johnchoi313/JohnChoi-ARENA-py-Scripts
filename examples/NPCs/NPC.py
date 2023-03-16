@@ -50,12 +50,34 @@ class NPC:
             rotation=GLTF_ROTATION,
             scale=GLTF_SCALE,
             parent=self.root,
-            debug=True,
             persist=True
         )
         scene.add_object(self.gltf)
         
-        self.bubbles = ArenaDialogueBubbleGroup(self.scene, self.root , self.gltf, self.dialogue)
+        #NPC PLANE
+        
+
+        self.plane = Plane(
+            object_id=NPC_NAME + "(PLANE)",
+
+            position=PLANE_POSITION,
+            rotation=PLANE_ROTATION,
+            scale=(1,1,1),
+
+            material = Material(src = "store/users/johnchoi/Images/sushi.jpg", color = "#ffffff", w = 1240, h = 1995),
+
+            parent=self.root,
+            persist=True
+        )
+
+
+
+
+        scene.add_object(self.plane)
+        
+
+
+        self.bubbles = ArenaDialogueBubbleGroup(self.scene, self.root , self.gltf, self.plane, self.dialogue)
 
 # ------------------------------------------ #
 # --------MAIN LOOPS/INITIALIZATION--------- #

@@ -16,10 +16,11 @@ from ColorPrinter import *
 # ------------------------------------------ #
 
 class ArenaDialogueBubbleGroup():
-    def __init__(self, scene, npc, gltf, dialogue):
+    def __init__(self, scene, npc, gltf, plane, dialogue):
         self.scene = scene
         self.npc = npc
         self.gltf = gltf
+        self.plane = plane
         self.dialogue = dialogue
         self.speech = ""
         self.speechIndex = 0
@@ -149,6 +150,55 @@ class ArenaDialogueBubbleGroup():
         self.npc.data.goto_url=None
         self.scene.update_object(self.npc)
 
+    #Images
+    def PlayImageFromMapping(self, key):
+
+        if(key in imageMappings):
+            self.PlayImage(imageMappings[key])
+
+        else:
+            printWarning("    " + "Attempting to play image from URL \"" + key + "\" because no such mapping exists in mappings.py.")
+            self.PlayImageFromUrl(key)
+
+    def PlayImageFromUrl(self, url):
+        printWhiteB("Play image from url \'" + url + "\"")
+        
+        material = Material(src = url, color = "#ffffff", w = 1000, h = 1000),
+
+        self.PlayImage(material)
+
+    def PlayImage(self, material):
+        printWhiteB("Playing material...")
+        #Get New Scale
+        self.plane.data.scale = self.getNewScale(material.w, material.h) * PLANE_SCALE
+        #Clear Material
+        self.plane.data.material=None 
+        self.scene.update_object(self.plane)
+        #Apply New Material
+        self.plane.data.material=material
+        self.scene.update_object(self.plane)
+
+    def ShowImage(self):
+        return
+
+    def ShowImage(self):
+        return
+
+    def getNewScale(self, w, h):
+        aspect = ( w * 1.0 ) / ( h * 1.0 )
+        scale = 1
+        
+        if( w > h):
+            scale = (w + h) * 0.5 / w
+        else:
+            scale = (w + h) * 0.5 / h
+            
+        nw = aspect * scale
+        nh = 1.0 * scale
+
+        return (nw, nh, 1)
+    
+
 
     #Visibility
     def SetVisible(self, key, visible):            
@@ -157,6 +207,7 @@ class ArenaDialogueBubbleGroup():
             self.scene.update_object(self.scene.all_objects.get[key])
         else:
             printWarning("    " + "Cannot set visibility of object with name \"" + key + "\" because no such object exists in scene.")
+
 
     #Clear extra properties
     def ClearCommandProperties(self):
