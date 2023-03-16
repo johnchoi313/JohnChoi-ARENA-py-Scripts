@@ -287,12 +287,13 @@ class ArenaDialogueBubbleGroup():
         
                 choiceButton = Button(self.scene, self.npc, self.npc.object_id + "_choiceButton_" + self.randomUUID(UUID_LEN)+"_"+str(c), choices[c].text, self.onClickChoiceButton, 
                                       position = (CHOICE_BUBBLE_POSITION[0], CHOICE_BUBBLE_POSITION[1] + (len(choices) - c - 1) * CHOICE_BUBBLE_OFFSET_Y, CHOICE_BUBBLE_POSITION[2]), 
-                                      buttonScale = CHOICE_BUBBLE_SCALE, textScale = CHOICE_TEXT_SCALE, color = CHOICE_BUBBLE_COLOR, textColor = CHOICE_TEXT_COLOR)
+                                      rotation = CHOICE_BUBBLE_ROTATION, buttonScale = CHOICE_BUBBLE_SCALE, textScale = CHOICE_TEXT_SCALE, color = CHOICE_BUBBLE_COLOR, textColor = CHOICE_TEXT_COLOR)
 
                 self.buttons.append(choiceButton)
         else: 
             nextButton = Button(self.scene, self.npc, self.npc.object_id + "_nextButton_" + self.randomUUID(UUID_LEN), "[Next]", self.onClickNextButton, 
-                                position = CHOICE_BUBBLE_POSITION, buttonScale = CHOICE_BUBBLE_SCALE, textScale = CHOICE_TEXT_SCALE, color = CHOICE_BUBBLE_COLOR, textColor = CHOICE_TEXT_COLOR)
+                                position = CHOICE_BUBBLE_POSITION, rotation = CHOICE_BUBBLE_ROTATION, buttonScale = CHOICE_BUBBLE_SCALE, 
+                                textScale = CHOICE_TEXT_SCALE, color = CHOICE_BUBBLE_COLOR, textColor = CHOICE_TEXT_COLOR)
                 
             self.buttons.append(nextButton)
 

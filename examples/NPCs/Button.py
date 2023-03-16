@@ -3,15 +3,16 @@ from asyncio import create_subprocess_exec
 from arena import *
 
 from config import *
+from mappings import *
 from YarnParser import *
 from ColorPrinter import *
 
 class Button():
-    def __init__(self, scene, npc, name, text, eventHandler, position, buttonScale, textScale, color, textColor):
+    def __init__(self, scene, npc, name, text, eventHandler, position, rotation, buttonScale, textScale, color, textColor):
         self.scene = scene
         self.npc = npc
 
-        self.box = self.makeButtonBox(name, text, eventHandler, color, position, buttonTextColor=textColor, buttonScale = buttonScale)
+        self.box = self.makeButtonBox(name, text, eventHandler, color, position, rotation, buttonTextColor=textColor, buttonScale = buttonScale)
         self.text = self.makeButtonText(self.box, name, text, buttonColor=textColor, buttonScale = textScale)
 
     def makeButtonText(self, button, buttonID, buttonText, buttonColor = (255,255,255), buttonPos = (0, 0, 0.5), buttonRot = (0,0,0), buttonScale = (0.5, 2, 1)):
@@ -24,11 +25,13 @@ class Button():
             rotation=buttonRot,
             scale=buttonScale,
 
-            color=buttonColor,
+            #color=buttonColor,
+            
+            material = Material(color = buttonColor, transparent = False, opacity=1),
 
             parent = button,
 
-            persist=False
+            persist=True
         )
         self.scene.add_object(buttonText)
         return buttonText
@@ -41,14 +44,15 @@ class Button():
             rotation=buttonRot,
             scale=buttonScale,
 
-            color=buttonColor,
-
             parent = self.npc,
             clickable=True,
             
-            persist=False,
+
+            material = Material(color = buttonColor, transparent = True, opacity=CHOICE_BUBBLE_OPACITY),
 
             evt_handler=buttonHandler,
+
+            persist=True
         )
         self.scene.add_object(button)
         return button

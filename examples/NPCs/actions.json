@@ -708,5 +708,25 @@
 			"y": -2242
 		},
 		"colorID": 0
+	},
+	{
+		"title": "Node",
+		"tags": "",
+		"body": "Empty Text",
+		"position": {
+			"x": -289,
+			"y": 1013
+		},
+		"colorID": 7
+	},
+	{
+		"title": "Node_2",
+		"tags": "",
+		"body": "Empty Text",
+		"position": {
+			"x": -287,
+			"y": 1263
+		},
+		"colorID": 8
 	}
 ]

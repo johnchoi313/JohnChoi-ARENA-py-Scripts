@@ -10,6 +10,7 @@ SOUND_CHOICE  = Sound(volume=1.0, autoplay=True, positional=True, src="store/use
 SOUND_ENTER   = Sound(volume=0.8, autoplay=True, positional=True, src="store/users/johnchoi/Sounds/NPC/Enter.wav")
 SOUND_EXIT    = Sound(volume=0.8, autoplay=True, positional=True, src="store/users/johnchoi/Sounds/NPC/Exit.wav")
 SOUND_TALKING = Sound(volume=1.0, autoplay=True, positional=True, src="store/users/johnchoi/Sounds/NPC/Talking.wav")
+SOUND_WALKING = Sound(volume=1.0, autoplay=True, positional=True, src="store/users/johnchoi/Sounds/NPC/Talking.wav")
 
 #DEFAULT ANIMATIONS (set these to None if you don't want default animations, or set USE_DEFAULT_ANIMATIONS = False)
 ANIM_IDLE = AnimationMixer(clip="Idle", loop="repeat", timeScale = 1, crossFadeDuration=0.5)
@@ -70,16 +71,16 @@ transformMappings = {
 
     "point2" : [              
         Animation(property="position", end=(0,0,-10), easing="easeInOutSine", dur=TRANSFORM_TIMER),  
-        Animation(property="rotation", end=(0,300*DTR,0), easing="linear", dur=TRANSFORM_TIMER*0.5)
+        Animation(property="rotation", end=(0,300,0), easing="linear", dur=TRANSFORM_TIMER*0.5)
     ],
     "point3" : [              
         Animation(property="position", end=(10,0,0), easing="easeInOutSine", dur=TRANSFORM_TIMER),
-        Animation(property="rotation", end=(0,180*DTR,0), easing="linear", dur=TRANSFORM_TIMER*0.5)
+        Animation(property="rotation", end=(0,180,0), easing="linear", dur=TRANSFORM_TIMER*0.5)
     ],
 
     "point4" : [              
         Animation(property="position", end=(10,0,0), easing="easeInOutSine", dur=TRANSFORM_TIMER),
-        Animation(property="rotation", end=(0,180*DTR,0), easing="linear", dur=TRANSFORM_TIMER*0.5)
+        Animation(property="rotation", end=(0,180,0), easing="linear", dur=TRANSFORM_TIMER*0.5)
     ]
 
 
@@ -106,4 +107,19 @@ urlMappings = {
     "arena"     : GotoUrl(dest="popup", on="mousedown", url="https://arenaxr.org/"),
     "conix"     : GotoUrl(dest="newtab", on="mousedown", url="https://conix.io/"),
     "island"    : GotoUrl(dest="sametab", on="mousedown", url="https://arenaxr.org/public/island")    
+}
+
+# Shorthand image names mapped to (Website URL, volume, loop)
+# --Url Schema: https://docs.arenaxr.org/content/schemas/message/material.html#material
+# --Url Example: https://github.com/arenaxr/arena-py/blob/master/examples/attributes/material.py
+imageMappings = {
+
+    "material" : Material(src = "", aspect = 1920.0/1080.0, w = 1920, h = 1080)
+
+}
+
+# Shorthand url names mapped to (Website URL, volume, loop)
+# --Url Schema: https://docs.arenaxr.org/content/schemas/message/video-control.html#video
+videoMappings = {
+
 }
