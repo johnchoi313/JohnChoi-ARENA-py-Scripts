@@ -35,6 +35,8 @@ class Button():
         return buttonText
 
     def makeButtonBox(self, buttonID, buttonText, buttonHandler, buttonColor = (128,128,128), buttonPos = (0,0,0), buttonRot = (0,0,0), buttonScale = (0.4, 0.08, 0.04), buttonTextColor = (255,255,255)):
+        
+        
         button = Box(
             object_id=buttonID,
 
@@ -53,4 +55,11 @@ class Button():
             persist=True
         )
         self.scene.add_object(button)
+    
+    
+        #animation = Animation(property="scale", start=(0,0,0), end=scale, easing="linear", dur=500)
+        #self.plane.dispatch_animation(animation)
+        #self.scene.run_animations(self.plane)
+
+    
         return button

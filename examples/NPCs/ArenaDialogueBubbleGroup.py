@@ -29,6 +29,8 @@ class ArenaDialogueBubbleGroup():
         self.animationUsedThisLine = False
         self.transformUsedThisLine = False
 
+        self.usedImageThisLine = False
+
         self.lastTransform = TRANSFORM_RESET
         self.transformTimer = 0
 
@@ -107,7 +109,6 @@ class ArenaDialogueBubbleGroup():
         self.scene.run_animations(self.npc)
         #self.scene.update_object(self.npc)
 
-
         if(self.lastTransform == transform):
             self.transformUsedThisLine = False
         else:
@@ -170,21 +171,35 @@ class ArenaDialogueBubbleGroup():
     def PlayImage(self, material):
         printWhiteB("Playing material...")
         #Get New Scale
-        self.plane.data.scale = self.getNewScale(material.w, material.h) * PLANE_SCALE
+        #self.plane.data.scale = self.getNewScale(material.w, material.h)
+        
         #Clear Material
-        self.plane.data.material=None 
-        self.scene.update_object(self.plane)
+        #self.plane.data.material=None 
+        #self.scene.update_object(self.plane)
+        
+        self.ShowImage(self.getNewScale(material.w, material.h, material.size))
+
         #Apply New Material
-        self.plane.data.material=material
-        self.scene.update_object(self.plane)
+        #self.plane.data.material=material
+        #self.plane.data.material_extras = material
+        self.scene.update_object(self.plane, url = "https://arenaxr.org/store/users/johnchoi/Images/dragon.jpg")
 
-    def ShowImage(self):
-        return
 
-    def ShowImage(self):
-        return
 
-    def getNewScale(self, w, h):
+
+    def ShowImage(self, scale):
+
+        animation = Animation(property="scale", start=(0,0,0), end=scale, easing="linear", dur=500)
+        self.plane.dispatch_animation(animation)
+        self.scene.run_animations(self.plane)
+
+    def HideImage(self):
+
+        animation = Animation(property="scale", end=(0,0,0), easing="linear", dur=500)
+        self.plane.dispatch_animation(animation)
+        self.scene.run_animations(self.plane)
+
+    def getNewScale(self, w, h, size):
         aspect = ( w * 1.0 ) / ( h * 1.0 )
         scale = 1
         
@@ -196,7 +211,7 @@ class ArenaDialogueBubbleGroup():
         nw = aspect * scale
         nh = 1.0 * scale
 
-        return (nw, nh, 1)
+        return (nw, nh, 1) * size * PLANE_SCALE
     
 
 
@@ -219,6 +234,7 @@ class ArenaDialogueBubbleGroup():
         commands = line.commands
         self.animationUsedThisLine = False
         self.transformUsedThisLine = False
+        self.imageUsedThisLine = False
 
         #print details
         for c in range(len(commands)):            
@@ -279,6 +295,13 @@ class ArenaDialogueBubbleGroup():
                 printYellow("    " + command.text)
                 self.PlayUrlFromMapping(command.args[0])
 
+            #<<image ("imageMappingName")>>
+            elif(command.type.lower() == "image".lower()):
+                printYellow("    " + command.text)
+                self.imageUsedThisLine = True
+                self.PlayImageFromMapping(command.args[0])
+
+
 
         if(self.transformUsedThisLine):
             if(USE_DEFAULT_ANIMATIONS):
@@ -286,6 +309,9 @@ class ArenaDialogueBubbleGroup():
             self.transformTimer = TRANSFORM_TIMER
         else:
             self.PlayTransform(self.lastTransform)
+
+        if(not self.imageUsedThisLine):
+            self.HideImage()
 
         return
 

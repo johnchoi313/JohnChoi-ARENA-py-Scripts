@@ -114,8 +114,25 @@ urlMappings = {
 # --Url Example: https://github.com/arenaxr/arena-py/blob/master/examples/attributes/material.py
 imageMappings = {
 
-    "material" : Material(src = "", aspect = 1920.0/1080.0, w = 1920, h = 1080)
-
+    "doge" : Material(src = "store/users/johnchoi/Images/doge.jpg", color = "#ffffff", w = 369, h = 273, size = 1),
+    "dragon" : Material(src = "store/users/johnchoi/Images/dragon.jpg", color = "#ffffff", w = 1200, h = 1200, size = 1),
+    
+    "exclamation" : Material(src = "store/users/johnchoi/Images/exclamation.png", color = "#ffffff", w = 920, h = 951, size = 1),
+    
+    "fish" : Material(src = "store/users/johnchoi/Images/fish.jpg", color = "#ffffff", w = 800, h = 450, size = 1),
+    "forest" : Material(src = "store/users/johnchoi/Images/forest.jpg", color = "#ffffff", w = 1500, h = 1000, size = 1),
+    "graph" : Material(src = "store/users/johnchoi/Images/graph.png", color = "#ffffff", w = 918, h = 669, size = 1),
+    
+    "meme" : Material(src = "store/users/johnchoi/Images/meme.jpg", color = "#ffffff", w = 800, h = 450, size = 1),
+    "nyan" : Material(src = "store/users/johnchoi/Images/nyan.jpg", color = "#ffffff", w = 800, h = 450, size = 1),
+    
+    "question" : Material(src = "store/users/johnchoi/Images/question.png", color = "#ffffff", w = 360, h = 480, size = 1),
+    
+    
+    "potato" : Material(src = "store/users/johnchoi/Images/potato.jpg", color = "#ffffff", w = 1920, h = 1080, size = 1),
+    "stonks" : Material(src = "store/users/johnchoi/Images/stonks.png", color = "#ffffff", w = 680, h = 510, size = 1),
+    "sushi" : Material(src = "store/users/johnchoi/Images/sushi.jpg", color = "#ffffff", w = 1240, h = 1995, size = 1)
+                
 }
 
 # Shorthand url names mapped to (Website URL, volume, loop)

@@ -222,7 +222,7 @@
 	{
 		"title": "Actions",
 		"tags": "",
-		"body": "Empty Text\n[[Sounds]][[Morphs]][[Transforms]][[Animations]][[URLs]][[Miscellaneous]]\n[[End]]",
+		"body": "Empty Text\n[[Sounds]][[Morphs]][[Transforms]][[Animations]][[URLs]][[Miscellaneous]][[Images]][[End]]",
 		"position": {
 			"x": -864,
 			"y": -441
@@ -710,9 +710,9 @@
 		"colorID": 0
 	},
 	{
-		"title": "Node",
+		"title": "Images",
 		"tags": "",
-		"body": "Empty Text",
+		"body": "Here is a list of all the images in this dialogue:\n[[image_doge]][[image_dragon]][[image_exclamation]][[image_fish]][[image_forest]][[image_graph]][[image_meme]][[image_nyan]][[image_question]][[image_potato]][[image_stonks]][[image_sushi]]",
 		"position": {
 			"x": -289,
 			"y": 1013
@@ -720,13 +720,123 @@
 		"colorID": 7
 	},
 	{
-		"title": "Node_2",
+		"title": "image_doge",
 		"tags": "",
-		"body": "Empty Text",
+		"body": "Doge image! <<image doge>>\n[[Images]][[Actions]][[End]]",
 		"position": {
-			"x": -287,
-			"y": 1263
+			"x": 110,
+			"y": 1007
 		},
-		"colorID": 8
+		"colorID": 7
+	},
+	{
+		"title": "image_dragon",
+		"tags": "",
+		"body": "Dragon image! <<image dragon>>\n[[Images]][[Actions]][[End]]",
+		"position": {
+			"x": 330,
+			"y": 1007
+		},
+		"colorID": 7
+	},
+	{
+		"title": "image_exclamation",
+		"tags": "",
+		"body": "Exclamation image! <<image exclamation>>\n[[Images]][[Actions]][[End]]",
+		"position": {
+			"x": 551,
+			"y": 1007
+		},
+		"colorID": 7
+	},
+	{
+		"title": "image_fish",
+		"tags": "",
+		"body": "Fish image! <<image fish>>\n[[Images]][[Actions]][[End]]",
+		"position": {
+			"x": 770,
+			"y": 1007
+		},
+		"colorID": 7
+	},
+	{
+		"title": "image_forest",
+		"tags": "",
+		"body": "Forest image! <<image forest>>\n[[Images]][[Actions]][[End]]",
+		"position": {
+			"x": 990,
+			"y": 1007
+		},
+		"colorID": 7
+	},
+	{
+		"title": "image_graph",
+		"tags": "",
+		"body": "Graph image! <<image graph>>\n[[Images]][[Actions]][[End]]",
+		"position": {
+			"x": 1212,
+			"y": 1007
+		},
+		"colorID": 7
+	},
+	{
+		"title": "image_meme",
+		"tags": "",
+		"body": "Meme image! <<image meme>>\n[[Images]][[Actions]][[End]]",
+		"position": {
+			"x": 1430,
+			"y": 1007
+		},
+		"colorID": 7
+	},
+	{
+		"title": "image_nyan",
+		"tags": "",
+		"body": "Nyan image! <<image nyan>>\n[[Images]][[Actions]][[End]]",
+		"position": {
+			"x": 1651,
+			"y": 1006
+		},
+		"colorID": 7
+	},
+	{
+		"title": "image_question",
+		"tags": "",
+		"body": "Question image! <<image question>>\n[[Images]][[Actions]][[End]]",
+		"position": {
+			"x": 1870,
+			"y": 1007
+		},
+		"colorID": 7
+	},
+	{
+		"title": "image_potato",
+		"tags": "",
+		"body": "Stonks image! <<image stonks>>\n[[Images]][[Actions]][[End]]",
+		"position": {
+			"x": 2088,
+			"y": 1007
+		},
+		"colorID": 7
+	},
+	{
+		"title": "image_stonks",
+		"tags": "",
+		"body": "Doge image! <<image doge>>\n[[Images]][[Actions]][[End]]",
+		"position": {
+			"x": 2310,
+			"y": 1007
+		},
+		"colorID": 7
+	},
+	{
+		"title": "image_sushi",
+		"tags": "",
+		"body": "Sushi image! <<image sushi>>\n[[Images]][[Actions]][[End]]",
+		"position": {
+			"x": 2530,
+			"y": 1007
+		},
+		"colorID": 7
 	}
 ]

@@ -57,25 +57,26 @@ class NPC:
         #NPC PLANE
         
 
-        self.plane = Plane(
+        self.plane = Image(
             object_id=NPC_NAME + "(PLANE)",
 
             position=PLANE_POSITION,
             rotation=PLANE_ROTATION,
             scale=(1,1,1),
 
-            material = Material(src = "store/users/johnchoi/Images/sushi.jpg", color = "#ffffff", w = 1240, h = 1995),
+            url = "https://arenaxr.org/store/users/johnchoi/Images/nyan.jpg",
+
+
+            #material = Material(src = "store/users/johnchoi/Images/graph.png", transparent = True, opacity = 0.9, color = "#ffffff", w = 1240, h = 1995, size = 1),
+            #material = Material(src = "store/users/johnchoi/Images/stonks.png", color = "#ffffff", w = 680, h = 510, size = 1),
+
+            #self.plane.data.material_extras
 
             parent=self.root,
             persist=True
         )
-
-
-
-
         scene.add_object(self.plane)
         
-
 
         self.bubbles = ArenaDialogueBubbleGroup(self.scene, self.root , self.gltf, self.plane, self.dialogue)
 
