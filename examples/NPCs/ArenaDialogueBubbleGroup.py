@@ -190,9 +190,9 @@ class ArenaDialogueBubbleGroup():
         if(PRINT_VERBOSE):
             printWhiteB("Playing video...")
         #Clear Material
-        #self.video.data.material=None 
-        #self.scene.update_object(self.video)
-        self.ShowVideo(self.getNewScale(1920, 1080, 1))
+        self.video.data.material=None 
+        self.scene.update_object(self.video)
+        self.ShowVideo(self.getNewScale(material.w, material.h, material.size))
         self.video.data.material=material
         self.scene.update_object(self.video)
 

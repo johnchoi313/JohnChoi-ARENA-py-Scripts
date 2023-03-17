@@ -131,7 +131,7 @@ imageMappings = {
 # --Url Schema: https://docs.arenaxr.org/content/schemas/message/material.html#material
 # --Url Example: https://github.com/arenaxr/arena-py/blob/master/examples/attributes/material.py
 videoMappings = {
-    "rays"       : Material(src = "store/users/johnchoi/Videos/rays.mp4", transparent = True, opacity = 0.5),
-    "hydroponic" : Material(src = "store/users/johnchoi/Videos/hydroponic.mp4", transparent = True, opacity = 0.5),
-    "greenhouse" : Material(src = "store/users/johnchoi/Videos/greenhouse.mp4", transparent = True, opacity = 0.5)
+    "rays"       : Material(src = "store/users/johnchoi/Videos/rays.mp4", transparent = True, opacity = 0.5, w = 1920, h = 1080, size = 1),
+    "hydroponic" : Material(src = "store/users/johnchoi/Videos/hydroponic.mp4", transparent = True, opacity = 0.5, w = 1920, h = 1080, size = 1),
+    "greenhouse" : Material(src = "store/users/johnchoi/Videos/greenhouse.mp4", transparent = True, opacity = 0.5, w = 1920, h = 1080, size = 1)
 }

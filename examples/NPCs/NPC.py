@@ -79,7 +79,7 @@ class NPC:
             rotation=PLANE_ROTATION,
             scale=(0,0,0),
 
-            material = Material(src = "store/users/johnchoi/Videos/rays.mp4", transparent = True, opacity = 0.5),
+            material = Material(src = "store/users/johnchoi/Videos/rays.mp4", transparent = True, opacity = 0.5, w = 1920, h = 1080, size = 1),
 
             parent=self.root,
             persist=True
