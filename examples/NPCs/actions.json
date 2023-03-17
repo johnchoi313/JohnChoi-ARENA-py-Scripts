@@ -22,7 +22,7 @@
 	{
 		"title": "Transforms",
 		"tags": "",
-		"body": "Here is a list of all the transforms in this dialogue:\n[[Transform_Point4]][[Transform_Point4]][[Transform_Point1]][[Transform_Point2]][[Transform_Point3]]",
+		"body": "Here is a list of all the transforms in this dialogue:\n[[Transform_Point0]][[Transform_Point1]][[Transform_Point2]][[Transform_Point3]][[Transform_Point4]]",
 		"position": {
 			"x": -297,
 			"y": 160
@@ -252,12 +252,12 @@
 	{
 		"title": "Conclusion",
 		"tags": "",
-		"body": "This is just a basic example of a dialogue tree about learning a new programming language. \nDepending on the language and the audience, the tree could be much more complex and tailored to the learner's needs.\n[[Enter]]",
+		"body": "This is just a basic example of a dialogue tree about learning a new programming language. \nDepending on the language and the audience, the tree could be much more complex and tailored to the learner's needs.\n[[Restart|Enter]]",
 		"position": {
 			"x": 3764,
 			"y": -1447
 		},
-		"colorID": 6
+		"colorID": 2
 	},
 	{
 		"title": "Question_1",
@@ -277,7 +277,7 @@
 			"x": -298,
 			"y": -2031
 		},
-		"colorID": 6
+		"colorID": 1
 	},
 	{
 		"title": "Concepts",
@@ -287,7 +287,7 @@
 			"x": -300,
 			"y": -1705
 		},
-		"colorID": 6
+		"colorID": 2
 	},
 	{
 		"title": "Python",
@@ -297,7 +297,7 @@
 			"x": 81,
 			"y": -2284
 		},
-		"colorID": 6
+		"colorID": 1
 	},
 	{
 		"title": "Java",
@@ -307,7 +307,7 @@
 			"x": 301,
 			"y": -2284
 		},
-		"colorID": 6
+		"colorID": 1
 	},
 	{
 		"title": "JavaScript",
@@ -317,7 +317,7 @@
 			"x": 522,
 			"y": -2284
 		},
-		"colorID": 6
+		"colorID": 1
 	},
 	{
 		"title": "Question 2",
@@ -327,7 +327,7 @@
 			"x": 809,
 			"y": -1965
 		},
-		"colorID": 6
+		"colorID": 3
 	},
 	{
 		"title": "To get a job",
@@ -337,7 +337,7 @@
 			"x": 1105,
 			"y": -2251
 		},
-		"colorID": 6
+		"colorID": 3
 	},
 	{
 		"title": "To build a personal project",
@@ -347,7 +347,7 @@
 			"x": 1325,
 			"y": -2251
 		},
-		"colorID": 6
+		"colorID": 3
 	},
 	{
 		"title": "to learn something new",
@@ -357,7 +357,7 @@
 			"x": 1545,
 			"y": -2251
 		},
-		"colorID": 6
+		"colorID": 3
 	},
 	{
 		"title": "Question_3",
@@ -367,7 +367,7 @@
 			"x": 1894,
 			"y": -2022
 		},
-		"colorID": 6
+		"colorID": 4
 	},
 	{
 		"title": "Question_4",
@@ -377,37 +377,37 @@
 			"x": 2738,
 			"y": -1973
 		},
-		"colorID": 6
+		"colorID": 5
 	},
 	{
 		"title": "intermediate understanding",
 		"tags": "",
-		"body": "Empty Text",
+		"body": "show some intermediate resources on the language.\n[[Next Question|Question_5]]",
 		"position": {
 			"x": 3211,
 			"y": -2223
 		},
-		"colorID": 6
+		"colorID": 5
 	},
 	{
 		"title": "advanced understanding",
 		"tags": "",
-		"body": "Empty Text",
+		"body": "show some advanced resources on the language.\n[[Next Question|Question_5]]",
 		"position": {
 			"x": 3430,
 			"y": -2222
 		},
-		"colorID": 6
+		"colorID": 5
 	},
 	{
 		"title": "basic understanding",
 		"tags": "",
-		"body": "Empty Text",
+		"body": "show some introductory resources on the language.\n[[Next Question|Question_5]]",
 		"position": {
 			"x": 2990,
 			"y": -2224
 		},
-		"colorID": 6
+		"colorID": 5
 	},
 	{
 		"title": "Question_5",
@@ -422,7 +422,7 @@
 	{
 		"title": "Structured",
 		"tags": "",
-		"body": "Empty Text",
+		"body": "show some courses or books that offer a structured learning approach.\n[[Conclusion]]",
 		"position": {
 			"x": 3835,
 			"y": -2180
@@ -432,7 +432,7 @@
 	{
 		"title": "Unstructured",
 		"tags": "",
-		"body": "Empty Text",
+		"body": "show some resources that offer a more flexible learning approach, such as tutorials or video series.\n[[Conclusion]]",
 		"position": {
 			"x": 4054,
 			"y": -2181
@@ -617,7 +617,7 @@
 			"x": -297,
 			"y": -1452
 		},
-		"colorID": 0
+		"colorID": 2
 	},
 	{
 		"title": "Control structures",
@@ -627,7 +627,7 @@
 			"x": -77,
 			"y": -1448
 		},
-		"colorID": 0
+		"colorID": 2
 	},
 	{
 		"title": "Functions",
@@ -637,7 +637,7 @@
 			"x": 143,
 			"y": -1448
 		},
-		"colorID": 0
+		"colorID": 2
 	},
 	{
 		"title": "Data Types",
@@ -647,7 +647,7 @@
 			"x": 363,
 			"y": -1448
 		},
-		"colorID": 0
+		"colorID": 2
 	},
 	{
 		"title": "Operators",
@@ -657,7 +657,7 @@
 			"x": 584,
 			"y": -1448
 		},
-		"colorID": 0
+		"colorID": 2
 	},
 	{
 		"title": "Input/Output",
@@ -667,7 +667,7 @@
 			"x": 808,
 			"y": -1448
 		},
-		"colorID": 0
+		"colorID": 2
 	},
 	{
 		"title": "Debugging",
@@ -677,7 +677,7 @@
 			"x": 1024,
 			"y": -1448
 		},
-		"colorID": 0
+		"colorID": 2
 	},
 	{
 		"title": "Books",
@@ -687,7 +687,7 @@
 			"x": 2014,
 			"y": -2242
 		},
-		"colorID": 0
+		"colorID": 4
 	},
 	{
 		"title": "Video",
@@ -697,7 +697,7 @@
 			"x": 2234,
 			"y": -2242
 		},
-		"colorID": 0
+		"colorID": 4
 	},
 	{
 		"title": "Online Courses",
@@ -707,7 +707,7 @@
 			"x": 2454,
 			"y": -2242
 		},
-		"colorID": 0
+		"colorID": 4
 	},
 	{
 		"title": "Images",
