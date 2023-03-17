@@ -72,7 +72,7 @@
 	{
 		"title": "End",
 		"tags": "",
-		"body": "This is the end. <<image none>>\nClick \"Restart\" to back to main menu.\n[[Restart|Enter]]",
+		"body": "This is the end. <<image none>><<video none>>\nClick \"Restart\" to back to main menu.\n[[Restart|Enter]]",
 		"position": {
 			"x": 2164,
 			"y": -481
@@ -222,7 +222,7 @@
 	{
 		"title": "Actions",
 		"tags": "",
-		"body": "Empty Text <<image none>>\n[[Sounds]][[Morphs]][[Transforms]][[Animations]][[URLs]][[Miscellaneous]][[Images]][[End]]",
+		"body": "Empty Text <<image none>><<video none>>\n[[Sounds]][[Morphs]][[Transforms]][[Animations]][[URLs]][[Miscellaneous]][[Images]][[Videos]][[End]]",
 		"position": {
 			"x": -864,
 			"y": -441
@@ -362,7 +362,7 @@
 	{
 		"title": "Question_3",
 		"tags": "",
-		"body": "What type of resources do you prefer for learning?\n[[Books]][[Videos]][[Online Courses]]",
+		"body": "What type of resources do you prefer for learning?\n[[Books]][[Video]][[Online Courses]]",
 		"position": {
 			"x": 1894,
 			"y": -2022
@@ -690,7 +690,7 @@
 		"colorID": 0
 	},
 	{
-		"title": "Videos",
+		"title": "Video",
 		"tags": "",
 		"body": "show some popular tutorial videos on the language and their reviews.\n[[Next Question|Question_4]]",
 		"position": {
@@ -838,5 +838,45 @@
 			"y": 1007
 		},
 		"colorID": 7
+	},
+	{
+		"title": "Videos",
+		"tags": "",
+		"body": "Here is a list of all the videos in this dialogue: <<video none>>\n[[video_rays]][[video_hydroponic]][[video_greenhouse]]",
+		"position": {
+			"x": -286,
+			"y": 1276
+		},
+		"colorID": 8
+	},
+	{
+		"title": "video_rays",
+		"tags": "",
+		"body": "Rays video! <<video rays>>\n[[Videos]][[Actions]][[End]]",
+		"position": {
+			"x": 119,
+			"y": 1267
+		},
+		"colorID": 8
+	},
+	{
+		"title": "video_hydroponic",
+		"tags": "",
+		"body": "Hydroponic video! <<video hydroponic>>\n[[Videos]][[Actions]][[End]]",
+		"position": {
+			"x": 335,
+			"y": 1267
+		},
+		"colorID": 8
+	},
+	{
+		"title": "video_greenhouse",
+		"tags": "",
+		"body": "Greenhouse video! <<video greenhouse>>\n[[Videos]][[Actions]][[End]]",
+		"position": {
+			"x": 555,
+			"y": 1267
+		},
+		"colorID": 8
 	}
 ]

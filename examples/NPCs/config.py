@@ -1,10 +1,14 @@
+#DIALOGUE TREE FILE
+DIALOGUE_FILENAME = "actions.json"
+
 #ARENA SETTINGS
 HOST = "mqtt.arenaxr.org"
 NAMESPACE = "johnchoi"
 SCENE = "NPC"
 
-#DIALOGUE TREE FILE
-DIALOGUE_FILENAME = "actions.json"
+#NPC (name Alphanumeric only plus '_', no spaces!)
+NPC_NAME = "NPC_JunkoChan2"
+NPC_GLTF_URL = "/store/users/johnchoi/Characters/JunkoChan/JunkoChan.glb"
 
 #ENTER/EXIT SPECIAL EVENT NODES 
 ENTER_INTERVAL = 100
@@ -12,13 +16,14 @@ ENTER_DISTANCE = 10
 ENTER_NODE = "Enter"
 EXIT_NODE = "Exit"
 
-#NPC (name Alphanumeric only plus '_', no spaces!)
-NPC_NAME = "NPC_JunkoChan2"
-NPC_GLTF_URL = "/store/users/johnchoi/Characters/JunkoChan/JunkoChan.glb"
+#NO ACTIVITY RESET
+RESET_INTERVAL = 100
+RESET_TIME = 10000
 
 #MISCELLANEOUS
 TRANSFORM_TIMER = 3000
 UUID_LEN = 6
+PRINT_VERBOSE = True
 
 #USE DEFAULT ACTIONS
 USE_DEFAULT_ANIMATIONS = True
@@ -30,14 +35,14 @@ ROOT_SCALE = (1,1,1)
 ROOT_POSITION = (0,0,0)
 ROOT_ROTATION = (0,0,0)
 ROOT_COLOR = (255,100,16)
-ROOT_OPACITY = 0.3
+ROOT_OPACITY = 0.0
 
 #NPC GLTF TRANSFORM
 GLTF_SCALE = (1,1,1)
 GLTF_POSITION = (0,0,0)
 GLTF_ROTATION = (0,180,0) #radians, not degrees??
 
-#NPC PLANE SETTINGS
+#NPC PLANE SETTINGS (for both images and videos)
 PLANE_SCALE = 1.2
 PLANE_POSITION = (1.5,1.2,0)
 PLANE_ROTATION = (0,-15,0) #radians, not degrees??

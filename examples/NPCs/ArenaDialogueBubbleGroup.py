@@ -1,4 +1,3 @@
-
 from asyncio import create_subprocess_exec
 from arena import *
 
@@ -36,12 +35,14 @@ class ArenaDialogueBubbleGroup():
         self.videoUsedThisLine = False
         self.soundUsedThisLine = False
 
-        self.hideImageThisClick = False
         
         self.lastImageSize = (0,0,0)
+        self.lastVideoSize = (0,0,0)
+
         self.lastTransform = TRANSFORM_RESET
 
         self.transformTimer = 0
+        self.resetTimer = 0
 
     #reinitializes and restarts the interaction
     def start(self):
@@ -68,40 +69,41 @@ class ArenaDialogueBubbleGroup():
         if(key in soundMappings):
             self.PlaySound(soundMappings[key])
         else:
-            printWarning("    " + "Attempting to play sound from URL \"" + key + "\" because no such mapping exists in mappings.py.")
+            if(PRINT_VERBOSE):
+                printWarning("    " + "Attempting to play sound from URL \"" + key + "\" because no such mapping exists in mappings.py.")
+            
             self.PlaySoundFromUrl(key)
     def PlaySoundFromUrl(self, url):
-
-
-        printWhiteB("Play sound from url \'" + url + "\"")
+        if(PRINT_VERBOSE):
+            printWhiteB("Play sound from url \'" + url + "\"")
         sound = Sound(volume=1, autoplay=True, src=url)
         self.PlaySound(sound)
     def PlaySound(self, sound):
-
-        printWhiteB("Playing sound...")
-
+        if(PRINT_VERBOSE):
+            printWhiteB("Playing sound...")
         self.npc.data.sound=None #resets so can play same sound again
         self.scene.update_object(self.npc)
         self.npc.data.sound=sound
         self.scene.update_object(self.npc)
 
-
-
     #Animations
     def PlayAnimationFromMapping(self, key):
         if(key in animationMappings):
             self.PlayAnimation(animationMappings[key])
-        else: 
-            printWarning("    " + "Attempting to play animation from name \"" + key + "\" because no such mapping exists in mappings.py.")
+        else:     
+            if(PRINT_VERBOSE):
+                printWarning("    " + "Attempting to play animation from name \"" + key + "\" because no such mapping exists in mappings.py.")
             self.PlayAnimationFromName(key)
 
     def PlayAnimationFromName(self, name):
-        printWhiteB("Play animation from name \'" + name + "\"")
+        if(PRINT_VERBOSE):
+            printWhiteB("Play animation from name \'" + name + "\"")
         animation = AnimationMixer(clip=name, loop="once", crossFadeDuration=0.5, timeScale = 1)
         self.PlayAnimation(animation)
 
     def PlayAnimation(self, animation):
-        printWhiteB("Playing animation...")
+        if(PRINT_VERBOSE):
+            printWhiteB("Playing animation...")
         self.gltf.dispatch_animation(animation)
         self.scene.run_animations(self.gltf)
         
@@ -110,9 +112,11 @@ class ArenaDialogueBubbleGroup():
         if(key in transformMappings):
             self.PlayTransform(transformMappings[key])
         else:
-            printWarning("    " + "Cannot play transform \"" + key + "\" because no such mapping exists in mappings.py.")
+            if(PRINT_VERBOSE):
+                printWarning("    " + "Cannot play transform \"" + key + "\" because no such mapping exists in mappings.py.")
     def PlayTransform(self, transform):
-        printWhiteB("Playing transform...")
+        if(PRINT_VERBOSE):
+            printWhiteB("Playing transform...")
         self.npc.dispatch_animation(transform)
         self.scene.run_animations(self.npc)
         #self.scene.update_object(self.npc)
@@ -128,9 +132,11 @@ class ArenaDialogueBubbleGroup():
         if(key in morphMappings):
             self.PlayMorph(morphMappings[key])
         else:
-            printWarning("    " + "Cannot play morph \"" + key + "\" because no such mapping exists in mappings.py.")
+            if(PRINT_VERBOSE):
+                printWarning("    " + "Cannot play morph \"" + key + "\" because no such mapping exists in mappings.py.")
     def PlayMorph(self, morphs):
-        printWhiteB("Playing morph...")
+        if(PRINT_VERBOSE):
+            printWhiteB("Playing morph...")
         self.gltf.update_morph(morphs)
         self.scene.update_object(self.gltf)
 
@@ -139,17 +145,20 @@ class ArenaDialogueBubbleGroup():
         if(key in urlMappings):
             self.PlayGotoUrl(urlMappings[key])
         else:
-            printWarning("    " + "Attempting to directly play URL \"" + key + "\" because no such mapping exists in mappings.py.")
+            if(PRINT_VERBOSE):
+                printWarning("    " + "Attempting to directly play URL \"" + key + "\" because no such mapping exists in mappings.py.")
             self.PlayUrl(key)
     def PlayUrl(self, link):
-        printWhiteB("Play url with link \'" + link + "\"")
+        if(PRINT_VERBOSE):
+            printWhiteB("Play url with link \'" + link + "\"")
         
         gotoUrl = GotoUrl(dest="popup", on="mousedown", url=link)
         self.PlayGotoUrl(gotoUrl)
 
     def PlayGotoUrl(self, gotoUrl):
 
-        printWhiteB("Playing gotoUrl...")
+        if(PRINT_VERBOSE):
+            printWhiteB("Playing gotoUrl...")
         self.npc.data.goto_url=None
         self.scene.update_object(self.npc)
 
@@ -161,30 +170,45 @@ class ArenaDialogueBubbleGroup():
 
     #Videos
     def PlayVideoFromMapping(self, key):
-        if(key in imageMappings):
-            self.PlayImage(imageMappings[key])
+        if(key in videoMappings):
+            if(videoMappings[key] is not None):
+                self.PlayVideo(videoMappings[key])
+            else:
+                self.HideVideo()
         else:
-            printWarning("    " + "Attempting to play image from URL \"" + key + "\" because no such mapping exists in mappings.py.")
-            self.PlayImageFromUrl(key)
-    def PlayVideoFromUrl(self, src):
-        printWhiteB("Play image from url \'" + src + "\":")        
-        image = Image(url = src, w = 1000, h = 1000, size = 1),
-        self.PlayImage(image)
-    def PlayVideo(self, image):
-        printWhiteB("Playing image...")
-        #Get New Scale
-        #self.image.data.scale = self.getNewScale(material.w, material.h)
-        
-        #Clear Material
-        #self.image.data.material=None 
-        #self.scene.update_object(self.image)
-        
-        self.ShowImage(self.getNewScale(image.w, image.h, image.size))
+            if(PRINT_VERBOSE):
+                printWarning("    " + "Hiding video \"" + key + "\" because no such mapping exists in mappings.py.")
+            self.HideVideo()
 
-        #Apply New Material
-        #self.image.data.material=material
-        #self.image.data.material_extras = material
-        self.scene.update_object(self.image, url = "https://arenaxr.org/store/users/johnchoi/Images/dragon.jpg")
+    def PlayVideoFromUrl(self, url):
+        if(PRINT_VERBOSE):
+            printWhiteB("Play video from url \'" + url + "\":")        
+        material = Material(src = url, transparent = True, opacity = 0.9, color = "#ffffff", w = 1920, h = 1080, size = 1)
+        self.PlayVideo(material)
+    
+    def PlayVideo(self, material):
+        if(PRINT_VERBOSE):
+            printWhiteB("Playing video...")
+        #Clear Material
+        #self.video.data.material=None 
+        #self.scene.update_object(self.video)
+        self.ShowVideo(self.getNewScale(1920, 1080, 1))
+        self.video.data.material=material
+        self.scene.update_object(self.video)
+
+    def HideVideo(self):
+        animation = Animation(property="scale", start=self.lastVideoSize, end=(0,0,random.uniform(0, 0.01)), easing="easeInOutQuad", dur=500)
+        self.video.dispatch_animation(animation)
+        self.scene.run_animations(self.video)
+        self.lastVideoSize = (0,0,0)
+    
+    def ShowVideo(self, scale):
+        animation = Animation(property="scale", start=(0,0,random.uniform(0, 0.01)), end=scale, easing="easeInOutQuad", dur=500)
+        self.video.dispatch_animation(animation)
+        self.scene.run_animations(self.video)
+        self.lastVideoSize = scale
+
+
 
     #Images
     def PlayImageFromMapping(self, key):
@@ -194,20 +218,20 @@ class ArenaDialogueBubbleGroup():
             else:
                 self.HideImage()
         else:
-            printWarning("    " + "Attempting to play image from URL \"" + key + "\" because no such mapping exists in mappings.py.")
-            #self.PlayImageFromUrl(key)
+            if(PRINT_VERBOSE):
+                printWarning("    " + "Hiding image with \"" + key + "\" because no such mapping exists in mappings.py.")
             self.HideImage()
-
     def PlayImageFromUrl(self, src):
-        printWhiteB("Play image from url \'" + src + "\":")        
+        if(PRINT_VERBOSE):
+            printWhiteB("Play image from url \'" + src + "\":")        
         img = IMG(url = src, w = 1000, h = 1000, size = 1)
         self.PlayImage(img)
-
     def PlayImage(self, img):
-        printWhiteB("Playing image...")
+        if(PRINT_VERBOSE):
+            printWhiteB("Playing image...")
+
         self.ShowImage(self.getNewScale(img.w, img.h, img.size))
         self.scene.update_object(self.image, url = img.url)
-
     def HideImage(self):
         animation = Animation(property="scale", start=self.lastImageSize, end=(0,0,random.uniform(0, 0.01)), easing="easeInOutQuad", dur=500)
         self.image.dispatch_animation(animation)
@@ -217,11 +241,25 @@ class ArenaDialogueBubbleGroup():
         animation = Animation(property="scale", start=(0,0,random.uniform(0, 0.01)), end=scale, easing="easeInOutQuad", dur=500)
         self.image.dispatch_animation(animation)
         self.scene.run_animations(self.image)
-        self.hideImageThisClick = True
         self.lastImageSize = scale
         if(USE_DEFAULT_SOUNDS and not self.soundUsedThisLine):
             self.PlaySound(SOUND_IMAGE)
 
+
+
+
+    def HidePlane(self):
+        animation = Animation(property="scale", start=self.lastImageSize, end=(0,0,random.uniform(0, 0.01)), easing="easeInOutQuad", dur=500)
+        self.image.dispatch_animation(animation)
+        self.scene.run_animations(self.image)
+        self.lastImageSize = (0,0,0)
+    def ShowPlane(self, scale):
+        animation = Animation(property="scale", start=(0,0,random.uniform(0, 0.01)), end=scale, easing="easeInOutQuad", dur=500)
+        self.image.dispatch_animation(animation)
+        self.scene.run_animations(self.image)
+        self.lastImageSize = scale
+        if(USE_DEFAULT_SOUNDS and not self.soundUsedThisLine):
+            self.PlaySound(SOUND_IMAGE)
     def getNewScale(self, w, h, size):
         aspect = ( w * 1.0 ) / ( h * 1.0 )
         scale = 1
@@ -242,7 +280,8 @@ class ArenaDialogueBubbleGroup():
             self.scene.all_objects.get[key].data.visible = visible
             self.scene.update_object(self.scene.all_objects.get[key])
         else:
-            printWarning("    " + "Cannot set visibility of object with name \"" + key + "\" because no such object exists in scene.")
+            if(PRINT_VERBOSE):
+                printWarning("    " + "Cannot set visibility of object with name \"" + key + "\" because no such object exists in scene.")
 
     #Clear extra properties
     def ClearCommandProperties(self):
@@ -415,6 +454,9 @@ class ArenaDialogueBubbleGroup():
     #functions to control choice button click behaviour
     def onClickChoiceButton(self, scene, evt, msg):
         if evt.type == "mousedown":
+            
+            self.resetTimer = RESET_TIME
+
             choiceButtonID = msg["object_id"]
             filterLen = len(self.npc.object_id + "_choiceButton_") + UUID_LEN + 1
 
@@ -431,10 +473,15 @@ class ArenaDialogueBubbleGroup():
             if(USE_DEFAULT_SOUNDS):
                 self.PlaySound(SOUND_CHOICE)
 
+
+
     #functions to control choice button click behaviour
     def onClickNextButton(self, scene, evt, msg):
         if evt.type == "mousedown":
+            self.resetTimer = RESET_TIME
+
             printCyan("  Next Button Pressed!")
+            
             self.advanceToNextLine()
 
             self.ClearCommandProperties()
@@ -457,24 +504,12 @@ class ArenaDialogueBubbleGroup():
         else:
             printWarning("No node with name \"" + nodeName + "\" exists! Ignoring gotoNodeWithName() request.")
 
-    
-
-
-
-        
-
-
     def gotoNodeWithIndex(self, nodeIndex):
-        if(0 <= nodeIndex and nodeIndex < len(self.dialogue.nodes)):
-
-            
+        if(0 <= nodeIndex and nodeIndex < len(self.dialogue.nodes)):          
             self.clearButtons()    
             self.dialogue.currentNode = self.dialogue.nodes[nodeIndex]
             self.dialogue.currentNode.currentLineIndex = 0
             self.createNewButtons(self.dialogue.currentNode.lines[0])
-
-
-
         else:
             printWarning("No node with index [" + str(nodeIndex) + "] exists! Ignoring gotoNodeWithIndex() request.")
         

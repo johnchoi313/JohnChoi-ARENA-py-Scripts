@@ -29,7 +29,7 @@ class Button():
             material = Material(color = buttonColor, transparent = False, opacity=1),
 
             parent = button,
-            persist=True
+            persist=False
         )
         self.scene.add_object(buttonText)
         #Return created object
@@ -49,7 +49,7 @@ class Button():
             evt_handler=buttonHandler,
             parent = self.npc,
             clickable=True,
-            persist=True
+            persist=False
         )
         self.scene.add_object(button)
         #Button Appearance Animation    

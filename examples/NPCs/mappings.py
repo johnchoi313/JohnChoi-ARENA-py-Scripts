@@ -9,9 +9,7 @@ SOUND_NEXT    = Sound(volume=1.0, autoplay=True, positional=True, src="store/use
 SOUND_CHOICE  = Sound(volume=1.0, autoplay=True, positional=True, src="store/users/johnchoi/Sounds/NPC/Choice.wav")
 SOUND_ENTER   = Sound(volume=0.8, autoplay=True, positional=True, src="store/users/johnchoi/Sounds/NPC/Enter.wav")
 SOUND_EXIT    = Sound(volume=0.8, autoplay=True, positional=True, src="store/users/johnchoi/Sounds/NPC/Exit.wav")
-
-SOUND_IMAGE    = Sound(volume=0.8, autoplay=True, positional=True, src="store/users/johnchoi/Sounds/NPC/Enter.wav") #Not applied yet, TODO
-
+SOUND_IMAGE   = Sound(volume=0.8, autoplay=True, positional=True, src="store/users/johnchoi/Sounds/NPC/Enter.wav")
 SOUND_TALKING = Sound(volume=1.0, autoplay=True, positional=True, src="store/users/johnchoi/Sounds/NPC/Talking.wav")
 SOUND_WALKING = Sound(volume=1.0, autoplay=True, positional=True, src="store/users/johnchoi/Sounds/NPC/Walking.wav") #Not applied yet, TODO
 
@@ -36,10 +34,10 @@ TRANSFORM_RESET = [ Animation(property="position", end=ROOT_POSITION, easing="ea
 # --Sound Schema: https://docs.arenaxr.org/content/schemas/message/sound.html
 # --Sound Example: https://github.com/arenaxr/arena-py/blob/master/examples/attributes/sound.py 
 soundMappings = {
-    "next" :    Sound(volume=1.0, autoplay=True, positional=True, src="store/users/johnchoi/Sounds/NPC/Next.wav"),
-    "choice" :  Sound(volume=1.0, autoplay=True, positional=True, src="store/users/johnchoi/Sounds/NPC/Choice.wav"),
-    "enter" :   Sound(volume=0.8, autoplay=True, positional=True, src="store/users/johnchoi/Sounds/NPC/Enter.wav"),
-    "exit" :    Sound(volume=0.8, autoplay=True, positional=True, src="store/users/johnchoi/Sounds/NPC/Exit.wav"),
+    "next"    : Sound(volume=1.0, autoplay=True, positional=True, src="store/users/johnchoi/Sounds/NPC/Next.wav"),
+    "choice"  : Sound(volume=1.0, autoplay=True, positional=True, src="store/users/johnchoi/Sounds/NPC/Choice.wav"),
+    "enter"   : Sound(volume=0.8, autoplay=True, positional=True, src="store/users/johnchoi/Sounds/NPC/Enter.wav"),
+    "exit"    : Sound(volume=0.8, autoplay=True, positional=True, src="store/users/johnchoi/Sounds/NPC/Exit.wav"),
     "talking" : Sound(volume=1.0, autoplay=True, positional=True, src="store/users/johnchoi/Sounds/NPC/Talking.wav")
 }
 
@@ -47,9 +45,9 @@ soundMappings = {
 # --AnimationMixer Schema: https://docs.arenaxr.org/content/schemas/message/animation-mixer.html 
 # --AnimationMixer Example: https://github.com/arenaxr/arena-py/blob/master/examples/attributes/animation_mixer.py 
 animationMappings = {
-    "idle" : AnimationMixer(clip="Idle", loop="repeat", crossFadeDuration=0.5, timeScale = 1),
-    "walk" : AnimationMixer(clip="Walk", loop="repeat", crossFadeDuration=0.5, timeScale = 1),
-    "talk" : AnimationMixer(clip="NailGun_Idle", loop="repeat", crossFadeDuration=0.5, timeScale = 1),
+    "idle"   : AnimationMixer(clip="Idle", loop="repeat", crossFadeDuration=0.5, timeScale = 1),
+    "walk"   : AnimationMixer(clip="Walk", loop="repeat", crossFadeDuration=0.5, timeScale = 1),
+    "talk"   : AnimationMixer(clip="NailGun_Idle", loop="repeat", crossFadeDuration=0.5, timeScale = 1),
     "crouch" : AnimationMixer(clip="Crouch", loop="repeat", crossFadeDuration=0.5, timeScale = 1),
     "jump"   : AnimationMixer(clip="Jump", loop="once", crossFadeDuration=0.5, timeScale = 1),
     "happy"  : AnimationMixer(clip="Happy", loop="once", crossFadeDuration=0.5, timeScale = 1)
@@ -85,12 +83,12 @@ transformMappings = {
 # --Morph Schema: https://docs.arenaxr.org/content/python/animations.html#gltf-morphs
 # --Morph Example: https://github.com/arenaxr/arena-py/blob/master/examples/attributes/morph.py
 morphMappings = {
-    "smile" :  (Morph(morphtarget="Smile",value=1.0)),
-    "blink" :  (Morph(morphtarget="Blink",value=1.0)),
-    "open" :   (Morph(morphtarget="a",value=1.0)),
+    "smile"  : (Morph(morphtarget="Smile",value=1.0)),
+    "blink"  : (Morph(morphtarget="Blink",value=1.0)),
+    "open"   : (Morph(morphtarget="a",value=1.0)),
     "squint" : (Morph(morphtarget="><",value=1.0)),
-    "dizzy" :  (Morph(morphtarget="@@",value=1.0)),
-    "reset" :  (Morph(morphtarget="Smile",value=0.0), Morph(morphtarget="Blink",value=0.0))
+    "dizzy"  : (Morph(morphtarget="@@",value=1.0)),
+    "reset"  : (Morph(morphtarget="Smile",value=0.0), Morph(morphtarget="Blink",value=0.0))
 }
 
 # Shorthand url names mapped to (Website URL, volume, loop)
@@ -133,5 +131,7 @@ imageMappings = {
 # --Url Schema: https://docs.arenaxr.org/content/schemas/message/material.html#material
 # --Url Example: https://github.com/arenaxr/arena-py/blob/master/examples/attributes/material.py
 videoMappings = {
-    "potato" : IMG(url = "store/users/johnchoi/Images/potato.jpg", w = 1920, h = 1080, size = 1),
+    "rays"       : Material(src = "store/users/johnchoi/Videos/rays.mp4", transparent = True, opacity = 0.5),
+    "hydroponic" : Material(src = "store/users/johnchoi/Videos/hydroponic.mp4", transparent = True, opacity = 0.5),
+    "greenhouse" : Material(src = "store/users/johnchoi/Videos/greenhouse.mp4", transparent = True, opacity = 0.5)
 }

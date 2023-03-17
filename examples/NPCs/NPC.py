@@ -64,6 +64,8 @@ class NPC:
 
             url = "https://arenaxr.org/store/users/johnchoi/Images/nyan.jpg",
 
+            material = Material(transparent = True, opacity = 0.5),
+
             parent=self.root,
             persist=True
         )
@@ -71,14 +73,13 @@ class NPC:
         
         #NPC VIDEO
         self.video = Plane(
-            object_id=NPC_NAME + "(PLANE)",
+            object_id=NPC_NAME + "(VIDEO)",
 
             position=PLANE_POSITION,
             rotation=PLANE_ROTATION,
-            #scale=(1,1,1),
             scale=(0,0,0),
 
-            #material = Material(src = "store/users/johnchoi/Images/graph.png", transparent = True, opacity = 0.9, color = "#ffffff", w = 1240, h = 1995, size = 1),
+            material = Material(src = "store/users/johnchoi/Videos/rays.mp4", transparent = True, opacity = 0.5),
 
             parent=self.root,
             persist=True
@@ -147,7 +148,7 @@ def Speech_Handler(): #iteratively adds characters to speech bubble
             npc.bubbles.transformTimer = npc.bubbles.transformTimer - SPEECH_INTERVAL
 
         else:
-            if(0 <= npc.bubbles.speechIndex and npc.bubbles.speechIndex < len(npc.bubbles.speech)):
+            if(0 <= npc.bubbles.speechIndex and npc.bubbles.speechIndex * SPEECH_SPEED < len(npc.bubbles.speech)):
                 npc.bubbles.speechIndex += 1
             
                 #start talking animation if not started already
@@ -180,5 +181,17 @@ def Speech_Handler(): #iteratively adds characters to speech bubble
 
         npc.bubbles.speechBubble.data.text = npc.bubbles.speech[:npc.bubbles.speechIndex * SPEECH_SPEED]
         scene.update_object(npc.bubbles.speechBubble)
+
+
+@scene.run_forever(interval_ms=RESET_INTERVAL)
+def Reset_Handler(): #iteratively adds characters to speech bubble
+
+    if(npc.bubbles.resetTimer > 0):
+        npc.bubbles.resetTimer = npc.bubbles.resetTimer - RESET_INTERVAL
+    else:
+        npc.bubbles.resetTimer = RESET_TIME
+        npc.bubbles.gotoNodeWithName(ENTER_NODE)
+        printLightRedB("NPC with name \"" + NPC_NAME + "\" detected no activity for " + str(RESET_TIME) + " milliseconds. Resetting.")
+        
 
 scene.run_tasks()
