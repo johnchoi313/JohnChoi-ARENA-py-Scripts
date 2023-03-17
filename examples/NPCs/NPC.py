@@ -57,30 +57,22 @@ class NPC:
         #NPC IMAGE
         self.image = Image(
             object_id=NPC_NAME + "(IMAGE)",
-
             position=PLANE_POSITION,
             rotation=PLANE_ROTATION,
             scale=(0,0,0),
-
             url = "https://arenaxr.org/store/users/johnchoi/Images/nyan.jpg",
-
-            material = Material(transparent = True, opacity = 0.5),
-
+            material = Material(transparent = True, opacity = PLANE_OPACITY),
             parent=self.root,
             persist=True
         )
-        scene.add_object(self.image)
-        
+        scene.add_object(self.image)    
         #NPC VIDEO
         self.video = Plane(
             object_id=NPC_NAME + "(VIDEO)",
-
             position=PLANE_POSITION,
             rotation=PLANE_ROTATION,
             scale=(0,0,0),
-
-            material = Material(src = "store/users/johnchoi/Videos/rays.mp4", transparent = True, opacity = 0.5, w = 1920, h = 1080, size = 1),
-
+            material = Material(src = "store/users/johnchoi/Videos/rays.mp4", transparent = True, opacity = PLANE_OPACITY, w = 1920, h = 1080, size = 1),
             parent=self.root,
             persist=True
         )
@@ -138,6 +130,17 @@ def EnterExit_Handler(): #checks whether or not a user is in range of NPC
     
     npc.userCount = userCount
 
+
+@scene.run_forever(interval_ms=RESET_INTERVAL)
+def Reset_Handler(): #RESET_TIME milliseconds of no activity resets interaction.
+    if(npc.bubbles.resetTimer > 0):
+        npc.bubbles.resetTimer = npc.bubbles.resetTimer - RESET_INTERVAL
+    else:
+        npc.bubbles.resetTimer = RESET_TIME
+        npc.bubbles.gotoNodeWithName(ENTER_NODE)
+        printLightRedB("NPC with name \"" + NPC_NAME + "\" detected no activity for " + str(RESET_TIME) + " milliseconds. Resetting.")
+        
+        
 @scene.run_forever(interval_ms=SPEECH_INTERVAL)
 def Speech_Handler(): #iteratively adds characters to speech bubble
     
@@ -181,17 +184,5 @@ def Speech_Handler(): #iteratively adds characters to speech bubble
 
         npc.bubbles.speechBubble.data.text = npc.bubbles.speech[:npc.bubbles.speechIndex * SPEECH_SPEED]
         scene.update_object(npc.bubbles.speechBubble)
-
-
-@scene.run_forever(interval_ms=RESET_INTERVAL)
-def Reset_Handler(): #iteratively adds characters to speech bubble
-
-    if(npc.bubbles.resetTimer > 0):
-        npc.bubbles.resetTimer = npc.bubbles.resetTimer - RESET_INTERVAL
-    else:
-        npc.bubbles.resetTimer = RESET_TIME
-        npc.bubbles.gotoNodeWithName(ENTER_NODE)
-        printLightRedB("NPC with name \"" + NPC_NAME + "\" detected no activity for " + str(RESET_TIME) + " milliseconds. Resetting.")
-        
 
 scene.run_tasks()

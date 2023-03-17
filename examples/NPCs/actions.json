@@ -65,7 +65,7 @@
 		"body": "Playing morph \"smile\": <<morph smile>>\n[[Morphs]][[Actions]][[End]]",
 		"position": {
 			"x": 73,
-			"y": -641
+			"y": -644
 		},
 		"colorID": 2
 	},
@@ -745,7 +745,7 @@
 		"body": "Exclamation image! <<image exclamation>>\n[[Images]][[Actions]][[End]]",
 		"position": {
 			"x": 551,
-			"y": 1007
+			"y": 1004
 		},
 		"colorID": 7
 	},

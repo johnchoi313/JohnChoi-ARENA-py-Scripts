@@ -16,26 +16,25 @@ from ColorPrinter import *
 
 class ArenaDialogueBubbleGroup():
     def __init__(self, scene, npc, gltf, image, video, dialogue):
+        #Persistent ARENA objects
         self.scene = scene
         self.npc = npc
         self.gltf = gltf
-
         self.image = image
         self.video = video
 
+        #Dialogue stuff
         self.dialogue = dialogue
         self.speech = ""
         self.speechIndex = 0
-        self.initializeBubbles()
 
+        #"Used this line" vars (if command was used this line. Needed to reset things correctly.)
         self.animationUsedThisLine = False
         self.transformUsedThisLine = False
-
         self.imageUsedThisLine = False
         self.videoUsedThisLine = False
         self.soundUsedThisLine = False
 
-        
         self.lastImageSize = (0,0,0)
         self.lastVideoSize = (0,0,0)
 
@@ -43,6 +42,9 @@ class ArenaDialogueBubbleGroup():
 
         self.transformTimer = 0
         self.resetTimer = 0
+
+        #Init Everything First time        
+        self.initializeBubbles()
 
     #reinitializes and restarts the interaction
     def start(self):
@@ -126,7 +128,6 @@ class ArenaDialogueBubbleGroup():
         else:
             self.lastTransform = transform
 
-
     #Morphs
     def PlayMorphFromMapping(self, key):
         if(key in morphMappings):
@@ -154,9 +155,7 @@ class ArenaDialogueBubbleGroup():
         
         gotoUrl = GotoUrl(dest="popup", on="mousedown", url=link)
         self.PlayGotoUrl(gotoUrl)
-
     def PlayGotoUrl(self, gotoUrl):
-
         if(PRINT_VERBOSE):
             printWhiteB("Playing gotoUrl...")
         self.npc.data.goto_url=None
@@ -179,13 +178,11 @@ class ArenaDialogueBubbleGroup():
             if(PRINT_VERBOSE):
                 printWarning("    " + "Hiding video \"" + key + "\" because no such mapping exists in mappings.py.")
             self.HideVideo()
-
     def PlayVideoFromUrl(self, url):
         if(PRINT_VERBOSE):
             printWhiteB("Play video from url \'" + url + "\":")        
         material = Material(src = url, transparent = True, opacity = 0.9, color = "#ffffff", w = 1920, h = 1080, size = 1)
         self.PlayVideo(material)
-    
     def PlayVideo(self, material):
         if(PRINT_VERBOSE):
             printWhiteB("Playing video...")
@@ -195,20 +192,12 @@ class ArenaDialogueBubbleGroup():
         self.ShowVideo(self.getNewScale(material.w, material.h, material.size))
         self.video.data.material=material
         self.scene.update_object(self.video)
-
     def HideVideo(self):
-        animation = Animation(property="scale", start=self.lastVideoSize, end=(0,0,random.uniform(0, 0.01)), easing="easeInOutQuad", dur=500)
-        self.video.dispatch_animation(animation)
-        self.scene.run_animations(self.video)
+        self.ScaleAnimation(self.video, self.lastVideoSize, (0,0,random.uniform(0, 0.01)))        
         self.lastVideoSize = (0,0,0)
-    
     def ShowVideo(self, scale):
-        animation = Animation(property="scale", start=(0,0,random.uniform(0, 0.01)), end=scale, easing="easeInOutQuad", dur=500)
-        self.video.dispatch_animation(animation)
-        self.scene.run_animations(self.video)
+        self.ScaleAnimation(self.video, (0,0,random.uniform(0, 0.01)), scale)
         self.lastVideoSize = scale
-
-
 
     #Images
     def PlayImageFromMapping(self, key):
@@ -229,37 +218,23 @@ class ArenaDialogueBubbleGroup():
     def PlayImage(self, img):
         if(PRINT_VERBOSE):
             printWhiteB("Playing image...")
-
         self.ShowImage(self.getNewScale(img.w, img.h, img.size))
         self.scene.update_object(self.image, url = img.url)
     def HideImage(self):
-        animation = Animation(property="scale", start=self.lastImageSize, end=(0,0,random.uniform(0, 0.01)), easing="easeInOutQuad", dur=500)
-        self.image.dispatch_animation(animation)
-        self.scene.run_animations(self.image)
+        self.ScaleAnimation(self.image, self.lastImageSize, (0,0,random.uniform(0, 0.01)))
         self.lastImageSize = (0,0,0)
     def ShowImage(self, scale):
-        animation = Animation(property="scale", start=(0,0,random.uniform(0, 0.01)), end=scale, easing="easeInOutQuad", dur=500)
-        self.image.dispatch_animation(animation)
-        self.scene.run_animations(self.image)
+        self.ScaleAnimation(self.image, (0,0,random.uniform(0, 0.01)), scale)
         self.lastImageSize = scale
+
         if(USE_DEFAULT_SOUNDS and not self.soundUsedThisLine):
             self.PlaySound(SOUND_IMAGE)
 
-
-
-
-    def HidePlane(self):
-        animation = Animation(property="scale", start=self.lastImageSize, end=(0,0,random.uniform(0, 0.01)), easing="easeInOutQuad", dur=500)
-        self.image.dispatch_animation(animation)
-        self.scene.run_animations(self.image)
-        self.lastImageSize = (0,0,0)
-    def ShowPlane(self, scale):
-        animation = Animation(property="scale", start=(0,0,random.uniform(0, 0.01)), end=scale, easing="easeInOutQuad", dur=500)
-        self.image.dispatch_animation(animation)
-        self.scene.run_animations(self.image)
-        self.lastImageSize = scale
-        if(USE_DEFAULT_SOUNDS and not self.soundUsedThisLine):
-            self.PlaySound(SOUND_IMAGE)
+    #Scaling helper functions.
+    def ScaleAnimation(self, plane, startScale, endScale):
+        animation = Animation(property="scale", start=startScale, end=endScale, easing="easeInOutQuad", dur=PLANE_SCALE_DURATION)
+        plane.dispatch_animation(animation)
+        self.scene.run_animations(plane)
     def getNewScale(self, w, h, size):
         aspect = ( w * 1.0 ) / ( h * 1.0 )
         scale = 1
@@ -283,10 +258,14 @@ class ArenaDialogueBubbleGroup():
             if(PRINT_VERBOSE):
                 printWarning("    " + "Cannot set visibility of object with name \"" + key + "\" because no such object exists in scene.")
 
+    
+    '''
     #Clear extra properties
     def ClearCommandProperties(self):
         self.npc.data.goto_url = None
         return
+
+    '''
 
     #runs commands
     def runCommands(self, line):
@@ -320,52 +299,43 @@ class ArenaDialogueBubbleGroup():
 
             #<<show ("objectName")>> (this shows an object with the name if it exists)
             elif(command.type.lower() == "show".lower()):
-                printYellow("    " + command.text)
                 self.SetVisible(command.args[0], True)
             #<<hide ("objectName")>> (this shows an object with the name if it exists)
             elif(command.type.lower() == "hide".lower()):
-                printYellow("    " + command.text)
                 self.SetVisible(command.args[0], False)
 
             ###------QUICK ACTION MAPPINGS------###
 
             #<<sound ("soundMappingName")>>
             elif(command.type.lower() == "sound".lower()):
-                printYellow("    " + command.text)
                 self.soundUsedThisLine = True
                 self.PlaySoundFromMapping(command.args[0])
 
             #<<animation ("animationMappingName")>>
             elif(command.type.lower() == "animation".lower()):
-                printYellow("    " + command.text)
                 self.animationUsedThisLine = True
                 self.PlayAnimationFromMapping(command.args[0])
                 
             #<<transform ("transformMappingName")>>
             elif(command.type.lower() == "transform".lower()):
-                printYellow("    " + command.text)
                 self.transformUsedThisLine = True
                 self.PlayTransformFromMapping(command.args[0])
                 
             #<<morph ("morphMappingName")>>
             elif(command.type.lower() == "morph".lower()):
-                printYellow("    " + command.text)
                 self.PlayMorphFromMapping(command.args[0])
 
             #<<url ("urlMappingName")>>
             elif(command.type.lower() == "url".lower()):
-                printYellow("    " + command.text)
                 self.PlayUrlFromMapping(command.args[0])
 
             #<<image ("imageMappingName")>>
             elif(command.type.lower() == "image".lower()):
-                printYellow("    " + command.text)
                 self.imageUsedThisLine = True
                 self.PlayImageFromMapping(command.args[0])
 
             #<<video ("imageMappingName")>>
             elif(command.type.lower() == "video".lower()):
-                printYellow("    " + command.text)
                 self.videoUsedThisLine = True
                 self.PlayVideoFromMapping(command.args[0])
 
@@ -468,12 +438,8 @@ class ArenaDialogueBubbleGroup():
                         
             self.gotoNodeWithName(choiceNodeName)
             
-            self.ClearCommandProperties()
-
             if(USE_DEFAULT_SOUNDS):
                 self.PlaySound(SOUND_CHOICE)
-
-
 
     #functions to control choice button click behaviour
     def onClickNextButton(self, scene, evt, msg):
@@ -483,8 +449,6 @@ class ArenaDialogueBubbleGroup():
             printCyan("  Next Button Pressed!")
             
             self.advanceToNextLine()
-
-            self.ClearCommandProperties()
 
             if(USE_DEFAULT_SOUNDS):
                 self.PlaySound(SOUND_NEXT)

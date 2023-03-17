@@ -53,7 +53,7 @@ class Button():
         )
         self.scene.add_object(button)
         #Button Appearance Animation    
-        animation = Animation(property="scale", start=(0,0,0), end=buttonScale, easing="easeInOutQuad", dur=500)
+        animation = Animation(property="scale", start=(0,0,0), end=buttonScale, easing="easeInOutQuad", dur=CHOICE_SCALE_DURATION)
         button.dispatch_animation(animation)
         self.scene.run_animations(button)
         #Return created object
