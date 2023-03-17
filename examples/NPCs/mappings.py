@@ -9,8 +9,11 @@ SOUND_NEXT    = Sound(volume=1.0, autoplay=True, positional=True, src="store/use
 SOUND_CHOICE  = Sound(volume=1.0, autoplay=True, positional=True, src="store/users/johnchoi/Sounds/NPC/Choice.wav")
 SOUND_ENTER   = Sound(volume=0.8, autoplay=True, positional=True, src="store/users/johnchoi/Sounds/NPC/Enter.wav")
 SOUND_EXIT    = Sound(volume=0.8, autoplay=True, positional=True, src="store/users/johnchoi/Sounds/NPC/Exit.wav")
+
+SOUND_IMAGE    = Sound(volume=0.8, autoplay=True, positional=True, src="store/users/johnchoi/Sounds/NPC/Enter.wav") #Not applied yet, TODO
+
 SOUND_TALKING = Sound(volume=1.0, autoplay=True, positional=True, src="store/users/johnchoi/Sounds/NPC/Talking.wav")
-SOUND_WALKING = Sound(volume=1.0, autoplay=True, positional=True, src="store/users/johnchoi/Sounds/NPC/Talking.wav")
+SOUND_WALKING = Sound(volume=1.0, autoplay=True, positional=True, src="store/users/johnchoi/Sounds/NPC/Walking.wav") #Not applied yet, TODO
 
 #DEFAULT ANIMATIONS (set these to None if you don't want default animations, or set USE_DEFAULT_ANIMATIONS = False)
 ANIM_IDLE = AnimationMixer(clip="Idle", loop="repeat", timeScale = 1, crossFadeDuration=0.5)
@@ -47,28 +50,23 @@ animationMappings = {
     "idle" : AnimationMixer(clip="Idle", loop="repeat", crossFadeDuration=0.5, timeScale = 1),
     "walk" : AnimationMixer(clip="Walk", loop="repeat", crossFadeDuration=0.5, timeScale = 1),
     "talk" : AnimationMixer(clip="NailGun_Idle", loop="repeat", crossFadeDuration=0.5, timeScale = 1),
-    
     "crouch" : AnimationMixer(clip="Crouch", loop="repeat", crossFadeDuration=0.5, timeScale = 1),
     "jump"   : AnimationMixer(clip="Jump", loop="once", crossFadeDuration=0.5, timeScale = 1),
     "happy"  : AnimationMixer(clip="Happy", loop="once", crossFadeDuration=0.5, timeScale = 1)
-
 }
 
 # Shorthand transform names mapped to transform action over time
 # --Animation Schema: https://docs.arenaxr.org/content/schemas/message/animation.html 
 # --Animation Example: https://github.com/arenaxr/arena-py/blob/master/examples/attributes/animation.py 
 transformMappings = {
-    
     "point0" : [              
         Animation(property="position", end=(0,0,0), easing="easeInOutSine", dur=TRANSFORM_TIMER),  
         Animation(property="rotation", end=(0,0,0), easing="linear", dur=TRANSFORM_TIMER*0.5)
     ],
-    
     "point1" : [              
         Animation(property="position", end=(0,0,0), easing="easeInOutSine", dur=TRANSFORM_TIMER),  
         Animation(property="rotation", end=(0,0,0), easing="linear", dur=TRANSFORM_TIMER*0.5)
     ],
-
     "point2" : [              
         Animation(property="position", end=(0,0,-10), easing="easeInOutSine", dur=TRANSFORM_TIMER),  
         Animation(property="rotation", end=(0,300,0), easing="linear", dur=TRANSFORM_TIMER*0.5)
@@ -77,13 +75,10 @@ transformMappings = {
         Animation(property="position", end=(10,0,0), easing="easeInOutSine", dur=TRANSFORM_TIMER),
         Animation(property="rotation", end=(0,180,0), easing="linear", dur=TRANSFORM_TIMER*0.5)
     ],
-
     "point4" : [              
         Animation(property="position", end=(10,0,0), easing="easeInOutSine", dur=TRANSFORM_TIMER),
         Animation(property="rotation", end=(0,180,0), easing="linear", dur=TRANSFORM_TIMER*0.5)
     ]
-
-
 }
 
 # Shorthand morph names mapped to list of morph target names with weights
@@ -110,33 +105,33 @@ urlMappings = {
 }
 
 # Shorthand image names mapped to (Website URL, volume, loop)
-# --Url Schema: https://docs.arenaxr.org/content/schemas/message/material.html#material
-# --Url Example: https://github.com/arenaxr/arena-py/blob/master/examples/attributes/material.py
+# --Url Schema: https://github.com/arenaxr/arena-py/blob/master/examples/objects/image.py
+# --Url Example: https://docs.arenaxr.org/content/schemas/message/image.html
+class IMG:
+    def __init__(self, url, w, h, size):
+        self.url = url
+        self.w = w
+        self.h = h
+        self.size = size
+        
 imageMappings = {
-
-    "doge" : Material(src = "store/users/johnchoi/Images/doge.jpg", color = "#ffffff", w = 369, h = 273, size = 1),
-    "dragon" : Material(src = "store/users/johnchoi/Images/dragon.jpg", color = "#ffffff", w = 1200, h = 1200, size = 1),
-    
-    "exclamation" : Material(src = "store/users/johnchoi/Images/exclamation.png", color = "#ffffff", w = 920, h = 951, size = 1),
-    
-    "fish" : Material(src = "store/users/johnchoi/Images/fish.jpg", color = "#ffffff", w = 800, h = 450, size = 1),
-    "forest" : Material(src = "store/users/johnchoi/Images/forest.jpg", color = "#ffffff", w = 1500, h = 1000, size = 1),
-    "graph" : Material(src = "store/users/johnchoi/Images/graph.png", color = "#ffffff", w = 918, h = 669, size = 1),
-    
-    "meme" : Material(src = "store/users/johnchoi/Images/meme.jpg", color = "#ffffff", w = 800, h = 450, size = 1),
-    "nyan" : Material(src = "store/users/johnchoi/Images/nyan.jpg", color = "#ffffff", w = 800, h = 450, size = 1),
-    
-    "question" : Material(src = "store/users/johnchoi/Images/question.png", color = "#ffffff", w = 360, h = 480, size = 1),
-    
-    
-    "potato" : Material(src = "store/users/johnchoi/Images/potato.jpg", color = "#ffffff", w = 1920, h = 1080, size = 1),
-    "stonks" : Material(src = "store/users/johnchoi/Images/stonks.png", color = "#ffffff", w = 680, h = 510, size = 1),
-    "sushi" : Material(src = "store/users/johnchoi/Images/sushi.jpg", color = "#ffffff", w = 1240, h = 1995, size = 1)
-                
+    "doge"        : IMG(url = "https://arenaxr.org/store/users/johnchoi/Images/doge.jpg", w = 369, h = 273, size = 1),
+    "dragon"      : IMG(url = "https://arenaxr.org/store/users/johnchoi/Images/dragon.jpg", w = 1200, h = 1200, size = 1),
+    "exclamation" : IMG(url = "https://arenaxr.org/store/users/johnchoi/Images/exclamation.png", w = 920, h = 951, size = 1),
+    "fish"        : IMG(url = "https://arenaxr.org/store/users/johnchoi/Images/fish.jpg", w = 800, h = 450, size = 1),
+    "forest"      : IMG(url = "https://arenaxr.org/store/users/johnchoi/Images/forest.jpg", w = 1500, h = 1000, size = 1),
+    "graph"       : IMG(url = "https://arenaxr.org/store/users/johnchoi/Images/graph.png", w = 918, h = 669, size = 1),
+    "meme"        : IMG(url = "https://arenaxr.org/store/users/johnchoi/Images/meme.jpg", w = 800, h = 450, size = 1),
+    "nyan"        : IMG(url = "https://arenaxr.org/store/users/johnchoi/Images/nyan.jpg", w = 800, h = 450, size = 1),
+    "question"    : IMG(url = "https://arenaxr.org/store/users/johnchoi/Images/question.png", w = 360, h = 480, size = 1),
+    "potato"      : IMG(url = "https://arenaxr.org/store/users/johnchoi/Images/potato.jpg", w = 1920, h = 1080, size = 1),
+    "stonks"      : IMG(url = "https://arenaxr.org/store/users/johnchoi/Images/stonks.png", w = 680, h = 510, size = 1),
+    "sushi"       : IMG(url = "https://arenaxr.org/store/users/johnchoi/Images/sushi.jpg", w = 1240, h = 1995, size = 1)
 }
 
-# Shorthand url names mapped to (Website URL, volume, loop)
-# --Url Schema: https://docs.arenaxr.org/content/schemas/message/video-control.html#video
+# Shorthand image names mapped to (Website URL, volume, loop)
+# --Url Schema: https://docs.arenaxr.org/content/schemas/message/material.html#material
+# --Url Example: https://github.com/arenaxr/arena-py/blob/master/examples/attributes/material.py
 videoMappings = {
-
+    "potato" : IMG(url = "store/users/johnchoi/Images/potato.jpg", w = 1920, h = 1080, size = 1),
 }

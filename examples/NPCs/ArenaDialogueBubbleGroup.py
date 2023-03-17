@@ -16,11 +16,14 @@ from ColorPrinter import *
 # ------------------------------------------ #
 
 class ArenaDialogueBubbleGroup():
-    def __init__(self, scene, npc, gltf, plane, dialogue):
+    def __init__(self, scene, npc, gltf, image, video, dialogue):
         self.scene = scene
         self.npc = npc
         self.gltf = gltf
-        self.plane = plane
+
+        self.image = image
+        self.video = video
+
         self.dialogue = dialogue
         self.speech = ""
         self.speechIndex = 0
@@ -29,11 +32,16 @@ class ArenaDialogueBubbleGroup():
         self.animationUsedThisLine = False
         self.transformUsedThisLine = False
 
-        self.usedImageThisLine = False
+        self.imageUsedThisLine = False
+        self.videoUsedThisLine = False
+        self.soundUsedThisLine = False
 
+        self.hideImageThisClick = False
+        
+        self.lastImageSize = (0,0,0)
         self.lastTransform = TRANSFORM_RESET
-        self.transformTimer = 0
 
+        self.transformTimer = 0
 
     #reinitializes and restarts the interaction
     def start(self):
@@ -151,70 +159,83 @@ class ArenaDialogueBubbleGroup():
         self.npc.data.goto_url=None
         self.scene.update_object(self.npc)
 
-    #Images
-    def PlayImageFromMapping(self, key):
-
+    #Videos
+    def PlayVideoFromMapping(self, key):
         if(key in imageMappings):
             self.PlayImage(imageMappings[key])
-
         else:
             printWarning("    " + "Attempting to play image from URL \"" + key + "\" because no such mapping exists in mappings.py.")
             self.PlayImageFromUrl(key)
-
-    def PlayImageFromUrl(self, url):
-        printWhiteB("Play image from url \'" + url + "\"")
-        
-        material = Material(src = url, color = "#ffffff", w = 1000, h = 1000),
-
-        self.PlayImage(material)
-
-    def PlayImage(self, material):
-        printWhiteB("Playing material...")
+    def PlayVideoFromUrl(self, src):
+        printWhiteB("Play image from url \'" + src + "\":")        
+        image = Image(url = src, w = 1000, h = 1000, size = 1),
+        self.PlayImage(image)
+    def PlayVideo(self, image):
+        printWhiteB("Playing image...")
         #Get New Scale
-        #self.plane.data.scale = self.getNewScale(material.w, material.h)
+        #self.image.data.scale = self.getNewScale(material.w, material.h)
         
         #Clear Material
-        #self.plane.data.material=None 
-        #self.scene.update_object(self.plane)
+        #self.image.data.material=None 
+        #self.scene.update_object(self.image)
         
-        self.ShowImage(self.getNewScale(material.w, material.h, material.size))
+        self.ShowImage(self.getNewScale(image.w, image.h, image.size))
 
         #Apply New Material
-        #self.plane.data.material=material
-        #self.plane.data.material_extras = material
-        self.scene.update_object(self.plane, url = "https://arenaxr.org/store/users/johnchoi/Images/dragon.jpg")
+        #self.image.data.material=material
+        #self.image.data.material_extras = material
+        self.scene.update_object(self.image, url = "https://arenaxr.org/store/users/johnchoi/Images/dragon.jpg")
 
+    #Images
+    def PlayImageFromMapping(self, key):
+        if(key in imageMappings):
+            if(imageMappings[key] is not None):
+                self.PlayImage(imageMappings[key])
+            else:
+                self.HideImage()
+        else:
+            printWarning("    " + "Attempting to play image from URL \"" + key + "\" because no such mapping exists in mappings.py.")
+            #self.PlayImageFromUrl(key)
+            self.HideImage()
 
+    def PlayImageFromUrl(self, src):
+        printWhiteB("Play image from url \'" + src + "\":")        
+        img = IMG(url = src, w = 1000, h = 1000, size = 1)
+        self.PlayImage(img)
 
-
-    def ShowImage(self, scale):
-
-        animation = Animation(property="scale", start=(0,0,0), end=scale, easing="linear", dur=500)
-        self.plane.dispatch_animation(animation)
-        self.scene.run_animations(self.plane)
+    def PlayImage(self, img):
+        printWhiteB("Playing image...")
+        self.ShowImage(self.getNewScale(img.w, img.h, img.size))
+        self.scene.update_object(self.image, url = img.url)
 
     def HideImage(self):
-
-        animation = Animation(property="scale", end=(0,0,0), easing="linear", dur=500)
-        self.plane.dispatch_animation(animation)
-        self.scene.run_animations(self.plane)
+        animation = Animation(property="scale", start=self.lastImageSize, end=(0,0,random.uniform(0, 0.01)), easing="easeInOutQuad", dur=500)
+        self.image.dispatch_animation(animation)
+        self.scene.run_animations(self.image)
+        self.lastImageSize = (0,0,0)
+    def ShowImage(self, scale):
+        animation = Animation(property="scale", start=(0,0,random.uniform(0, 0.01)), end=scale, easing="easeInOutQuad", dur=500)
+        self.image.dispatch_animation(animation)
+        self.scene.run_animations(self.image)
+        self.hideImageThisClick = True
+        self.lastImageSize = scale
+        if(USE_DEFAULT_SOUNDS and not self.soundUsedThisLine):
+            self.PlaySound(SOUND_IMAGE)
 
     def getNewScale(self, w, h, size):
         aspect = ( w * 1.0 ) / ( h * 1.0 )
         scale = 1
         
         if( w > h):
-            scale = (w + h) * 0.5 / w
+            scale = (w + h) * 0.5 / (w * 1.0)
         else:
-            scale = (w + h) * 0.5 / h
+            scale = (w + h) * 0.5 / (h * 1.0)
             
-        nw = aspect * scale
-        nh = 1.0 * scale
+        nw = aspect * scale * size * PLANE_SCALE
+        nh = 1.0 * scale * size * PLANE_SCALE
 
-        return (nw, nh, 1) * size * PLANE_SCALE
+        return (nw, nh, 1)
     
-
-
     #Visibility
     def SetVisible(self, key, visible):            
         if (self.scene.all_objects.get(key) is not None):
@@ -222,7 +243,6 @@ class ArenaDialogueBubbleGroup():
             self.scene.update_object(self.scene.all_objects.get[key])
         else:
             printWarning("    " + "Cannot set visibility of object with name \"" + key + "\" because no such object exists in scene.")
-
 
     #Clear extra properties
     def ClearCommandProperties(self):
@@ -234,7 +254,10 @@ class ArenaDialogueBubbleGroup():
         commands = line.commands
         self.animationUsedThisLine = False
         self.transformUsedThisLine = False
+
         self.imageUsedThisLine = False
+        self.videoUsedThisLine = False
+        self.soundUsedThisLine = False
 
         #print details
         for c in range(len(commands)):            
@@ -243,8 +266,7 @@ class ArenaDialogueBubbleGroup():
             if(len(commands[c].args) > 0):
                 for a in range(len(commands[c].args)):
                     printGreen(     "          --commandArgs["+str(a)+"]: " + commands[c].args[a])
-                
-    
+                 
         #run through each command: 
         #--parentheses () optional for one argument, required for multiple, separated by commas.
         for command in commands:
@@ -271,6 +293,7 @@ class ArenaDialogueBubbleGroup():
             #<<sound ("soundMappingName")>>
             elif(command.type.lower() == "sound".lower()):
                 printYellow("    " + command.text)
+                self.soundUsedThisLine = True
                 self.PlaySoundFromMapping(command.args[0])
 
             #<<animation ("animationMappingName")>>
@@ -301,19 +324,19 @@ class ArenaDialogueBubbleGroup():
                 self.imageUsedThisLine = True
                 self.PlayImageFromMapping(command.args[0])
 
+            #<<video ("imageMappingName")>>
+            elif(command.type.lower() == "video".lower()):
+                printYellow("    " + command.text)
+                self.videoUsedThisLine = True
+                self.PlayVideoFromMapping(command.args[0])
 
-
+        #If moving, then play walk animation if enabled. 
         if(self.transformUsedThisLine):
             if(USE_DEFAULT_ANIMATIONS):
                 self.PlayAnimation(ANIM_WALK)
             self.transformTimer = TRANSFORM_TIMER
-        else:
+        else: #If not moving, reset transform:
             self.PlayTransform(self.lastTransform)
-
-        if(not self.imageUsedThisLine):
-            self.HideImage()
-
-        return
 
     # ------------------------------------------ #
     # -------------BUTTON CREATION-------------- #
@@ -325,8 +348,6 @@ class ArenaDialogueBubbleGroup():
         self.runCommands(line)
         
     def clearButtons(self):
-
-        
         if(self.checkIfArenaObjectExists(self.speechBubble)):
             self.scene.delete_object(self.speechBubble)
 
@@ -387,7 +408,6 @@ class ArenaDialogueBubbleGroup():
 
         return False
 
-
     # ------------------------------------------ #
     # ------------EVENT PROCESSING-------------- #
     # ------------------------------------------ #
@@ -405,7 +425,7 @@ class ArenaDialogueBubbleGroup():
             printCyan("  Choice Button with text \"" + choiceText + "\" pressed!")
                         
             self.gotoNodeWithName(choiceNodeName)
-
+            
             self.ClearCommandProperties()
 
             if(USE_DEFAULT_SOUNDS):
@@ -437,16 +457,27 @@ class ArenaDialogueBubbleGroup():
         else:
             printWarning("No node with name \"" + nodeName + "\" exists! Ignoring gotoNodeWithName() request.")
 
+    
+
+
+
+        
+
+
     def gotoNodeWithIndex(self, nodeIndex):
         if(0 <= nodeIndex and nodeIndex < len(self.dialogue.nodes)):
+
+            
             self.clearButtons()    
             self.dialogue.currentNode = self.dialogue.nodes[nodeIndex]
             self.dialogue.currentNode.currentLineIndex = 0
             self.createNewButtons(self.dialogue.currentNode.lines[0])
 
+
+
         else:
             printWarning("No node with index [" + str(nodeIndex) + "] exists! Ignoring gotoNodeWithIndex() request.")
-
+        
     def advanceToNextLine(self):
         self.clearButtons()
         self.dialogue.currentNode.currentLineIndex = self.dialogue.currentNode.currentLineIndex + 1

@@ -72,7 +72,7 @@
 	{
 		"title": "End",
 		"tags": "",
-		"body": "This is the end. \nClick \"Restart\" to back to main menu.\n[[Restart|Enter]]",
+		"body": "This is the end. <<image none>>\nClick \"Restart\" to back to main menu.\n[[Restart|Enter]]",
 		"position": {
 			"x": 2164,
 			"y": -481
@@ -222,7 +222,7 @@
 	{
 		"title": "Actions",
 		"tags": "",
-		"body": "Empty Text\n[[Sounds]][[Morphs]][[Transforms]][[Animations]][[URLs]][[Miscellaneous]][[Images]][[End]]",
+		"body": "Empty Text <<image none>>\n[[Sounds]][[Morphs]][[Transforms]][[Animations]][[URLs]][[Miscellaneous]][[Images]][[End]]",
 		"position": {
 			"x": -864,
 			"y": -441
@@ -712,7 +712,7 @@
 	{
 		"title": "Images",
 		"tags": "",
-		"body": "Here is a list of all the images in this dialogue:\n[[image_doge]][[image_dragon]][[image_exclamation]][[image_fish]][[image_forest]][[image_graph]][[image_meme]][[image_nyan]][[image_question]][[image_potato]][[image_stonks]][[image_sushi]]",
+		"body": "Here is a list of all the images in this dialogue: <<image none>>\n[[image_doge]][[image_dragon]][[image_exclamation]][[image_fish]][[image_forest]][[image_graph]][[image_meme]][[image_nyan]][[image_question]][[image_potato]][[image_stonks]][[image_sushi]]",
 		"position": {
 			"x": -289,
 			"y": 1013
@@ -812,7 +812,7 @@
 	{
 		"title": "image_potato",
 		"tags": "",
-		"body": "Stonks image! <<image stonks>>\n[[Images]][[Actions]][[End]]",
+		"body": "Potato image! <<image potato>>\n[[Images]][[Actions]][[End]]",
 		"position": {
 			"x": 2088,
 			"y": 1007
@@ -822,7 +822,7 @@
 	{
 		"title": "image_stonks",
 		"tags": "",
-		"body": "Doge image! <<image doge>>\n[[Images]][[Actions]][[End]]",
+		"body": "Stonks image! <<image stonks>>\n[[Images]][[Actions]][[End]]",
 		"position": {
 			"x": 2310,
 			"y": 1007

@@ -54,31 +54,39 @@ class NPC:
         )
         scene.add_object(self.gltf)
         
-        #NPC PLANE
-        
-
-        self.plane = Image(
-            object_id=NPC_NAME + "(PLANE)",
+        #NPC IMAGE
+        self.image = Image(
+            object_id=NPC_NAME + "(IMAGE)",
 
             position=PLANE_POSITION,
             rotation=PLANE_ROTATION,
-            scale=(1,1,1),
+            scale=(0,0,0),
 
             url = "https://arenaxr.org/store/users/johnchoi/Images/nyan.jpg",
-
-
-            #material = Material(src = "store/users/johnchoi/Images/graph.png", transparent = True, opacity = 0.9, color = "#ffffff", w = 1240, h = 1995, size = 1),
-            #material = Material(src = "store/users/johnchoi/Images/stonks.png", color = "#ffffff", w = 680, h = 510, size = 1),
-
-            #self.plane.data.material_extras
 
             parent=self.root,
             persist=True
         )
-        scene.add_object(self.plane)
+        scene.add_object(self.image)
         
+        #NPC VIDEO
+        self.video = Plane(
+            object_id=NPC_NAME + "(PLANE)",
 
-        self.bubbles = ArenaDialogueBubbleGroup(self.scene, self.root , self.gltf, self.plane, self.dialogue)
+            position=PLANE_POSITION,
+            rotation=PLANE_ROTATION,
+            #scale=(1,1,1),
+            scale=(0,0,0),
+
+            #material = Material(src = "store/users/johnchoi/Images/graph.png", transparent = True, opacity = 0.9, color = "#ffffff", w = 1240, h = 1995, size = 1),
+
+            parent=self.root,
+            persist=True
+        )
+        scene.add_object(self.video)
+        
+        #Create Bubbles
+        self.bubbles = ArenaDialogueBubbleGroup(self.scene, self.root , self.gltf, self.image, self.video, self.dialogue)
 
 # ------------------------------------------ #
 # --------MAIN LOOPS/INITIALIZATION--------- #
@@ -129,23 +137,16 @@ def EnterExit_Handler(): #checks whether or not a user is in range of NPC
     
     npc.userCount = userCount
 
-
-
-
-
 @scene.run_forever(interval_ms=SPEECH_INTERVAL)
 def Speech_Handler(): #iteratively adds characters to speech bubble
     
     if(npc.bubbles.checkIfArenaObjectExists(npc.bubbles.speechBubble)):
-    
 
         #if walking, let walk, hide buttons
         if(npc.bubbles.transformTimer > 0):
             npc.bubbles.transformTimer = npc.bubbles.transformTimer - SPEECH_INTERVAL
 
-
         else:
-
             if(0 <= npc.bubbles.speechIndex and npc.bubbles.speechIndex < len(npc.bubbles.speech)):
                 npc.bubbles.speechIndex += 1
             
@@ -177,7 +178,7 @@ def Speech_Handler(): #iteratively adds characters to speech bubble
 
             npc.isTalking = npc.talking
 
-        npc.bubbles.speechBubble.data.text = npc.bubbles.speech[:npc.bubbles.speechIndex]
+        npc.bubbles.speechBubble.data.text = npc.bubbles.speech[:npc.bubbles.speechIndex * SPEECH_SPEED]
         scene.update_object(npc.bubbles.speechBubble)
 
 scene.run_tasks()
