@@ -34,8 +34,8 @@
 		"tags": "",
 		"body": "You went out of the range of the NPC character!\nCome closer to reinitiate dialogue.",
 		"position": {
-			"x": -1862,
-			"y": -1113
+			"x": -1947,
+			"y": -1324
 		},
 		"colorID": 0
 	},
@@ -44,8 +44,8 @@
 		"tags": "",
 		"body": "Hello! This is the test Yarn file for the NPC character.\nPress \"Actions\" to test linked command actions, or \"Dialogue\" to run a simple dialogue.\n[[Actions]][[Dialogue]][[Exit]]",
 		"position": {
-			"x": -1530,
-			"y": -1111
+			"x": -1615,
+			"y": -1322
 		},
 		"colorID": 0
 	},
@@ -322,7 +322,7 @@
 	{
 		"title": "Question 2",
 		"tags": "",
-		"body": "What is your goal for learning how to use ARENA?\n[[To get a job]]\n[[To build a personal project]]\n[[to learn something new]]",
+		"body": "What is your goal for learning how to use ARENA?\n[[To get a job]][[To build a personal project]][[to learn something new]]",
 		"position": {
 			"x": 809,
 			"y": -1965
