@@ -42,7 +42,7 @@ class Button():
 
             position=buttonPos,
             rotation=buttonRot,
-            scale=buttonScale,
+            scale=(0,0,0),
 
             parent = self.npc,
             clickable=True,
@@ -57,9 +57,9 @@ class Button():
         self.scene.add_object(button)
     
     
-        #animation = Animation(property="scale", start=(0,0,0), end=scale, easing="linear", dur=500)
-        #self.plane.dispatch_animation(animation)
-        #self.scene.run_animations(self.plane)
+        animation = Animation(property="scale", start=(0,0,0), end=buttonScale, easing="easeInOutQuad", dur=500)
+        button.dispatch_animation(animation)
+        self.scene.run_animations(button)
 
     
         return button

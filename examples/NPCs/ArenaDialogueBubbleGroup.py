@@ -358,7 +358,7 @@ class ArenaDialogueBubbleGroup():
         choices = line.choices
         self.buttons = []
         if(len(choices) > 0): 
-            for c in range(len(choices)):                
+            for c in reversed(range(len(choices))):                
                 printMagenta("    [["+str(c)+"]] choiceText: " + choices[c].text)
                 printMagenta(         "          choiceNode: " + choices[c].node)
         
