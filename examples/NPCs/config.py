@@ -40,7 +40,7 @@ ROOT_OPACITY = 0.0
 #NPC GLTF TRANSFORM
 GLTF_SCALE = (1,1,1)
 GLTF_POSITION = (0,0,0)
-GLTF_ROTATION = (0,180,0) #radians, not degrees??
+GLTF_ROTATION = (0,0,0) #radians, not degrees??
 
 #NPC PLANE SETTINGS (for both images and videos)
 PLANE_SCALE = 1.2
