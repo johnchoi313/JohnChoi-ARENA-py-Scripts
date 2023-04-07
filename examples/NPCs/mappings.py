@@ -5,13 +5,13 @@ from mappings import *
 #---PRE-DEFINED DEFAULT ACTIONS (triggered when talking/moving/clicking/etc)---#
 
 #DEFAULT SOUNDS (set these to None if you don't want default sound effects, or set USE_DEFAULT_SOUNDS = False)
-SOUND_NEXT    = Sound(volume=1.0, autoplay=True, positional=True, src="store/users/johnchoi/Sounds/NPC/Next.wav")
-SOUND_CHOICE  = Sound(volume=1.0, autoplay=True, positional=True, src="store/users/johnchoi/Sounds/NPC/Choice.wav")
-SOUND_ENTER   = Sound(volume=0.8, autoplay=True, positional=True, src="store/users/johnchoi/Sounds/NPC/Enter.wav")
-SOUND_EXIT    = Sound(volume=0.8, autoplay=True, positional=True, src="store/users/johnchoi/Sounds/NPC/Exit.wav")
-SOUND_IMAGE   = Sound(volume=0.8, autoplay=True, positional=True, src="store/users/johnchoi/Sounds/NPC/Enter.wav")
-SOUND_TALKING = Sound(volume=1.0, autoplay=True, positional=True, src="store/users/johnchoi/Sounds/NPC/Talking.wav")
-SOUND_WALKING = Sound(volume=1.0, autoplay=True, positional=True, src="store/users/johnchoi/Sounds/NPC/Walking.wav") #Not applied yet, TODO
+SOUND_NEXT    = Sound(volume=1.0, autoplay=True, positional=True, src=FILESTORE+"store/users/johnchoi/Sounds/NPC/Next.wav")
+SOUND_CHOICE  = Sound(volume=1.0, autoplay=True, positional=True, src=FILESTORE+"store/users/johnchoi/Sounds/NPC/Choice.wav")
+SOUND_ENTER   = Sound(volume=0.8, autoplay=True, positional=True, src=FILESTORE+"store/users/johnchoi/Sounds/NPC/Enter.wav")
+SOUND_EXIT    = Sound(volume=0.8, autoplay=True, positional=True, src=FILESTORE+"store/users/johnchoi/Sounds/NPC/Exit.wav")
+SOUND_IMAGE   = Sound(volume=0.8, autoplay=True, positional=True, src=FILESTORE+"store/users/johnchoi/Sounds/NPC/Enter.wav")
+SOUND_TALKING = Sound(volume=1.0, autoplay=True, positional=True, src=FILESTORE+"store/users/johnchoi/Sounds/NPC/Talking.wav")
+SOUND_WALKING = Sound(volume=1.0, autoplay=True, positional=True, src=FILESTORE+"store/users/johnchoi/Sounds/NPC/Walking.wav") #Not applied yet, TODO
 
 #DEFAULT ANIMATIONS (set these to None if you don't want default animations, or set USE_DEFAULT_ANIMATIONS = False)
 ANIM_IDLE = AnimationMixer(clip="Idle", loop="repeat", timeScale = 1, crossFadeDuration=0.5)
@@ -34,11 +34,11 @@ TRANSFORM_RESET = [ Animation(property="position", end=ROOT_POSITION, easing="ea
 # --Sound Schema: https://docs.arenaxr.org/content/schemas/message/sound.html
 # --Sound Example: https://github.com/arenaxr/arena-py/blob/master/examples/attributes/sound.py 
 soundMappings = {
-    "next"    : Sound(volume=1.0, autoplay=True, positional=True, src="store/users/johnchoi/Sounds/NPC/Next.wav"),
-    "choice"  : Sound(volume=1.0, autoplay=True, positional=True, src="store/users/johnchoi/Sounds/NPC/Choice.wav"),
-    "enter"   : Sound(volume=0.8, autoplay=True, positional=True, src="store/users/johnchoi/Sounds/NPC/Enter.wav"),
-    "exit"    : Sound(volume=0.8, autoplay=True, positional=True, src="store/users/johnchoi/Sounds/NPC/Exit.wav"),
-    "talking" : Sound(volume=1.0, autoplay=True, positional=True, src="store/users/johnchoi/Sounds/NPC/Talking.wav")
+    "next"    : Sound(volume=1.0, autoplay=True, positional=True, src=FILESTORE+"store/users/johnchoi/Sounds/NPC/Next.wav"),
+    "choice"  : Sound(volume=1.0, autoplay=True, positional=True, src=FILESTORE+"store/users/johnchoi/Sounds/NPC/Choice.wav"),
+    "enter"   : Sound(volume=0.8, autoplay=True, positional=True, src=FILESTORE+"store/users/johnchoi/Sounds/NPC/Enter.wav"),
+    "exit"    : Sound(volume=0.8, autoplay=True, positional=True, src=FILESTORE+"store/users/johnchoi/Sounds/NPC/Exit.wav"),
+    "talking" : Sound(volume=1.0, autoplay=True, positional=True, src=FILESTORE+"store/users/johnchoi/Sounds/NPC/Talking.wav")
 }
 
 # Shorthand animation names mapped to (animationName, crossFade, timeScale, loopMode['once', 'repeat', 'pingpong'])
@@ -113,25 +113,25 @@ class IMG:
         self.size = size
         
 imageMappings = {
-    "doge"        : IMG(url = "https://arenaxr.org/store/users/johnchoi/Images/doge.jpg", w = 369, h = 273, size = 1),
-    "dragon"      : IMG(url = "https://arenaxr.org/store/users/johnchoi/Images/dragon.jpg", w = 1200, h = 1200, size = 1),
-    "exclamation" : IMG(url = "https://arenaxr.org/store/users/johnchoi/Images/exclamation.png", w = 920, h = 951, size = 1),
-    "fish"        : IMG(url = "https://arenaxr.org/store/users/johnchoi/Images/fish.jpg", w = 800, h = 450, size = 1),
-    "forest"      : IMG(url = "https://arenaxr.org/store/users/johnchoi/Images/forest.jpg", w = 1500, h = 1000, size = 1),
-    "graph"       : IMG(url = "https://arenaxr.org/store/users/johnchoi/Images/graph.png", w = 918, h = 669, size = 1),
-    "meme"        : IMG(url = "https://arenaxr.org/store/users/johnchoi/Images/meme.jpg", w = 800, h = 450, size = 1),
-    "nyan"        : IMG(url = "https://arenaxr.org/store/users/johnchoi/Images/nyan.jpg", w = 800, h = 450, size = 1),
-    "question"    : IMG(url = "https://arenaxr.org/store/users/johnchoi/Images/question.png", w = 360, h = 480, size = 1),
-    "potato"      : IMG(url = "https://arenaxr.org/store/users/johnchoi/Images/potato.jpg", w = 1920, h = 1080, size = 1),
-    "stonks"      : IMG(url = "https://arenaxr.org/store/users/johnchoi/Images/stonks.png", w = 680, h = 510, size = 1),
-    "sushi"       : IMG(url = "https://arenaxr.org/store/users/johnchoi/Images/sushi.jpg", w = 1240, h = 1995, size = 1)
+    "doge"        : IMG(url = FILESTORE+"store/users/johnchoi/Images/doge.jpg", w = 369, h = 273, size = 1),
+    "dragon"      : IMG(url = FILESTORE+"store/users/johnchoi/Images/dragon.jpg", w = 1200, h = 1200, size = 1),
+    "exclamation" : IMG(url = FILESTORE+"store/users/johnchoi/Images/exclamation.png", w = 920, h = 951, size = 1),
+    "fish"        : IMG(url = FILESTORE+"store/users/johnchoi/Images/fish.jpg", w = 800, h = 450, size = 1),
+    "forest"      : IMG(url = FILESTORE+"store/users/johnchoi/Images/forest.jpg", w = 1500, h = 1000, size = 1),
+    "graph"       : IMG(url = FILESTORE+"store/users/johnchoi/Images/graph.png", w = 918, h = 669, size = 1),
+    "meme"        : IMG(url = FILESTORE+"store/users/johnchoi/Images/meme.jpg", w = 800, h = 450, size = 1),
+    "nyan"        : IMG(url = FILESTORE+"store/users/johnchoi/Images/nyan.jpg", w = 800, h = 450, size = 1),
+    "question"    : IMG(url = FILESTORE+"store/users/johnchoi/Images/question.png", w = 360, h = 480, size = 1),
+    "potato"      : IMG(url = FILESTORE+"store/users/johnchoi/Images/potato.jpg", w = 1920, h = 1080, size = 1),
+    "stonks"      : IMG(url = FILESTORE+"store/users/johnchoi/Images/stonks.png", w = 680, h = 510, size = 1),
+    "sushi"       : IMG(url = FILESTORE+"store/users/johnchoi/Images/sushi.jpg", w = 1240, h = 1995, size = 1)
 }
 
 # Shorthand image names mapped to (Website URL, volume, loop)
 # --Url Schema: https://docs.arenaxr.org/content/schemas/message/material.html#material
 # --Url Example: https://github.com/arenaxr/arena-py/blob/master/examples/attributes/material.py
 videoMappings = {
-    "rays"       : Material(src = "store/users/johnchoi/Videos/rays.mp4", transparent = True, opacity = PLANE_OPACITY, w = 1920, h = 1080, size = 1),
-    "hydroponic" : Material(src = "store/users/johnchoi/Videos/hydroponic.mp4", transparent = True, opacity = PLANE_OPACITY, w = 1920, h = 1080, size = 1),
-    "greenhouse" : Material(src = "store/users/johnchoi/Videos/greenhouse.mp4", transparent = True, opacity = PLANE_OPACITY, w = 1920, h = 1080, size = 1)
+    "rays"       : Material(src = FILESTORE+"store/users/johnchoi/Videos/rays.mp4", transparent = True, opacity = PLANE_OPACITY, w = 1920, h = 1080, size = 1),
+    "hydroponic" : Material(src = FILESTORE+"store/users/johnchoi/Videos/hydroponic.mp4", transparent = True, opacity = PLANE_OPACITY, w = 1920, h = 1080, size = 1),
+    "greenhouse" : Material(src = FILESTORE+"store/users/johnchoi/Videos/greenhouse.mp4", transparent = True, opacity = PLANE_OPACITY, w = 1920, h = 1080, size = 1)
 }

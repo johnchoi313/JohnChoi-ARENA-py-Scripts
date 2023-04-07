@@ -2,13 +2,20 @@
 DIALOGUE_FILENAME = "actions.json"
 
 #ARENA SETTINGS
-HOST = "mqtt.arenaxr.org"
+FILESTORE = "https://arenaxr.org/" #main server
+HOST = "mqtt.arenaxr.org" #main server
 NAMESPACE = "johnchoi"
 SCENE = "NPC"
 
+USE_DEV_SERVER = True
+if(USE_DEV_SERVER):
+    HOST = "arena-dev1.conix.io" #dev server
+if(USE_DEV_SERVER):
+    FILESTORE = "https://arena-dev1.conix.io/" #dev server
+
 #NPC (name Alphanumeric only plus '_', no spaces!)
 NPC_NAME = "NPC_JunkoChan2"
-NPC_GLTF_URL = "/store/users/johnchoi/Characters/JunkoChan/JunkoChan.glb"
+NPC_GLTF_URL = FILESTORE+"store/users/johnchoi/Characters/JunkoChan/JunkoChan.glb"
 
 #ENTER/EXIT SPECIAL EVENT NODES 
 ENTER_INTERVAL = 100

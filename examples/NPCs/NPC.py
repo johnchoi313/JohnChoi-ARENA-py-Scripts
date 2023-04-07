@@ -60,7 +60,7 @@ class NPC:
             position=PLANE_POSITION,
             rotation=PLANE_ROTATION,
             scale=(0,0,0),
-            url = "https://arenaxr.org/store/users/johnchoi/Images/nyan.jpg",
+            url = FILESTORE+"store/users/johnchoi/Images/nyan.jpg",
             material = Material(transparent = True, opacity = PLANE_OPACITY),
             parent=self.root,
             persist=True
@@ -72,7 +72,7 @@ class NPC:
             position=PLANE_POSITION,
             rotation=PLANE_ROTATION,
             scale=(0,0,0),
-            material = Material(src = "store/users/johnchoi/Videos/rays.mp4", transparent = True, opacity = PLANE_OPACITY, w = 1920, h = 1080, size = 1),
+            material = Material(src = FILESTORE+"store/users/johnchoi/Videos/rays.mp4", transparent = True, opacity = PLANE_OPACITY, w = 1920, h = 1080, size = 1),
             parent=self.root,
             persist=True
         )
