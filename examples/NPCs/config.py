@@ -3,15 +3,22 @@ DIALOGUE_FILENAME = "actions.json"
 
 #ARENA SETTINGS
 FILESTORE = "https://arenaxr.org/" #main server
-HOST = "mqtt.arenaxr.org" #main server
+HOST = "mqtt.arenaxr.org"          #main server
 NAMESPACE = "johnchoi"
 SCENE = "NPC"
 
-USE_DEV_SERVER = True
+#DEVELOPER DEBUG SETTINGS
+USE_DEV_ARENAPY = True
+ARENAPY_DEV_PATH = "D:/Github/arena-py/"  # Linux/Mac (Civilized)
+ARENAPY_DEV_PATH = "D:\\Github\\arena-py" # Windows   (Uncivilized)
+
+USE_DEV_SERVER = False
 if(USE_DEV_SERVER):
     HOST = "arena-dev1.conix.io" #dev server
 if(USE_DEV_SERVER):
     FILESTORE = "https://arena-dev1.conix.io/" #dev server
+
+PRINT_VERBOSE = False
 
 #NPC (name Alphanumeric only plus '_', no spaces!)
 NPC_NAME = "NPC_JunkoChan2"
@@ -30,7 +37,6 @@ RESET_TIME = 300000 #5 min of no activity resets interaction.
 #MISCELLANEOUS
 TRANSFORM_TIMER = 3000
 UUID_LEN = 6
-PRINT_VERBOSE = False
 
 #USE DEFAULT ACTIONS
 USE_DEFAULT_ANIMATIONS = True
@@ -42,7 +48,7 @@ ROOT_SCALE = (1,1,1)
 ROOT_POSITION = (0,0,0)
 ROOT_ROTATION = (0,0,0)
 ROOT_COLOR = (255,100,16)
-ROOT_OPACITY = 0.0
+ROOT_OPACITY = 0.5
 
 #NPC GLTF TRANSFORM
 GLTF_SCALE = (1,1,1)

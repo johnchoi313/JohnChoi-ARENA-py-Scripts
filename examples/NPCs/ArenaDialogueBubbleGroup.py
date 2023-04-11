@@ -1,14 +1,20 @@
-from asyncio import create_subprocess_exec
+from config import *
+from Button import *
+from mappings import *
+from YarnParser import *
+from ColorPrinter import *
+
+import sys
+if(USE_DEV_ARENAPY):
+    sys.path.append(ARENAPY_DEV_PATH)
+
 from arena import *
+
+from asyncio import create_subprocess_exec
 
 import string
 import random
 
-from Button import *
-from config import *
-from mappings import *
-from YarnParser import *
-from ColorPrinter import *
 
 # ------------------------------------------ #
 # -----------ARENA BUBBLE GROUP------------- #
@@ -157,15 +163,31 @@ class ArenaDialogueBubbleGroup():
         self.PlayGotoUrl(gotoUrl)
     def PlayGotoUrl(self, gotoUrl):
         if(PRINT_VERBOSE):
-            printWhiteB("Playing gotoUrl...")
+            printWhiteB("Playing BLOB gotoUrl...")
+        printWhiteB("Playing BLOB gotoUrl...")
+
+        '''
+        #self.npc.data.goto_url=GotoUrl(dest="popup", on="mousedown", url="")
         self.npc.data.goto_url=None
         self.scene.update_object(self.npc)
 
         self.npc.data.goto_url=gotoUrl
         self.scene.update_object(self.npc)
         #urls are persistent? I don't know why
+
+        #self.npc.data.goto_url=GotoUrl(dest="popup", on="mousedown", url="")
         self.npc.data.goto_url=None
         self.scene.update_object(self.npc)
+        '''
+
+        self.buttons[0].box.data.goto_url=None
+        self.scene.update_object(self.buttons[0].box)
+
+        self.buttons[0].box.data.goto_url=gotoUrl
+        self.scene.update_object(self.buttons[0].box)
+
+        self.buttons[0].box.data.goto_url=None
+        self.scene.update_object(self.buttons[0].box)
 
     #Videos
     def PlayVideoFromMapping(self, key):
@@ -181,17 +203,38 @@ class ArenaDialogueBubbleGroup():
     def PlayVideoFromUrl(self, url):
         if(PRINT_VERBOSE):
             printWhiteB("Play video from url \'" + url + "\":")        
-        material = Material(src = url, transparent = True, opacity = 0.9, color = "#ffffff", w = 1920, h = 1080, size = 1)
-        self.PlayVideo(material)
-    def PlayVideo(self, material):
+        
+        video = VideoControl(video_path = url, frame_object = DEFAULT_VIDEO_FRAME_OBJECT, video_object = None, 
+                             anyone_clicks = True, video_loop = True, autoplay = True, volume = 1, w = 1920, h = 1080, size = 1),
+
+        self.PlayVideo(video)
+    
+    def PlayVideo(self, video):
         if(PRINT_VERBOSE):
             printWhiteB("Playing video...")
-        #Clear Material
+        
+        self.video.data.material=None
+
+        #self.video.data.video_control=None 
+        #self.scene.update_object(self.video)
+        
+        self.ShowVideo(self.getNewScale(video.w, video.h, video.size))
+        
+        self.video.data.video_control=video
+        self.video.data.video_control.video_object = self.video.object_id
+        self.scene.update_object(self.video)
+        
+        '''
+
         self.video.data.material=None 
         self.scene.update_object(self.video)
-        self.ShowVideo(self.getNewScale(material.w, material.h, material.size))
-        self.video.data.material=material
+        self.ShowVideo(self.getNewScale(video.w, video.h, video.size))
+        self.video.data.material=video
+        #self.video.data.video_control.video_object = self.video.object_id
         self.scene.update_object(self.video)
+        '''
+
+
     def HideVideo(self):
         self.ScaleAnimation(self.video, self.lastVideoSize, (0,0,random.uniform(0, 0.01)))        
         self.lastVideoSize = (0,0,0)
@@ -438,6 +481,8 @@ class ArenaDialogueBubbleGroup():
                         
             self.gotoNodeWithName(choiceNodeName)
             
+
+
             if(USE_DEFAULT_SOUNDS):
                 self.PlaySound(SOUND_CHOICE)
 

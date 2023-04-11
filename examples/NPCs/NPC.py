@@ -2,18 +2,22 @@
 # ----------IMPORTING EVERYTHING------------ #
 # ------------------------------------------ #
 
-from asyncio import create_subprocess_exec
-from arena import *
-
-from datetime import datetime
-from datetime import timezone
-from time import gmtime, strftime
-
 from config import *
 from mappings import *
 from YarnParser import *
 from ColorPrinter import *
 from ArenaDialogueBubbleGroup import *
+
+import sys
+if(USE_DEV_ARENAPY):
+    sys.path.append(ARENAPY_DEV_PATH)
+
+from arena import *
+
+from asyncio import create_subprocess_exec
+from time import gmtime, strftime
+from datetime import datetime
+from datetime import timezone
 
 # ------------------------------------------ #
 # -----------MAIN NPC MASTERCLASS----------- #
@@ -74,6 +78,7 @@ class NPC:
             scale=(0,0,0),
             material = Material(src = FILESTORE+"store/users/johnchoi/Videos/rays.mp4", transparent = True, opacity = PLANE_OPACITY, w = 1920, h = 1080, size = 1),
             parent=self.root,
+            clickable=True,
             persist=True
         )
         scene.add_object(self.video)

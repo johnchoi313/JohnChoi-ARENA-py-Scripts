@@ -1,11 +1,15 @@
-
-from asyncio import create_subprocess_exec
-from arena import *
-
 from config import *
 from mappings import *
 from YarnParser import *
 from ColorPrinter import *
+
+import sys
+if(USE_DEV_ARENAPY):
+    sys.path.append(ARENAPY_DEV_PATH)
+
+from arena import *
+
+from asyncio import create_subprocess_exec
 
 class Button():
     def __init__(self, scene, npc, name, text, eventHandler, position, rotation, buttonScale, textScale, color, textColor):

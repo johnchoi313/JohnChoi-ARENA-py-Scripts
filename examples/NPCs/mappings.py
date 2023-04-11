@@ -1,6 +1,10 @@
-from arena import *
 from config import *
-from mappings import *
+
+import sys
+if(USE_DEV_ARENAPY):
+    sys.path.append(ARENAPY_DEV_PATH)
+
+from arena import *
 
 #---PRE-DEFINED DEFAULT ACTIONS (triggered when talking/moving/clicking/etc)---#
 
@@ -23,6 +27,9 @@ MORPH_OPEN  = [Morph(morphtarget="eyeTop",value=0.0), Morph(morphtarget="eyeBott
 MORPH_CLOSE = [Morph(morphtarget="eyeTop",value=0.0), Morph(morphtarget="eyeBottom",value=0.0)]
 MORPH_BLINK = [Morph(morphtarget="eyeTop",value=0.0), Morph(morphtarget="eyeBottom",value=0.0)]
 MORPH_RESET = [Morph(morphtarget="eyeTop",value=0.0), Morph(morphtarget="eyeBottom",value=0.0)]
+
+#DEFAULT VIDEO LOADING FRAME
+DEFAULT_VIDEO_FRAME_OBJECT = FILESTORE+"store/users/wiselab/images/conix-face-white.jpg"
 
 #DEFAULT TRANSFORM 
 TRANSFORM_RESET = [ Animation(property="position", end=ROOT_POSITION, easing="easeInOutSine", dur=TRANSFORM_TIMER), 
@@ -95,11 +102,11 @@ morphMappings = {
 # --Url Schema: https://docs.arenaxr.org/content/schemas/message-examples.html#goto-url 
 # --Url Example: https://github.com/arenaxr/arena-py/blob/master/examples/attributes/goto_url.py 
 urlMappings = {
-    "youtube"   : GotoUrl(dest="popup", on="mousedown", url="https://www.youtube.com/watch?v=cBkWhkAZ9ds"),
-    "wikipedia" : GotoUrl(dest="popup", on="mousedown", url="https://en.wikipedia.org/wiki/Fish"),
-    "arena"     : GotoUrl(dest="popup", on="mousedown", url="https://arenaxr.org/"),
-    "conix"     : GotoUrl(dest="newtab", on="mousedown", url="https://conix.io/"),
-    "island"    : GotoUrl(dest="sametab", on="mousedown", url="https://arenaxr.org/public/island")    
+    "youtube"   : GotoUrl(dest="popup", on="mouseup", url="https://www.youtube.com/watch?v=cBkWhkAZ9ds"),
+    "wikipedia" : GotoUrl(dest="popup", on="mouseup", url="https://en.wikipedia.org/wiki/Fish"),
+    "arena"     : GotoUrl(dest="popup", on="mouseup", url="https://arenaxr.org/"),
+    "conix"     : GotoUrl(dest="newtab", on="mouseup", url="https://conix.io/"),
+    "island"    : GotoUrl(dest="sametab", on="mouseup", url="https://arenaxr.org/public/island")    
 }
 
 # Shorthand image names mapped to (Website URL, volume, loop)
@@ -131,7 +138,11 @@ imageMappings = {
 # --Url Schema: https://docs.arenaxr.org/content/schemas/message/material.html#material
 # --Url Example: https://github.com/arenaxr/arena-py/blob/master/examples/attributes/material.py
 videoMappings = {
-    "rays"       : Material(src = FILESTORE+"store/users/johnchoi/Videos/rays.mp4", transparent = True, opacity = PLANE_OPACITY, w = 1920, h = 1080, size = 1),
-    "hydroponic" : Material(src = FILESTORE+"store/users/johnchoi/Videos/hydroponic.mp4", transparent = True, opacity = PLANE_OPACITY, w = 1920, h = 1080, size = 1),
-    "greenhouse" : Material(src = FILESTORE+"store/users/johnchoi/Videos/greenhouse.mp4", transparent = True, opacity = PLANE_OPACITY, w = 1920, h = 1080, size = 1)
+    #"rays"       : Material(src = FILESTORE+"store/users/johnchoi/Videos/rays.mp4", transparent = True, opacity = PLANE_OPACITY, w = 1920, h = 1080, size = 1),
+    #"hydroponic" : Material(src = FILESTORE+"store/users/johnchoi/Videos/hydroponic.mp4", transparent = True, opacity = PLANE_OPACITY, w = 1920, h = 1080, size = 1),
+    #"greenhouse" : Material(src = FILESTORE+"store/users/johnchoi/Videos/greenhouse.mp4", transparent = True, opacity = PLANE_OPACITY, w = 1920, h = 1080, size = 1)
+    
+    "rays"       : VideoControl(video_path = FILESTORE+"store/users/johnchoi/Videos/rays.mp4", frame_object = DEFAULT_VIDEO_FRAME_OBJECT, video_object = None, anyone_clicks = True, video_loop = True, autoplay = True, volume = 1, w = 1920, h = 1080, size = 1),
+    "hydroponic" : VideoControl(video_path = FILESTORE+"store/users/johnchoi/Videos/hydroponic.mp4", frame_object = DEFAULT_VIDEO_FRAME_OBJECT, video_object = None, anyone_clicks = True, video_loop = True, autoplay = True, volume = 1, w = 1920, h = 1080, size = 1),
+    "greenhouse" : VideoControl(video_path = FILESTORE+"store/users/johnchoi/Videos/greenhouse.mp4", frame_object = DEFAULT_VIDEO_FRAME_OBJECT, video_object = None, anyone_clicks = True, video_loop = True, autoplay = True, volume = 1, w = 1920, h = 1080, size = 1)
 }
