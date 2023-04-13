@@ -18,6 +18,7 @@ from asyncio import create_subprocess_exec
 from time import gmtime, strftime
 from datetime import datetime
 from datetime import timezone
+import random
 
 # ------------------------------------------ #
 # -----------MAIN NPC MASTERCLASS----------- #
@@ -151,10 +152,18 @@ def Speech_Handler(): #iteratively adds characters to speech bubble
     
     if(npc.bubbles.checkIfArenaObjectExists(npc.bubbles.speechBubble)):
 
+        #random blink:
+        if(USE_DEFAULT_MORPHS):
+            if(random.randint(0, 30) == 0):
+                npc.bubbles.PlayMorph(MORPH_BLINK_ON)
+            else:
+                npc.bubbles.PlayMorph(MORPH_BLINK_OFF)
+
         #if walking, let walk, hide buttons
         if(npc.bubbles.transformTimer > 0):
             npc.bubbles.transformTimer = npc.bubbles.transformTimer - SPEECH_INTERVAL
 
+        #Iterate through speech bubble text
         else:
             if(0 <= npc.bubbles.speechIndex and npc.bubbles.speechIndex * SPEECH_SPEED < len(npc.bubbles.speech)):
                 npc.bubbles.speechIndex += 1
@@ -163,13 +172,14 @@ def Speech_Handler(): #iteratively adds characters to speech bubble
                 if(USE_DEFAULT_ANIMATIONS and not npc.talking and not npc.bubbles.animationUsedThisLine):
                     npc.bubbles.PlayAnimation(ANIM_TALK)
 
-                #move mouth up and down if blendshapes applicable
+                #if blendshapes applicable
                 if(USE_DEFAULT_MORPHS):
-                    if(npc.bubbles.speechIndex % 2 == 0):
+                    #move mouth up and down
+                    if((npc.bubbles.speechIndex+0) % 3 == 0):
                         npc.bubbles.PlayMorph(MORPH_OPEN)
-                    else:
+                    if((npc.bubbles.speechIndex+1) % 3 == 0):
                         npc.bubbles.PlayMorph(MORPH_CLOSE)
-                    
+            
                 npc.talking = True
 
             else:
@@ -187,6 +197,7 @@ def Speech_Handler(): #iteratively adds characters to speech bubble
 
             npc.isTalking = npc.talking
 
+        #Iterate through speech bubble text
         npc.bubbles.speechBubble.data.text = npc.bubbles.speech[:npc.bubbles.speechIndex * SPEECH_SPEED]
         scene.update_object(npc.bubbles.speechBubble)
 

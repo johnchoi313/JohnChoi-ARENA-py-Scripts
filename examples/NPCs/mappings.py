@@ -23,10 +23,11 @@ ANIM_WALK = AnimationMixer(clip="Walk", loop="repeat", timeScale = 2, crossFadeD
 ANIM_TALK = AnimationMixer(clip="NailGun_Idle", loop="repeat", timeScale = 1, crossFadeDuration=0.5)
 
 #DEFAULT MORPHS (set these to None if you don't want default morphs, or set USE_DEFAULT_MORPHS = False)
-MORPH_OPEN  = [Morph(morphtarget="eyeTop",value=0.0), Morph(morphtarget="eyeBottom",value=0.0)]
-MORPH_CLOSE = [Morph(morphtarget="eyeTop",value=0.0), Morph(morphtarget="eyeBottom",value=0.0)]
-MORPH_BLINK = [Morph(morphtarget="eyeTop",value=0.0), Morph(morphtarget="eyeBottom",value=0.0)]
-MORPH_RESET = [Morph(morphtarget="eyeTop",value=0.0), Morph(morphtarget="eyeBottom",value=0.0)]
+MORPH_OPEN  = [Morph(morphtarget="a",value=1.0)]
+MORPH_CLOSE = [Morph(morphtarget="a",value=0.0)]
+MORPH_BLINK_ON =  [Morph(morphtarget="Blink",value=1.0)]
+MORPH_BLINK_OFF = [Morph(morphtarget="Blink",value=0.0)]
+MORPH_RESET = [Morph(morphtarget="a",value=0.0), Morph(morphtarget="Blink",value=0.0)]
 
 #DEFAULT VIDEO LOADING FRAME
 DEFAULT_VIDEO_FRAME_OBJECT = FILESTORE+"store/users/wiselab/images/conix-face-white.jpg"

@@ -165,37 +165,15 @@ class ArenaDialogueBubbleGroup():
     def PlayGotoUrl(self, gotoUrl):
         if(PRINT_VERBOSE):
             printWhiteB("Playing BLOB gotoUrl...")
-        printWhiteB("Playing BLOB gotoUrl...")
-
-        '''
-        #self.npc.data.goto_url=GotoUrl(dest="popup", on="mousedown", url="")
-        self.npc.data.goto_url=None
-        self.scene.update_object(self.npc)
-
-        self.npc.data.goto_url=gotoUrl
-        self.scene.update_object(self.npc)
-        #urls are persistent? I don't know why
-
-        #self.npc.data.goto_url=GotoUrl(dest="popup", on="mousedown", url="")
-        self.npc.data.goto_url=None
-        self.scene.update_object(self.npc)
-        '''
-
-        #if(self.linkButton != None and self.checkIfArenaObjectExists(self.linkButton.box)):
-        #    self.scene.delete_object(self.linkButton.box)
-        #    self.scene.delete_object(self.linkButton.text)
-
+        
         self.linkButton = Button(self.scene, self.npc, self.npc.object_id + "(LINK)", "[Next]", self.onClickLinkButton, 
                             position = LINK_BUBBLE_POSITION, rotation = LINK_BUBBLE_ROTATION, buttonScale = LINK_BUBBLE_SCALE, 
-                            textScale = LINK_TEXT_SCALE, color = LINK_BUBBLE_COLOR, textColor = LINK_TEXT_COLOR, persist=True)
+                            textScale = LINK_TEXT_SCALE, color = LINK_BUBBLE_COLOR, textColor = LINK_TEXT_COLOR, persist=False)
         
         self.linkButton.box.data.goto_url = gotoUrl
         self.linkButton.text.data.text = gotoUrl.url
         self.scene.update_object(self.linkButton.box)
         self.scene.update_object(self.linkButton.text)
-
-        #self.ScaleAnimation(self.linkButton.box, LINK_BUBBLE_SCALE, (0,0,random.uniform(0, 0.01)))
-        
 
     #Videos
     def PlayVideoFromMapping(self, key):
@@ -212,8 +190,12 @@ class ArenaDialogueBubbleGroup():
         if(PRINT_VERBOSE):
             printWhiteB("Play video from url \'" + url + "\":")        
         
-        video = VideoControl(video_path = url, frame_object = DEFAULT_VIDEO_FRAME_OBJECT, video_object = None, 
-                             anyone_clicks = True, video_loop = True, autoplay = True, volume = 1, w = 1920, h = 1080, size = 1),
+        #VideoControl Method
+        #video = VideoControl(video_path = url, frame_object = DEFAULT_VIDEO_FRAME_OBJECT, video_object = None, 
+        #                     anyone_clicks = True, video_loop = True, autoplay = True, volume = 1, w = 1920, h = 1080, size = 1),
+
+        #Src Video Material Method
+        video = Material(src = url, transparent = True, opacity = PLANE_OPACITY, w = 1920, h = 1080, size = 1)
 
         self.PlayVideo(video)
     
@@ -312,13 +294,11 @@ class ArenaDialogueBubbleGroup():
     
     #Clear extra properties
     def ClearCommandProperties(self):
+        #scale the link button out because delete won't work
         if(self.linkButton != None and self.checkIfArenaObjectExists(self.linkButton.box)):
             self.ScaleAnimation(self.linkButton.box, LINK_BUBBLE_SCALE, (0,0,random.uniform(0, 0.01)))
-        
-            #self.scene.delete_object(self.linkButton.text)
-            #self.scene.delete_object(self.linkButton.box)
-            printWhiteB("DELETED gotoUrl...")
-
+            self.scene.delete_object(self.linkButton.text)
+            self.scene.delete_object(self.linkButton.box)
         
     #runs commands
     def runCommands(self, line):
@@ -405,13 +385,6 @@ class ArenaDialogueBubbleGroup():
     # ------------------------------------------ #
 
     def createNewButtons(self, line):
-        self.ClearCommandProperties()
-        
-        if(self.linkButton != None and self.checkIfArenaObjectExists(self.linkButton.box)):
-            #self.scene.delete_object(self.linkButton.text)
-            #self.scene.delete_object(self.linkButton.box)
-            self.ScaleAnimation(self.linkButton.box, LINK_BUBBLE_SCALE, (0,0,random.uniform(0, 0.01)))
-        
         self.createSpeechBubble(line)
         self.createButtons(line)
         self.runCommands(line)
@@ -419,15 +392,13 @@ class ArenaDialogueBubbleGroup():
     def clearButtons(self):
         self.ClearCommandProperties()
 
-        if(self.linkButton != None and self.checkIfArenaObjectExists(self.linkButton.box)):
-            self.scene.delete_object(self.linkButton.text)
-            self.scene.delete_object(self.linkButton.box)
-
         if(self.checkIfArenaObjectExists(self.speechBubble)):
+            #self.ScaleAnimation(self.speechBubble, SPEECH_TEXT_SCALE, (0,0,random.uniform(0, 0.01)))
             self.scene.delete_object(self.speechBubble)
 
         for button in self.buttons:
             if(self.checkIfArenaObjectExists(button.box)):
+                #self.ScaleAnimation(button.box, CHOICE_BUBBLE_SCALE, (0,0,random.uniform(0, 0.01)))
                 self.scene.delete_object(button.box)
             if(self.checkIfArenaObjectExists(button.text)):
                 self.scene.delete_object(button.text)
