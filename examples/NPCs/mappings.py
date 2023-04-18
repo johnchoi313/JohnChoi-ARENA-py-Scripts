@@ -139,6 +139,7 @@ class IMG:
         self.size = size
         
 imageMappings = {
+    "yarn"        : IMG(url = FILESTORE+"store/users/johnchoi/Images/yarn.jpg", w = 1340, h = 912, size = 1),
     "doge"        : IMG(url = FILESTORE+"store/users/johnchoi/Images/doge.jpg", w = 369, h = 273, size = 1),
     "dragon"      : IMG(url = FILESTORE+"store/users/johnchoi/Images/dragon.jpg", w = 1200, h = 1200, size = 1),
     "exclamation" : IMG(url = FILESTORE+"store/users/johnchoi/Images/exclamation.png", w = 920, h = 951, size = 1),
