@@ -1,5 +1,5 @@
 #DIALOGUE TREE FILE
-DIALOGUE_FILENAME = "arenarobot.json"
+DIALOGUE_FILENAME = "robot_arena.json"
 
 #ARENA SETTINGS
 FILESTORE = "https://arenaxr.org/" #main server
