@@ -40,6 +40,9 @@ class NPC:
             object_id=NPC_NAME,
             scale=ROOT_SCALE,
             color=ROOT_COLOR,
+            depth=ROOT_SIZE,
+            width=ROOT_SIZE,
+            height=ROOT_SIZE,
             material = Material(opacity=ROOT_OPACITY, transparent=True),
             sound = None,
             persist=True
@@ -140,13 +143,13 @@ def ProgramStart():
     npc.dialogue.printInfo()
     npc.bubbles.start()
 
-def user_join_callback(camera):
+def user_join_callback(scene, obj, msg):
     ## Get access to user state
     # camera is a Camera class instance (see Objects)
-    camera.object_id
-    camera.displayName
-    camera.hasVideo
-    camera.displayName
+    #camera.object_id
+    #camera.displayName
+    #camera.hasVideo
+    #camera.displayName
     # etc.
     npc.bubbles.PlayLastTransform()
     npc.bubbles.reloadCurrentLine()
@@ -154,15 +157,15 @@ def user_join_callback(camera):
 
 scene.user_join_callback = user_join_callback
 
-def user_left_callback(camera):
+#def user_left_callback(scene, obj, msg):
     ## Get access to user state
     # camera is a Camera class instance (see Objects)
-    camera.object_id
-    camera.displayName
-    camera.hasVideo
-    camera.displayName
+    #camera.object_id
+    #camera.displayName
+    #camera.hasVideo
+    #camera.displayName
     # etc.
-scene.user_left_callback = user_left_callback
+#scene.user_left_callback = user_left_callback
 
 
 @scene.run_forever(interval_ms=ENTER_INTERVAL)

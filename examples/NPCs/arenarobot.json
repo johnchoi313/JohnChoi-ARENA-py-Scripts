@@ -22,10 +22,10 @@
 	{
 		"title": "Transforms",
 		"tags": "",
-		"body": "Here is a list of all the transforms in this dialogue:\n[[Transform_Point0]][[Transform_Point1]][[Transform_Point2]][[Transform_Point3]][[Transform_Point4]]",
+		"body": "Here is a list of all the transforms in this dialogue:\n[[Transform_Zero]][[Transform_Rack]][[Transform_Lambda]][[Transform_Desks]][[Transform_Enter]][[Transform_Exit]][[Transform_Couch]]",
 		"position": {
-			"x": -297,
-			"y": 160
+			"x": -299,
+			"y": 156
 		},
 		"colorID": 4
 	},
@@ -150,46 +150,6 @@
 		"colorID": 1
 	},
 	{
-		"title": "Transform_Point4",
-		"tags": "",
-		"body": "Playing transform \"point4\": <<transform point4>>\n[[Transforms]][[Actions]][[End]]",
-		"position": {
-			"x": 967,
-			"y": 152
-		},
-		"colorID": 4
-	},
-	{
-		"title": "Transform_Point0",
-		"tags": "",
-		"body": "Playing transform \"point0\": <<transform point0>>\n[[Transforms]][[Actions]][[End]]",
-		"position": {
-			"x": 111,
-			"y": 150
-		},
-		"colorID": 4
-	},
-	{
-		"title": "Transform_Point1",
-		"tags": "",
-		"body": "Playing transform \"point1\": <<transform point1>>\n[[Transforms]][[Actions]][[End]]",
-		"position": {
-			"x": 321,
-			"y": 151
-		},
-		"colorID": 4
-	},
-	{
-		"title": "Transform_Point2",
-		"tags": "",
-		"body": "Playing transform \"point2\": <<transform point2>>\n[[Transforms]][[Actions]][[End]]",
-		"position": {
-			"x": 531,
-			"y": 149
-		},
-		"colorID": 4
-	},
-	{
 		"title": "Anim_Jump",
 		"tags": "",
 		"body": "Playing animation \"jump\": <<animation jump>>\n[[Animations]][[Actions]][[End]]",
@@ -198,16 +158,6 @@
 			"y": -257
 		},
 		"colorID": 3
-	},
-	{
-		"title": "Transform_Point3",
-		"tags": "",
-		"body": "Playing transform \"point3\": <<transform point3>>\n[[Transforms]][[Actions]][[End]]",
-		"position": {
-			"x": 750,
-			"y": 152
-		},
-		"colorID": 4
 	},
 	{
 		"title": "Actions",
@@ -1038,5 +988,75 @@
 			"y": 1269
 		},
 		"colorID": 8
+	},
+	{
+		"title": "Transform_Zero",
+		"tags": "",
+		"body": "Playing transform \"zero\": <<transform zero>>\n[[Transforms]][[Actions]][[End]]",
+		"position": {
+			"x": 123,
+			"y": 150
+		},
+		"colorID": 4
+	},
+	{
+		"title": "Transform_Rack",
+		"tags": "",
+		"body": "Playing transform \"rack\": <<transform rack>>\n[[Transforms]][[Actions]][[End]]",
+		"position": {
+			"x": 343,
+			"y": 150
+		},
+		"colorID": 4
+	},
+	{
+		"title": "Transform_Lambda",
+		"tags": "",
+		"body": "Playing transform \"lambda\": <<transform lambda>>\n[[Transforms]][[Actions]][[End]]",
+		"position": {
+			"x": 562,
+			"y": 149
+		},
+		"colorID": 4
+	},
+	{
+		"title": "Transform_Desks",
+		"tags": "",
+		"body": "Playing transform \"desks\": <<transform desks>>\n[[Transforms]][[Actions]][[End]]",
+		"position": {
+			"x": 783,
+			"y": 150
+		},
+		"colorID": 4
+	},
+	{
+		"title": "Transform_Enter",
+		"tags": "",
+		"body": "Playing transform \"enter\": <<transform enter>>\n[[Transforms]][[Actions]][[End]]",
+		"position": {
+			"x": 1003,
+			"y": 150
+		},
+		"colorID": 4
+	},
+	{
+		"title": "Transform_Exit",
+		"tags": "",
+		"body": "Playing transform \"exit\": <<transform exit>>\n[[Transforms]][[Actions]][[End]]",
+		"position": {
+			"x": 1223,
+			"y": 150
+		},
+		"colorID": 4
+	},
+	{
+		"title": "Transform_Couch",
+		"tags": "",
+		"body": "Playing transform \"couch\": <<transform couch>>\n[[Transforms]][[Actions]][[End]]",
+		"position": {
+			"x": 1442,
+			"y": 149
+		},
+		"colorID": 4
 	}
 ]
