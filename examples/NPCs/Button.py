@@ -19,7 +19,7 @@ class Button():
         self.box = self.makeButtonBox(name, text, eventHandler, color, position, rotation, buttonTextColor=textColor, buttonScale = buttonScale, persist=persist)
         self.text = self.makeButtonText(self.box, name, text, buttonColor=textColor, buttonScale = textScale, persist=persist)
 
-    def makeButtonText(self, button, buttonID, buttonText, buttonColor = (255,255,255), buttonPos = (0, 0, 0.5), buttonRot = (0,0,0), buttonScale = (0.5, 2, 1), persist=False):
+    def makeButtonText(self, button, buttonID, buttonText, buttonColor = (255,255,255), buttonPos = (0, 0, 0.6), buttonRot = (0,0,0), buttonScale = (0.5, 2, 1), persist=False):
         #Create Button Text Object
         buttonText = Text(
             object_id=buttonID+"_text",

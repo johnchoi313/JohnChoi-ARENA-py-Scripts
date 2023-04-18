@@ -1,3 +1,19 @@
+[---Robot Buddy/Smiley Animations---]
+
+Die
+Hurt
+Idle
+Jump
+JumpFall
+JumpLand
+JumpUp
+Lookaround
+Roll
+Run
+Skid
+TStance
+Walk
+
 [---JunkoChan Morphs---]
 
 Blink
@@ -58,3 +74,18 @@ Cry
 Irritated
 Happy
 Saltbae
+
+[---Experimental Box Collision Listener Parameters---]
+
+{
+    object_id: objName,
+    action: 'clientEvent',
+    type: 'collision-start',
+    data: {
+        source: objName,
+        position: ARENAUtils.getWorldPos(thisEl),
+        targets: e.detail.intersectedEls.map((inEl) => (
+            {id: inEl.id, position: ARENAUtils.getWorldPos(inEl)}
+        )),
+    },
+}

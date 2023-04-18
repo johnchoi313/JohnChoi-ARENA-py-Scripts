@@ -38,8 +38,6 @@ class NPC:
         #NPC ROOT OBJECT (with debug box)
         self.root = Box(
             object_id=NPC_NAME,
-            #position=ROOT_POSITION,
-            #rotation=ROOT_ROTATION,
             scale=ROOT_SCALE,
             color=ROOT_COLOR,
             material = Material(opacity=ROOT_OPACITY, transparent=True),
@@ -59,6 +57,45 @@ class NPC:
         )
         scene.add_object(self.gltf)
         
+        '''
+        #NPC ROOT OBJECT (with debug box)
+        self.collider = Box(
+            object_id=NPC_NAME + "(COLLIDER)",
+            #position=ROOT_POSITION,
+            #rotation=ROOT_ROTATION,
+            scale=COLLIDER_SCALE,
+            color=COLLIDER_COLOR,
+            material = Material(opacity=COLLIDER_OPACITY, transparent=True),
+
+
+            evt_handler=onCollisionHandler,
+            parent=self.root,
+            
+            sound = None,
+            persist=True
+
+
+        )
+        scene.add_object(self.collider)
+        
+        #functions to control choice button click behaviour
+        def onCollisionHandler(self, scene, evt, msg):
+            if evt.type == "mousedown":
+
+                printCyan("  Next Button Pressed!")
+                
+
+                if(USE_DEFAULT_SOUNDS):
+                    self.PlaySound(SOUND_NEXT)
+        '''
+
+        '''
+        https://docs.arenaxr.org/content/python/tutorial/advanced.html#user-management
+        scene.user_join_callback
+        user_left_callback
+        evt_handler=my_collision_listener
+        '''
+
         #NPC IMAGE
         self.image = Image(
             object_id=NPC_NAME + "(IMAGE)",
@@ -103,6 +140,31 @@ def ProgramStart():
     npc.dialogue.printInfo()
     npc.bubbles.start()
 
+def user_join_callback(camera):
+    ## Get access to user state
+    # camera is a Camera class instance (see Objects)
+    camera.object_id
+    camera.displayName
+    camera.hasVideo
+    camera.displayName
+    # etc.
+    npc.bubbles.PlayLastTransform()
+    npc.bubbles.reloadCurrentLine()
+    npc.bubbles.PlayAnimation(ANIM_IDLE)
+
+scene.user_join_callback = user_join_callback
+
+def user_left_callback(camera):
+    ## Get access to user state
+    # camera is a Camera class instance (see Objects)
+    camera.object_id
+    camera.displayName
+    camera.hasVideo
+    camera.displayName
+    # etc.
+scene.user_left_callback = user_left_callback
+
+
 @scene.run_forever(interval_ms=ENTER_INTERVAL)
 def EnterExit_Handler(): #checks whether or not a user is in range of NPC
     users = scene.get_user_list()
@@ -114,27 +176,28 @@ def EnterExit_Handler(): #checks whether or not a user is in range of NPC
         users = []
         sceneUserCount = 0
 
+    '''
     for user in scene.get_user_list():
-        #if user.data.position.distance_to(npc.root.data.position) <= ENTER_DISTANCE:
-        userCount+=1
-    
+        if user.data.position.distance_to(npc.root.data.position) <= ENTER_DISTANCE:
+            userCount+=1
+    '''
+            
     if(npc.userCount != userCount):
         printLightRedB(str(userCount) + " users in area of NPC with name \"" + NPC_NAME + "\".")
         if(userCount > 0 and npc.entered == False): # At least one user in range of NPC starts interaction.
             npc.entered = True
-            npc.bubbles.gotoNodeWithName(ENTER_NODE)
-
+            #npc.bubbles.gotoNodeWithName(ENTER_NODE) #doesn't work?
             if(USE_DEFAULT_SOUNDS):
                 npc.bubbles.PlaySound(SOUND_ENTER)
 
         if(userCount == 0 and npc.entered == True): # All users left, so end interaction.
             npc.entered = False
-            npc.bubbles.gotoNodeWithName(EXIT_NODE)
-
+            #npc.bubbles.gotoNodeWithName(EXIT_NODE) #doesn't work?
             if(USE_DEFAULT_SOUNDS):
                 npc.bubbles.PlaySound(SOUND_EXIT)
     
     npc.userCount = userCount
+
 
 
 @scene.run_forever(interval_ms=RESET_INTERVAL)
@@ -146,10 +209,17 @@ def Reset_Handler(): #RESET_TIME milliseconds of no activity resets interaction.
         npc.bubbles.gotoNodeWithName(ENTER_NODE)
         printLightRedB("NPC with name \"" + NPC_NAME + "\" detected no activity for " + str(RESET_TIME) + " milliseconds. Resetting.")
         
-        
+
+
+#@scene.run_forever(interval_ms=TRANSFORM_TIMER)
+#def Transform_Handler(): #send a heartbeat transform to keep position correct for new players
+    #printWhiteB("Playing last transform...")        
+    #npc.bubbles.PlayLastTransform()
+    #npc.bubbles.reloadCurrentLine()
+
 @scene.run_forever(interval_ms=SPEECH_INTERVAL)
 def Speech_Handler(): #iteratively adds characters to speech bubble
-    
+
     if(npc.bubbles.checkIfArenaObjectExists(npc.bubbles.speechBubble)):
 
         #random blink:

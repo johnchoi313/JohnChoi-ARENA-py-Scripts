@@ -134,6 +134,8 @@ class ArenaDialogueBubbleGroup():
             self.transformUsedThisLine = False
         else:
             self.lastTransform = transform
+    def PlayLastTransform(self):
+        self.PlayTransform(self.lastTransform)
 
     #Morphs
     def PlayMorphFromMapping(self, key):
@@ -479,8 +481,6 @@ class ArenaDialogueBubbleGroup():
             printCyan("  Choice Button with text \"" + choiceText + "\" pressed!")
                         
             self.gotoNodeWithName(choiceNodeName)
-            
-
 
             if(USE_DEFAULT_SOUNDS):
                 self.PlaySound(SOUND_CHOICE)
@@ -497,7 +497,7 @@ class ArenaDialogueBubbleGroup():
             if(USE_DEFAULT_SOUNDS):
                 self.PlaySound(SOUND_NEXT)
 
-    #functions to control choice button click behaviour
+    #functions to control link button click behaviour
     def onClickLinkButton(self, scene, evt, msg):
         if evt.type == "mousedown":
             
@@ -538,3 +538,11 @@ class ArenaDialogueBubbleGroup():
             self.createNewButtons(self.dialogue.currentNode.lines[self.dialogue.currentNode.currentLineIndex])
         elif(self.dialogue.currentNode.currentLineIndex == len(self.dialogue.currentNode.lines)):
             printRedB("\n(---Finished NPC interaction.---)")
+
+    def reloadCurrentLine(self):
+        self.clearButtons()
+        
+        if(self.dialogue.currentNode.currentLineIndex < len(self.dialogue.currentNode.lines)):
+            self.createNewButtons(self.dialogue.currentNode.lines[self.dialogue.currentNode.currentLineIndex])
+        
+    
