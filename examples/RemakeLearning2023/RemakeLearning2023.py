@@ -2,272 +2,145 @@
 # ----------IMPORTING EVERYTHING------------ #
 # ------------------------------------------ #
 
-from config import *
-from mappings import *
-from YarnParser import *
 from ColorPrinter import *
-from ArenaDialogueBubbleGroup import *
 
 from arena import *
 
 from asyncio import create_subprocess_exec
 from time import gmtime, strftime
-from datetime import datetime
-from datetime import timezone
-import random
+
 
 # ------------------------------------------ #
 # -----------MAIN NPC MASTERCLASS----------- #
 # ------------------------------------------ #
 
-class NPC:
-    def __init__(self, scene):
+BUTTON_BASE_COLOR = (0, 65, 168)
+BUTTON_TEXT_COLOR = (255, 255, 255)
+
+BUTTON_BASE_OPACITY = 0.9
+BUTTON_TEXT_OPACITY = 0.5
+
+ANIMATION_DURATION = 5
+
+START_SOUND_URL = "store/users/johnchoi/Sounds/NPC/Next.wav"
+
+# ------------------------------------------ #
+# -----------MAIN NPC MASTERCLASS----------- #
+# ------------------------------------------ #
+
+class Part:
+    def __init__(self, scene, partNum, partNames, soundURL, buttonName, buttonText, buttonPos, buttonRot):
         self.scene = scene
-        self.entered = False
-        self.userCount = 0
+        self.num = partNum
+        self.soundURL = soundURL
 
-        self.talking = False
-        
-        # create Dialogue, and show contents
-        self.dialogue = Dialogue(DIALOGUE_FILENAME)
+        self.createButton(buttonName, buttonText, buttonPos, buttonRot)
 
-        #NPC ROOT OBJECT (with debug box)
-        self.root = Box(
-            object_id=NPC_NAME,
-            scale=ROOT_SCALE,
-            color=ROOT_COLOR,
-            depth=ROOT_SIZE,
-            width=ROOT_SIZE,
-            height=ROOT_SIZE,
-            material = Material(opacity=ROOT_OPACITY, transparent=True),
-            sound = None,
+        self.gltfs = []
+        for partName in partNames:
+            self.gltfs.append(self.createPart(partNum, partName))    
+    
+    def createPart(self, partNum, partName):
+        gltf = GLTF(
+            object_id="part" + str(partNum) + "_" + partName,
+            url="/store/users/etc/RemakeLearning2023/Part"+str(partNum)+"/part"+str(partNum)+"_"+partName+".glb",
+
+            position=(0,0.1,0),
+            rotation=(0,0,0),
+            scale=(1,1,1),
+
+            shadow = {"cast":True, "receive":True},
             persist=True
         )
-        scene.add_object(self.root)
-        #NPC GLTF
-        self.gltf = GLTF(
-            object_id=NPC_NAME + "(GLTF)",
-            url=NPC_GLTF_URL,
-            position=GLTF_POSITION,
-            rotation=GLTF_ROTATION,
-            scale=GLTF_SCALE,
-            parent=self.root,
-            persist=True
-        )
-        scene.add_object(self.gltf)
-        
-        '''
-        #NPC ROOT OBJECT (with debug box)
-        self.collider = Box(
-            object_id=NPC_NAME + "(COLLIDER)",
-            #position=ROOT_POSITION,
-            #rotation=ROOT_ROTATION,
-            scale=COLLIDER_SCALE,
-            color=COLLIDER_COLOR,
-            material = Material(opacity=COLLIDER_OPACITY, transparent=True),
+        scene.add_object(gltf)
+        return gltf
 
+    def createButton(self, buttonName, buttonText, pos, rot):        
+        self.buttonBase = self.makeButtonBase(buttonName, pos, rot)
+        self.buttonText = self.makeButtonText(self.buttonBase, buttonName, buttonText)
 
-            evt_handler=onCollisionHandler,
-            parent=self.root,
-            
-            sound = None,
-            persist=True
-
-
-        )
-        scene.add_object(self.collider)
-        
-        #functions to control choice button click behaviour
-        def onCollisionHandler(self, scene, evt, msg):
-            if evt.type == "mousedown":
-
-                printCyan("  Next Button Pressed!")
-                
-
-                if(USE_DEFAULT_SOUNDS):
-                    self.PlaySound(SOUND_NEXT)
-        '''
-
-        '''
-        https://docs.arenaxr.org/content/python/tutorial/advanced.html#user-management
-        scene.user_join_callback
-        user_left_callback
-        evt_handler=my_collision_listener
-        '''
-
-        #NPC IMAGE
-        self.image = Image(
-            object_id=NPC_NAME + "(IMAGE)",
-            position=PLANE_POSITION,
-            rotation=PLANE_ROTATION,
-            scale=(0,0,0),
-            url = FILESTORE+"store/users/johnchoi/Images/nyan.jpg",
-            material = Material(transparent = True, opacity = PLANE_OPACITY),
-            parent=self.root,
-            persist=True
-        )
-        scene.add_object(self.image)    
-        #NPC VIDEO
-        self.video = Plane(
-            object_id=NPC_NAME + "(VIDEO)",
-            position=PLANE_POSITION,
-            rotation=PLANE_ROTATION,
-            scale=(0,0,0),
-            material = Material(src = FILESTORE+"store/users/johnchoi/Videos/rays.mp4", transparent = True, opacity = PLANE_OPACITY, w = 1920, h = 1080, size = 1),
-            parent=self.root,
+    def makeButtonBase(self, buttonName, pos, rot):        
+        #Create Button Object
+        button = Box(
+            object_id="part" + str(self.num) + "_button_" + buttonName + "(base)",
+            position=pos, rotation=rot,
+            depth = 0.2, height = 0.05, width = 1,
+            material = Material(color = BUTTON_BASE_COLOR, transparent = True, opacity=BUTTON_BASE_OPACITY),
+            evt_handler=self.onClicked,
             clickable=True,
             persist=True
         )
-        scene.add_object(self.video)
-        
-        #Create Bubbles
-        self.bubbles = ArenaDialogueBubbleGroup(self.scene, self.root , self.gltf, self.image, self.video, self.dialogue)
+        self.scene.add_object(button)
+        return button
+    def makeButtonText(self, button, buttonName, buttonText):
+        #Create Button Text Object
+        buttonText = Text(
+            object_id="part" + str(self.num) + "_button_" + buttonName + "(text)",
+            text=buttonText,
+            align="center",
+            position=(0,0.05,0), rotation=(-90,0,0), scale=(0.5, 0.5, 0.5),            
+            material = Material(color = BUTTON_TEXT_COLOR, transparent = False, opacity=BUTTON_TEXT_OPACITY),
+            parent = button,
+            persist=True
+        )
+        self.scene.add_object(buttonText)
+        return buttonText
+    def onClicked(self, scene, evt, msg):
+        if evt.type == "mousedown":
+            self.PlayAnimations()
+            self.PlaySoundFromUrl(START_SOUND_URL)
+            self.PlaySoundFromUrl(self.soundURL)
+            
+    def PlayAnimations(self):
+        for gltf in self.gltfs:
+            animation = AnimationMixer(clip="*", loop="pingpong", repetitions = 2, duration = ANIMATION_DURATION, crossFadeDuration=0.0, timeScale = 1, clampWhenFinished = False)
+            gltf.dispatch_animation(animation)
+            self.scene.run_animations(gltf)
+    def PlaySoundFromUrl(self, url):
+        sound = Sound(volume=1, autoplay=True, src=url)
+        self.PlaySound(sound)
+    def PlaySound(self, sound):
+        self.buttonBase.data.sound=None #resets so can play same sound again
+        self.scene.update_object(self.buttonBase)
+        self.buttonBase.data.sound=sound
+        self.scene.update_object(self.buttonBase)
 
 # ------------------------------------------ #
 # --------MAIN LOOPS/INITIALIZATION--------- #
 # ------------------------------------------ #
 
+PART1_NAMES = ["flashy" , "set", "snail", "turtle"]
+PART2_NAMES = ["cloud" , "conveyors", "flashy", "rocket", "set", "turtle"]
+PART3_NAMES = ["flag" , "flashy", "set", "snail", "symbols", "turtle"]
+PART4_NAMES = ["flashy" , "set", "snail", "traffic", "turtle"]
+PART5_NAMES = ["flashy" , "podium", "set", "snail", "straw", "trophy", "turtle"]
+
+
+# ------------------------------------------ #
+# --------MAIN LOOPS/INITIALIZATION--------- #
+# ------------------------------------------ #
+
+#ARENA SETTINGS
+FILESTORE = "https://arenaxr.org/" #main server
+
+HOST = "mqtt.arenaxr.org"          #main server
+NAMESPACE = "etc" #"johnchoi"
+SCENE = "RemakeLearning2023" #"NPC"
+
 # setup ARENA scene
 scene = Scene(host=HOST, namespace=NAMESPACE, scene=SCENE)
 
-# make NPC
-npc = NPC(scene)
 
-@scene.run_once
-def ProgramStart():
-    npc.dialogue.printJson()
-    npc.dialogue.printInfo()
-    npc.bubbles.start()
+part1 = Part(scene, 1, PART1_NAMES, "store/users/johnchoi/Sounds/NPC/Enter.wav", "BV", "Manual Start BV", (3, 0.1, 1.8288), (0,90,0))
 
-def user_join_callback(scene, obj, msg):
-    ## Get access to user state
-    # camera is a Camera class instance (see Objects)
-    #camera.object_id
-    #camera.displayName
-    #camera.hasVideo
-    #camera.displayName
-    # etc.
-    npc.bubbles.PlayLastTransform()
-    npc.bubbles.reloadCurrentLine()
-    npc.bubbles.PlayAnimation(ANIM_IDLE)
+part2 = Part(scene, 2, PART2_NAMES, "store/users/johnchoi/Sounds/NPC/Enter.wav", "SV", "Manual Start SV", (3, 0.1, -1.8288), (0,90,0))
 
-scene.user_join_callback = user_join_callback
+part3 = Part(scene, 3, PART3_NAMES, "store/users/johnchoi/Sounds/NPC/Enter.wav", "WL", "Manual Start WL", (-3, 0.1, -1.8288), (0,-90,0))
 
-#def user_left_callback(scene, obj, msg):
-    ## Get access to user state
-    # camera is a Camera class instance (see Objects)
-    #camera.object_id
-    #camera.displayName
-    #camera.hasVideo
-    #camera.displayName
-    # etc.
-#scene.user_left_callback = user_left_callback
+part4 = Part(scene, 4, PART4_NAMES, "store/users/johnchoi/Sounds/NPC/Enter.wav", "RV", "Manual Start RV", (-3, 0.1, 1.8288), (0,-90,0))
+
+part5 = Part(scene, 5, PART5_NAMES, "store/users/johnchoi/Sounds/NPC/Enter.wav", "SxL", "Manual Start SxL", (0, 0.1, -3), (0,180,0))
 
 
-@scene.run_forever(interval_ms=ENTER_INTERVAL)
-def EnterExit_Handler(): #checks whether or not a user is in range of NPC
-    users = scene.get_user_list()
-    sceneUserCount = len(scene.get_user_list())
-    userCount = 0
-
-    #strange bug - closing browser does not send exit message?
-    if(scene.get_user_list() == None):
-        users = []
-        sceneUserCount = 0
-
-    '''
-    for user in scene.get_user_list():
-        if user.data.position.distance_to(npc.root.data.position) <= ENTER_DISTANCE:
-            userCount+=1
-    '''
-            
-    if(npc.userCount != userCount):
-        printLightRedB(str(userCount) + " users in area of NPC with name \"" + NPC_NAME + "\".")
-        if(userCount > 0 and npc.entered == False): # At least one user in range of NPC starts interaction.
-            npc.entered = True
-            #npc.bubbles.gotoNodeWithName(ENTER_NODE) #doesn't work?
-            if(USE_DEFAULT_SOUNDS):
-                npc.bubbles.PlaySound(SOUND_ENTER)
-
-        if(userCount == 0 and npc.entered == True): # All users left, so end interaction.
-            npc.entered = False
-            #npc.bubbles.gotoNodeWithName(EXIT_NODE) #doesn't work?
-            if(USE_DEFAULT_SOUNDS):
-                npc.bubbles.PlaySound(SOUND_EXIT)
-    
-    npc.userCount = userCount
-
-
-
-@scene.run_forever(interval_ms=RESET_INTERVAL)
-def Reset_Handler(): #RESET_TIME milliseconds of no activity resets interaction.
-    if(npc.bubbles.resetTimer > 0):
-        npc.bubbles.resetTimer = npc.bubbles.resetTimer - RESET_INTERVAL
-    else:
-        npc.bubbles.resetTimer = RESET_TIME
-        npc.bubbles.gotoNodeWithName(ENTER_NODE)
-        printLightRedB("NPC with name \"" + NPC_NAME + "\" detected no activity for " + str(RESET_TIME) + " milliseconds. Resetting.")
-        
-
-
-#@scene.run_forever(interval_ms=TRANSFORM_TIMER)
-#def Transform_Handler(): #send a heartbeat transform to keep position correct for new players
-    #printWhiteB("Playing last transform...")        
-    #npc.bubbles.PlayLastTransform()
-    #npc.bubbles.reloadCurrentLine()
-
-@scene.run_forever(interval_ms=SPEECH_INTERVAL)
-def Speech_Handler(): #iteratively adds characters to speech bubble
-
-    if(npc.bubbles.checkIfArenaObjectExists(npc.bubbles.speechBubble)):
-
-        #random blink:
-        if(USE_DEFAULT_MORPHS):
-            if(random.randint(0, 30) == 0):
-                npc.bubbles.PlayMorph(MORPH_BLINK_ON)
-            else:
-                npc.bubbles.PlayMorph(MORPH_BLINK_OFF)
-
-        #if walking, let walk, hide buttons
-        if(npc.bubbles.transformTimer > 0):
-            npc.bubbles.transformTimer = npc.bubbles.transformTimer - SPEECH_INTERVAL
-
-        #Iterate through speech bubble text
-        else:
-            if(0 <= npc.bubbles.speechIndex and npc.bubbles.speechIndex * SPEECH_SPEED < len(npc.bubbles.speech)):
-                npc.bubbles.speechIndex += 1
-            
-                #start talking animation if not started already
-                if(USE_DEFAULT_ANIMATIONS and not npc.talking and not npc.bubbles.animationUsedThisLine):
-                    npc.bubbles.PlayAnimation(ANIM_TALK)
-
-                #if blendshapes applicable
-                if(USE_DEFAULT_MORPHS):
-                    #move mouth up and down
-                    if((npc.bubbles.speechIndex+0) % 3 == 0):
-                        npc.bubbles.PlayMorph(MORPH_OPEN)
-                    if((npc.bubbles.speechIndex+1) % 3 == 0):
-                        npc.bubbles.PlayMorph(MORPH_CLOSE)
-            
-                npc.talking = True
-
-            else:
-                npc.bubbles.speechIndex = len(npc.bubbles.speech)
-
-                #play idle if not started already.
-                if(USE_DEFAULT_ANIMATIONS and npc.talking and not npc.bubbles.animationUsedThisLine):
-                    npc.bubbles.PlayAnimation(ANIM_IDLE)
-
-                #close mouth if blendshapes applicable
-                if(USE_DEFAULT_MORPHS and npc.talking):
-                    npc.bubbles.PlayMorph(MORPH_CLOSE)
-
-                npc.talking = False
-
-            npc.isTalking = npc.talking
-
-        #Iterate through speech bubble text
-        npc.bubbles.speechBubble.data.text = npc.bubbles.speech[:npc.bubbles.speechIndex * SPEECH_SPEED]
-        scene.update_object(npc.bubbles.speechBubble)
 
 scene.run_tasks()
