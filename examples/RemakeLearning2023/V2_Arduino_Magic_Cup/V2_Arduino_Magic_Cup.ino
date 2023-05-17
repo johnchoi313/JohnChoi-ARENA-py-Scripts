@@ -27,7 +27,8 @@ void setup() {
  
 void loop() {
 
-int fill_time = 5000;   //NEEDS TO BE CALIBRATED TO EACH SPECIFIC CUP
+int fill_time = 200;   //FOR ~400mL Boba cup
+//int fill_time = xxx;   //NEEDS TO BE CALIBRATED TO EACH SPECIFIC CUP
     
 // START Pump in OFF:
 //Pump turns off

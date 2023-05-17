@@ -9,6 +9,8 @@ from arena import *
 from asyncio import create_subprocess_exec
 from time import gmtime, strftime
 
+import serial
+
 # ------------------------------------------ #
 # -----------MAIN NPC MASTERCLASS----------- #
 # ------------------------------------------ #
@@ -51,6 +53,12 @@ def printArenaDebugText(text):
     scene.update_object(ARENA_DEBUG_TEXT)
     printGreen(text)
 
+#Connect Arduino
+
+arduino = serial.Serial('COM3', 9600)
+
+
+
 # ------------------------------------------ #
 # -----------MAIN NPC MASTERCLASS----------- #
 # ------------------------------------------ #
@@ -72,6 +80,8 @@ class Part:
         self.createOptitrackBox()
 
         self.clicked = False
+
+        self.AorB = True
 
         self.gltfs = []
         for partName in partNames:
@@ -228,7 +238,6 @@ parts = [part1, part2, part3, part4, part5]
 
 
 def CheckZoneAndRunNextPart(partA, partB):
-
     if(partA.CheckOptitrackInZone()):
         if(partA.OptitrackTrigger == False):
             partA.OptitrackTrigger = True
@@ -250,10 +259,18 @@ def Collision_Handler(): #checks whether or not a user is in range of NPC
     ranPart5A = CheckZoneAndRunNextPart(part2, part5)
     ranPart5B = CheckZoneAndRunNextPart(part5, part5)
     
-    if(ranPart5A or ranPart5B):
+    if(ranPart5A or ranPart5B or part5.isClicked()):
         printCyan("Running Last Part!")
-    
-    if(part5.isClicked()):
-        printCyan("Running Last Part!")
-    
+        #Send Arduino Stuff
+        if(part5.AorB):
+            arduino.write(b'A\n')
+            part5.AorB = False
+        else:
+            arduino.write(b'B\n')
+            part5.AorB = True    
+
+        #Send OSC Stuff
+
+
+
 scene.run_tasks()
