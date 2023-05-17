@@ -10,6 +10,7 @@ from asyncio import create_subprocess_exec
 from time import gmtime, strftime
 
 import serial
+from pythonosc import udp_client
 
 # ------------------------------------------ #
 # -----------MAIN NPC MASTERCLASS----------- #
@@ -22,6 +23,7 @@ BUTTON_BASE_OPACITY = 0.9
 BUTTON_TEXT_OPACITY = 0.5
 
 OPTITRACK_TEXT_COLOR = (20, 48, 255)
+OPTITRACK_OPACITY = 0.5
 
 ANIMATION_DURATION = 5
 
@@ -57,17 +59,18 @@ def printArenaDebugText(text):
 
 arduino = serial.Serial('COM3', 9600)
 
-
+oscClient = udp_client.SimpleUDPClient('127.0.0.1', 5005)  #Replace with the appropriate IP address and port
 
 # ------------------------------------------ #
 # -----------MAIN NPC MASTERCLASS----------- #
 # ------------------------------------------ #
 
 class Part:
-    def __init__(self, scene, partNum, name, partNames, soundURL, buttonText, buttonPos, buttonRot, zoneStart, zoneEnd):
+    def __init__(self, scene, partNum, name, partNames, color, soundURL, buttonText, buttonPos, buttonRot, zoneStart, zoneEnd):
         self.scene = scene
         self.num = partNum
         self.name = name
+        self.color = color
         self.soundURL = soundURL
 
         self.zoneStart = zoneStart
@@ -98,7 +101,7 @@ class Part:
             rotation = (0,0,0),
 
             depth = 0.2, height = 0.2, width = 0.2,
-            material = Material(color = BUTTON_BASE_COLOR, transparent = True, opacity=BUTTON_BASE_OPACITY),
+            material = Material(color = self.color, transparent = True, opacity=OPTITRACK_OPACITY),
             shadow = {"cast":True, "receive":False},
 
             persist=True
@@ -148,7 +151,7 @@ class Part:
             object_id="part" + str(self.num) + "_button_" + self.name + "(base)",
             position=pos, rotation=rot,
             depth = 0.2, height = 0.05, width = 1,
-            material = Material(color = BUTTON_BASE_COLOR, transparent = True, opacity=BUTTON_BASE_OPACITY),
+            material = Material(color = self.color, transparent = True, opacity=BUTTON_BASE_OPACITY),
             shadow = {"cast":True, "receive":False},
             evt_handler=self.onClicked,
             clickable=True,
@@ -209,24 +212,23 @@ PART3_NAMES = ["flag" , "flashy", "set", "snail", "symbols", "turtle"]
 PART4_NAMES = ["flashy" , "set", "snail", "traffic", "turtle"]
 PART5_NAMES = ["flashy" , "podium", "set", "snail", "straw", "trophy", "turtle"]
 
-part1 = Part(scene, 1, "BV", PART1_NAMES, "store/users/johnchoi/Sounds/NPC/Enter.wav", "Manual Start BV", 
+part1 = Part(scene, 1, "BV", PART1_NAMES, (0, 65, 168), "store/users/johnchoi/Sounds/NPC/Enter.wav", "Manual Start BV", 
             (3, 0.1, 1.8288), (0,90,0), 
             (-0.9144, 0, 2.7432), (0.9144, 1, 0.9144))
 
-part2 = Part(scene, 2, "SV", PART2_NAMES, "store/users/johnchoi/Sounds/NPC/Enter.wav", "Manual Start SV", 
+part2 = Part(scene, 2, "SV", PART2_NAMES, (0, 168, 20), "store/users/johnchoi/Sounds/NPC/Enter.wav", "Manual Start SV", 
             (3, 0.1, -1.8288), (0,90,0), 
             (0.9144, 0, 0.9144), (2.7432, 1, -0.9144) )
 
-part3 = Part(scene, 3, "WL", PART3_NAMES, "store/users/johnchoi/Sounds/NPC/Enter.wav", "Manual Start WL", 
+part3 = Part(scene, 3, "WL", PART3_NAMES, (168, 0, 168), "store/users/johnchoi/Sounds/NPC/Enter.wav", "Manual Start WL", 
             (-3, 0.1, -1.8288), (0,-90,0), 
             (-0.9144, 0, -0.9144), (0.9144, 1, -2.7432))
 
-part4 = Part(scene, 4, "RV", PART4_NAMES, "store/users/johnchoi/Sounds/NPC/Enter.wav", "Manual Start RV", 
+part4 = Part(scene, 4, "RV", PART4_NAMES, (0, 168, 168), "store/users/johnchoi/Sounds/NPC/Enter.wav", "Manual Start RV", 
             (-3, 0.1, 1.8288), (0,-90,0), 
             (-2.7432, 0, 0.9144), (-0.9144, 1, -0.9144))
 
-
-part5 = Part(scene, 5, "SxL",PART5_NAMES, "store/users/johnchoi/Sounds/NPC/Enter.wav", "Manual Start SxL", 
+part5 = Part(scene, 5, "SxL",PART5_NAMES, (168, 168, 0), "store/users/johnchoi/Sounds/NPC/Enter.wav", "Manual Start SxL", 
             (0, 0.1, -3), (0,180,0), (-0.9144, 0, 0.9144), (0.9144, 1, -0.9144))
 
 parts = [part1, part2, part3, part4, part5]
@@ -261,16 +263,15 @@ def Collision_Handler(): #checks whether or not a user is in range of NPC
     
     if(ranPart5A or ranPart5B or part5.isClicked()):
         printCyan("Running Last Part!")
-        #Send Arduino Stuff
+        
+        #Send Arduino / OSC Stuff
         if(part5.AorB):
             arduino.write(b'A\n')
+            oscClient.send_message('/character', 'A\n')
             part5.AorB = False
         else:
             arduino.write(b'B\n')
+            oscClient.send_message('/character', 'B\n')
             part5.AorB = True    
-
-        #Send OSC Stuff
-
-
 
 scene.run_tasks()
