@@ -29,6 +29,8 @@ ANIMATION_DURATION = 5
 
 START_SOUND_URL = "store/users/johnchoi/Sounds/NPC/Next.wav"
 
+zm = 1.5
+
 #ARENA SETTINGS
 FILESTORE = "https://arenaxr.org/" #main server
 
@@ -56,10 +58,9 @@ def printArenaDebugText(text):
     printGreen(text)
 
 #Connect Arduino
+arduino = serial.Serial('/dev/cu.usbmodem1101', 9600)
 
-arduino = serial.Serial('COM3', 9600)
-
-oscClient = udp_client.SimpleUDPClient('127.0.0.1', 5005)  #Replace with the appropriate IP address and port
+oscClient = udp_client.SimpleUDPClient('172.26.73.99', 7000)  #Replace with the appropriate IP address and port
 
 # ------------------------------------------ #
 # -----------MAIN NPC MASTERCLASS----------- #
@@ -89,8 +90,6 @@ class Part:
         self.gltfs = []
         for partName in partNames:
             self.gltfs.append(self.createPart(partNum, partName))    
-    
-
     
     def createOptitrackBox(self):
         #Create Button Object
@@ -122,9 +121,9 @@ class Part:
 
 
     def CheckOptitrackInZone(self):
-        if(self.zoneStart[0] < self.OptitrackBox.data.position.x < self.zoneEnd[0] and 
-           self.zoneStart[1] < self.OptitrackBox.data.position.y < self.zoneEnd[1] and 
-           self.zoneStart[2] > self.OptitrackBox.data.position.z > self.zoneEnd[2]):
+        if(self.zoneStart[0] * zm < self.OptitrackBox.data.position.x < self.zoneEnd[0] * zm and 
+           self.zoneStart[1] * zm < self.OptitrackBox.data.position.y < self.zoneEnd[1] * zm and 
+           self.zoneStart[2] * zm > self.OptitrackBox.data.position.z > self.zoneEnd[2] * zm):
             return True
         else:            
             return False
@@ -194,7 +193,7 @@ class Part:
             gltf.dispatch_animation(animation)
             self.scene.run_animations(gltf)
     def PlaySoundFromUrl(self, url):
-        sound = Sound(volume=1, autoplay=True, src=url)
+        sound = Sound(volume=0.5, autoplay=True, src=url)
         self.PlaySound(sound)
     def PlaySound(self, sound):
         self.buttonBase.data.sound=None #resets so can play same sound again
