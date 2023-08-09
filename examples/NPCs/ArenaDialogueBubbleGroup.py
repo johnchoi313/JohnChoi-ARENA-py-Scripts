@@ -53,13 +53,20 @@ class ArenaDialogueBubbleGroup():
         #Init Everything First time        
         self.initializeBubbles()
 
+    def addResetClickHandler(self):
+        self.gltf.data.evt_handler=self.OnClickReloadCurrentLine
+        self.scene.update_object(self.gltf)
+        
     #reinitializes and restarts the interaction
     def start(self):
         printGreenB("\n(---Starting NPC interaction:---)")
         self.clearButtons()
         self.initializeBubbles()
 
-        self.PlayTransform(self.lastTransform)
+        self.addResetClickHandler()
+
+        #self.PlayLastTransform()
+
 
     #creates new bubbles
     def initializeBubbles(self, line = None):
@@ -124,20 +131,46 @@ class ArenaDialogueBubbleGroup():
             if(PRINT_VERBOSE):
                 printWarning("    " + "Cannot play transform \"" + key + "\" because no such mapping exists in mappings.py.")
     def PlayTransform(self, transform):
+        
         if(PRINT_VERBOSE):
             printWhiteB("Playing transform...")
         
         self.npc.dispatch_animation(transform)
         self.scene.run_animations(self.npc)
-        #self.scene.update_object(self.npc)
 
         if(self.lastTransform == transform):
             self.transformUsedThisLine = False
-        else:
-            self.lastTransform = transform
+        
+        self.lastTransform = transform
+
+        '''
+        #self.lastTransform = transform
+        print(transform)
+        
+        p = getVectorFromString(transform[0].end)
+        print(p[0])
+        print(p[1])
+        print(p[2])
+        r = getVectorFromString(transform[1].end)
+        print(r[0])
+        print(r[1])
+        print(r[2])
+
+        self.npc.data.position = Position(p[0], p[1], p[2])
+        #self.npc.data.rotation = Position(r[0], r[1], r[2])
+        
+        #self.scene.update_object(self.npc)
+        '''
+
+    def UpdateLastPosition(self):
+        transform = self.lastTransform
+        p = getVectorFromString(transform[0].end)
+        self.npc.data.position = Position(p[0], p[1], p[2])
+        self.scene.update_object(self.npc)
 
     def PlayLastTransform(self):
-        self.PlayTransform(self.lastTransform)
+        #self.PlayTransform(self.lastTransform)
+        printWhite("Play Last Transform...")
 
     #Morphs
     def PlayMorphFromMapping(self, key):
@@ -321,7 +354,9 @@ class ArenaDialogueBubbleGroup():
             if(len(commands[c].args) > 0):
                 for a in range(len(commands[c].args)):
                     printGreen(     "          --commandArgs["+str(a)+"]: " + commands[c].args[a])
-                 
+
+        #self.PlayLastTransform()
+
         #run through each command: 
         #--parentheses () optional for one argument, required for multiple, separated by commas.
         for command in commands:
@@ -381,8 +416,8 @@ class ArenaDialogueBubbleGroup():
             if(USE_DEFAULT_ANIMATIONS):
                 self.PlayAnimation(ANIM_WALK)
             self.transformTimer = TRANSFORM_TIMER
-        else: #If not moving, reset transform:
-            self.PlayTransform(self.lastTransform)
+        #else: #If not moving, reset transform:
+        #    self.PlayTransform(self.lastTransform)
 
     # ------------------------------------------ #
     # -------------BUTTON CREATION-------------- #
@@ -434,6 +469,7 @@ class ArenaDialogueBubbleGroup():
                 printMagenta(         "          choiceNode: " + choices[c].node)
         
                 choiceButton = Button(self.scene, self.npc, self.npc.object_id + "_choiceButton_" + self.randomUUID(UUID_LEN)+"_"+str(c), choices[c].text, self.onClickChoiceButton, 
+                #choiceButton = Button(self.scene, self.npc, self.npc.object_id + "_choiceButton_" + "_"+str(c), choices[c].text, self.onClickChoiceButton, 
                                       position = (CHOICE_BUBBLE_POSITION[0], CHOICE_BUBBLE_POSITION[1] + (len(choices) - c - 1) * CHOICE_BUBBLE_OFFSET_Y, CHOICE_BUBBLE_POSITION[2]), 
                                       rotation = CHOICE_BUBBLE_ROTATION, buttonScale = CHOICE_BUBBLE_SCALE, textScale = CHOICE_TEXT_SCALE, color = CHOICE_BUBBLE_COLOR, textColor = CHOICE_TEXT_COLOR, 
                                       persist=False)
@@ -441,6 +477,7 @@ class ArenaDialogueBubbleGroup():
                 self.buttons.append(choiceButton)
         else: 
             nextButton = Button(self.scene, self.npc, self.npc.object_id + "_nextButton_" + self.randomUUID(UUID_LEN), "[Next]", self.onClickNextButton, 
+            #nextButton = Button(self.scene, self.npc, self.npc.object_id + "_nextButton", "[Next]", self.onClickNextButton, 
                                 position = CHOICE_BUBBLE_POSITION, rotation = CHOICE_BUBBLE_ROTATION, buttonScale = CHOICE_BUBBLE_SCALE, 
                                 textScale = CHOICE_TEXT_SCALE, color = CHOICE_BUBBLE_COLOR, textColor = CHOICE_TEXT_COLOR,
                                 persist=False)
@@ -541,7 +578,12 @@ class ArenaDialogueBubbleGroup():
         elif(self.dialogue.currentNode.currentLineIndex == len(self.dialogue.currentNode.lines)):
             printRedB("\n(---Finished NPC interaction.---)")
 
+    def OnClickReloadCurrentLine(self):
+        if evt.type == "mousedown":
+            self.reloadCurrentLine()
+
     def reloadCurrentLine(self):
+        printGreenB("\n(---Reloaded current line:---)")
         self.clearButtons()
         
         if(self.dialogue.currentNode.currentLineIndex < len(self.dialogue.currentNode.lines)):

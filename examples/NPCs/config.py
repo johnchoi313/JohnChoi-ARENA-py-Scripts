@@ -4,8 +4,8 @@ DIALOGUE_FILENAME = "robot_arena.json"
 #ARENA SETTINGS
 FILESTORE = "https://arenaxr.org/" #main server
 HOST = "mqtt.arenaxr.org"          #main server
-NAMESPACE = "public" #"johnchoi"
-SCENE = "arena" #"NPC"
+NAMESPACE = "johnchoi" #"johnchoi"
+SCENE = "NPC" #"NPC"
 
 #DEVELOPER DEBUG SETTINGS
 USE_DEV_ARENAPY = False

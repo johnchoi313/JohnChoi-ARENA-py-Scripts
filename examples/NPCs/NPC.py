@@ -10,6 +10,7 @@ from ArenaDialogueBubbleGroup import *
 
 import sys
 if(USE_DEV_ARENAPY):
+    printYellow("Using Development arena-py!")
     sys.path.append(ARENAPY_DEV_PATH)
 
 from arena import *
@@ -30,8 +31,10 @@ class NPC:
         self.entered = False
         self.userCount = 0
 
+        self.blinked = False
         self.talking = False
-        
+        self.moving = False
+
         # create Dialogue, and show contents
         self.dialogue = Dialogue(DIALOGUE_FILENAME)
 
@@ -43,7 +46,8 @@ class NPC:
             depth=ROOT_SIZE,
             width=ROOT_SIZE,
             height=ROOT_SIZE,
-            #position=ROOT_POSITION,
+            position=ROOT_POSITION,
+            #position=(0,0,0),
             #rotation=ROOT_ROTATION,
             material = Material(opacity=ROOT_OPACITY, transparent=True),
             sound = None,
@@ -57,8 +61,9 @@ class NPC:
             position=GLTF_POSITION,
             rotation=GLTF_ROTATION,
             scale=GLTF_SCALE,
-            #animation_mixer = AnimationMixer(clip="Idle", loop="repeat", crossFadeDuration=0.5, timeScale = 1),
+            #animation_mixer = ANIM_IDLE,
             parent=self.root,
+            clickable=True,
             persist=True
         )
         scene.add_object(self.gltf)
@@ -154,7 +159,7 @@ def user_join_callback(scene, obj, msg):
     #camera.hasVideo
     #camera.displayName
     # etc.
-    npc.bubbles.PlayLastTransform()
+    #npc.bubbles.PlayLastTransform()
     npc.bubbles.reloadCurrentLine()
     npc.bubbles.PlayAnimation(ANIM_IDLE)
 
@@ -217,9 +222,9 @@ def Reset_Handler(): #RESET_TIME milliseconds of no activity resets interaction.
 
 #@scene.run_forever(interval_ms=TRANSFORM_TIMER)
 #def Transform_Handler(): #send a heartbeat transform to keep position correct for new players
-    #printWhiteB("Playing last transform...")        
-    #npc.bubbles.PlayLastTransform()
-    #npc.bubbles.reloadCurrentLine()
+#    printWhiteB("Playing last transform...")        
+#    npc.bubbles.PlayLastTransform()
+#    npc.bubbles.reloadCurrentLine()
 
 @scene.run_forever(interval_ms=SPEECH_INTERVAL)
 def Speech_Handler(): #iteratively adds characters to speech bubble
@@ -230,15 +235,24 @@ def Speech_Handler(): #iteratively adds characters to speech bubble
         if(USE_DEFAULT_MORPHS):
             if(random.randint(0, 30) == 0):
                 npc.bubbles.PlayMorph(MORPH_BLINK_ON)
+                npc.blinked = True
             else:
-                npc.bubbles.PlayMorph(MORPH_BLINK_OFF)
-    
+                if(npc.blinked == True):
+                    npc.blinked = False
+                    npc.bubbles.PlayMorph(MORPH_BLINK_OFF)
+                    
         #if walking, let walk, hide buttons
         if(npc.bubbles.transformTimer > 0):
             npc.bubbles.transformTimer = npc.bubbles.transformTimer - SPEECH_INTERVAL
+            npc.moving = True
 
         #Iterate through speech bubble text
         else:
+            #Update Position Manually to prevent slingshotting
+            if(npc.moving == True):
+                npc.moving = False
+                npc.bubbles.UpdateLastPosition()
+
             if(0 <= npc.bubbles.speechIndex and npc.bubbles.speechIndex * SPEECH_SPEED < len(npc.bubbles.speech)):
                 npc.bubbles.speechIndex += 1
             
