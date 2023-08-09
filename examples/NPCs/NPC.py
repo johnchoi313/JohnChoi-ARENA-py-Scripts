@@ -43,6 +43,8 @@ class NPC:
             depth=ROOT_SIZE,
             width=ROOT_SIZE,
             height=ROOT_SIZE,
+            #position=ROOT_POSITION,
+            #rotation=ROOT_ROTATION,
             material = Material(opacity=ROOT_OPACITY, transparent=True),
             sound = None,
             persist=True
@@ -55,6 +57,7 @@ class NPC:
             position=GLTF_POSITION,
             rotation=GLTF_ROTATION,
             scale=GLTF_SCALE,
+            #animation_mixer = AnimationMixer(clip="Idle", loop="repeat", crossFadeDuration=0.5, timeScale = 1),
             parent=self.root,
             persist=True
         )
@@ -201,8 +204,6 @@ def EnterExit_Handler(): #checks whether or not a user is in range of NPC
     
     npc.userCount = userCount
 
-
-
 @scene.run_forever(interval_ms=RESET_INTERVAL)
 def Reset_Handler(): #RESET_TIME milliseconds of no activity resets interaction.
     if(npc.bubbles.resetTimer > 0):
@@ -224,14 +225,14 @@ def Reset_Handler(): #RESET_TIME milliseconds of no activity resets interaction.
 def Speech_Handler(): #iteratively adds characters to speech bubble
 
     if(npc.bubbles.checkIfArenaObjectExists(npc.bubbles.speechBubble)):
-
+        
         #random blink:
         if(USE_DEFAULT_MORPHS):
             if(random.randint(0, 30) == 0):
                 npc.bubbles.PlayMorph(MORPH_BLINK_ON)
             else:
                 npc.bubbles.PlayMorph(MORPH_BLINK_OFF)
-
+    
         #if walking, let walk, hide buttons
         if(npc.bubbles.transformTimer > 0):
             npc.bubbles.transformTimer = npc.bubbles.transformTimer - SPEECH_INTERVAL
@@ -272,6 +273,8 @@ def Speech_Handler(): #iteratively adds characters to speech bubble
 
         #Iterate through speech bubble text
         npc.bubbles.speechBubble.data.text = npc.bubbles.speech[:npc.bubbles.speechIndex * SPEECH_SPEED]
+        #if(npc.bubbles.speechBubble.data.text != npc.bubbles.speech):
         scene.update_object(npc.bubbles.speechBubble)
-
+        
+            
 scene.run_tasks()

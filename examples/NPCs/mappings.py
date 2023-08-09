@@ -71,36 +71,42 @@ animationMappings = {
     "walk"     : AnimationMixer(clip="Walk",       loop="repeat", crossFadeDuration=0.5, timeScale = 1)
 }
 
+#Quick shorthand helper to add two Vector3s (x,y,z):
+def AddVector3(A,B):
+    return (A[0]+B[0],A[1]+B[1],A[2]+B[2])
+def SubtractVector3(A,B):
+    return (A[0]-B[0],A[1]-B[1],A[2]-B[2])
+
 # Shorthand transform names mapped to transform action over time
 # --Animation Schema: https://docs.arenaxr.org/content/schemas/message/animation.html 
 # --Animation Example: https://github.com/arenaxr/arena-py/blob/master/examples/attributes/animation.py 
 transformMappings = {
     "zero" : [              
-        Animation(property="position", end=(0,0,0), easing="easeInOutSine", dur=TRANSFORM_TIMER),  
+        Animation(property="position", end=SubtractVector3(ROOT_POSITION, (0,0,0)), easing="easeInOutSine", dur=TRANSFORM_TIMER),  
         Animation(property="rotation", end=(0,0,0), easing="linear", dur=TRANSFORM_TIMER*0.5)
     ],
     "rack" : [              
-        Animation(property="position", end=(2,0,-2), easing="easeInOutSine", dur=TRANSFORM_TIMER),  
+        Animation(property="position", end=SubtractVector3(ROOT_POSITION, (2,0,-2)), easing="easeInOutSine", dur=TRANSFORM_TIMER),  
         Animation(property="rotation", end=(0,-45,0), easing="linear", dur=TRANSFORM_TIMER*0.5)
     ],
     "lambda" : [              
-        Animation(property="position", end=(-1.5,0,-0.8), easing="easeInOutSine", dur=TRANSFORM_TIMER),  
+        Animation(property="position", end=SubtractVector3(ROOT_POSITION, (-1.5,0,-0.8)), easing="easeInOutSine", dur=TRANSFORM_TIMER),  
         Animation(property="rotation", end=(0,75,0), easing="linear", dur=TRANSFORM_TIMER*0.5)
     ],
     "desks" : [              
-        Animation(property="position", end=(0.5,0.0,1.2), easing="easeInOutSine", dur=TRANSFORM_TIMER),
+        Animation(property="position", end=SubtractVector3(ROOT_POSITION, (0.5,0.0,1.2)), easing="easeInOutSine", dur=TRANSFORM_TIMER),
         Animation(property="rotation", end=(0,180,0), easing="linear", dur=TRANSFORM_TIMER*0.5)
     ],
     "enter" : [              
-        Animation(property="position", end=(2.2, 0.0, -0.5), easing="easeInOutSine", dur=TRANSFORM_TIMER),
+        Animation(property="position", end=SubtractVector3(ROOT_POSITION, (2.2, 0.0, -0.5)), easing="easeInOutSine", dur=TRANSFORM_TIMER),
         Animation(property="rotation", end=(0,-90,0), easing="linear", dur=TRANSFORM_TIMER*0.5)
     ],
     "exit" : [              
-        Animation(property="position", end=(4.3, 0.0, -0.5), easing="easeInOutSine", dur=TRANSFORM_TIMER),
+        Animation(property="position", end=SubtractVector3(ROOT_POSITION, (4.3, 0.0, -0.5)), easing="easeInOutSine", dur=TRANSFORM_TIMER),
         Animation(property="rotation", end=(0,90,0), easing="linear", dur=TRANSFORM_TIMER*0.5)
     ],
     "couch" : [              
-        Animation(property="position", end=(7.2, 0.0, -2.8), easing="easeInOutSine", dur=TRANSFORM_TIMER),
+        Animation(property="position", end=SubtractVector3(ROOT_POSITION, (7.2, 0.0, -2.8)), easing="easeInOutSine", dur=TRANSFORM_TIMER),
         Animation(property="rotation", end=(0,0,0), easing="linear", dur=TRANSFORM_TIMER*0.5)
     ]
 }

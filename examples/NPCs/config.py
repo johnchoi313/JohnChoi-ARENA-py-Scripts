@@ -49,7 +49,7 @@ USE_DEFAULT_SOUNDS = True
 ROOT_SCALE = (0.8,0.8,0.8)
 ROOT_SIZE = 0.2
 
-ROOT_POSITION = (7.2, 0.0, -2.8)
+ROOT_POSITION = (7.2, 0.0, -2.8) #This is the start position
 ROOT_ROTATION = (0,0,0)
 
 ROOT_COLOR = (255,100,16)

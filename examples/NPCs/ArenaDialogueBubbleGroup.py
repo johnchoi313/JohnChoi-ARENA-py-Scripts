@@ -126,6 +126,7 @@ class ArenaDialogueBubbleGroup():
     def PlayTransform(self, transform):
         if(PRINT_VERBOSE):
             printWhiteB("Playing transform...")
+        
         self.npc.dispatch_animation(transform)
         self.scene.run_animations(self.npc)
         #self.scene.update_object(self.npc)
@@ -134,6 +135,7 @@ class ArenaDialogueBubbleGroup():
             self.transformUsedThisLine = False
         else:
             self.lastTransform = transform
+
     def PlayLastTransform(self):
         self.PlayTransform(self.lastTransform)
 
