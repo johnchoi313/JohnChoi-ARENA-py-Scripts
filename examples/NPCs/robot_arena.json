@@ -782,10 +782,10 @@
 	{
 		"title": "ARENA Stations",
 		"tags": "",
-		"body": "I guess now's a good time to start exploring around if we started already.\nWhich station shall we go to? [[Lambda]][[Desks]][[Rack]][[Done with stations|ARENA Menu]]",
+		"body": "I guess now's a good time to start exploring around if we started already.\nWhich station shall we go to? [[Lambda]][[Desks]][[Rack]][[Couch]][[Done with stations|ARENA Menu]]",
 		"position": {
-			"x": -2054,
-			"y": -1048
+			"x": -2057,
+			"y": -1049
 		},
 		"colorID": 2
 	},
@@ -794,8 +794,8 @@
 		"tags": "",
 		"body": "Check out our Lambda station! <<transform lambda>>\nCheck this out, we got some really beefy computers here.\nThese computers are used for photogrammetry processing, machine learning workloads, neural radiance fields and more! \n[[More Stations|ARENA Stations]][[Do something else|ARENA Menu]]",
 		"position": {
-			"x": -2059,
-			"y": -726
+			"x": -2060,
+			"y": -727
 		},
 		"colorID": 2
 	},
@@ -814,8 +814,8 @@
 		"tags": "",
 		"body": "Here we organize a lot of equipment. <<transform rack>>\nOne of the most interesting projects is Silverline, the Distributed Runtime for WebAssembly.\nIt can intelligently and efficiently process complex workloads on a smorgasbord of networked devices with various specifications. \n[[More Stations|ARENA Stations]][[Do something else|ARENA Menu]]",
 		"position": {
-			"x": -2056,
-			"y": -295
+			"x": -1845,
+			"y": -510
 		},
 		"colorID": 2
 	},
@@ -958,5 +958,15 @@
 			"y": -1719
 		},
 		"colorID": 8
+	},
+	{
+		"title": "Couch",
+		"tags": "",
+		"body": "We got a nice couch, eh? <<transform couch>>\nWe like to drink coffee with guests to introduce the lab here.\nIt's a nice place to hang out and chat!\n[[More Stations|ARENA Stations]][[Do something else|ARENA Menu]]",
+		"position": {
+			"x": -1844,
+			"y": -728
+		},
+		"colorID": 2
 	}
 ]
