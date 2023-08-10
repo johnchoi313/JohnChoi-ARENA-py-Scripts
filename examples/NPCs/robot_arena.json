@@ -922,10 +922,10 @@
 	{
 		"title": "ARENA Menu",
 		"tags": "",
-		"body": "What else do you want to do? <<video none>>\n[[ARENA Stations]][[ARENA Videos]][[About Me]][[About ARENA]][[About WiSELab]]",
+		"body": "What else do you want to do? <<video none>>\n[[ARENA Stations]][[ARENA Videos]][[About Me]][[About ARENA]][[About WiSELab]][[Restart|Enter]]",
 		"position": {
-			"x": -2370,
-			"y": -1362
+			"x": -2371,
+			"y": -1363
 		},
 		"colorID": 8
 	},
