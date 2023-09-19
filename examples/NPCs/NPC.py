@@ -68,6 +68,10 @@ class NPC:
         )
         scene.add_object(self.gltf)
         
+
+        
+        
+
         '''
         #NPC ROOT OBJECT (with debug box)
         self.collider = Box(

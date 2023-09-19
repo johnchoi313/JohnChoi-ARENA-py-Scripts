@@ -427,7 +427,8 @@ class ArenaDialogueBubbleGroup():
 
     def createNewButtons(self, line):
         self.createSpeechBubble(line)
-        self.createButtons(line)
+        #self.createButtons(line)
+        self.createButtonPanel(line)
         self.runCommands(line)
         
     def clearButtons(self):
@@ -461,6 +462,76 @@ class ArenaDialogueBubbleGroup():
         )
         self.scene.add_object(speechBubble) # add the box
         return speechBubble
+
+
+
+    def buttonPanelHandler(self, _scene, evt, _msg):
+        if evt.type == "buttonClick":
+            buttonName = evt.data.buttonName
+            buttonIndex = evt.data.buttonIndex
+            
+            printCyan("  Choice Button with text \"" + buttonName + "\" pressed!")
+
+            if(buttonName == "[Next]" and buttonIndex == 0):
+                self.resetTimer = RESET_TIME
+
+                printCyan("  Next Button Pressed!")
+                
+                self.advanceToNextLine()
+
+                if(USE_DEFAULT_SOUNDS):
+                    self.PlaySound(SOUND_NEXT)  
+            
+            else:   
+                self.resetTimer = RESET_TIME
+      
+                choiceText = self.dialogue.currentNode.lines[self.dialogue.currentNode.currentLineIndex].choices[buttonIndex].text
+                choiceNodeName = self.dialogue.currentNode.lines[self.dialogue.currentNode.currentLineIndex].choices[buttonIndex].node
+                
+                printCyan("  Choice Button with text \"" + choiceText + "\" pressed!")
+                            
+                self.gotoNodeWithName(choiceNodeName)
+
+                if(USE_DEFAULT_SOUNDS):
+                    self.PlaySound(SOUND_CHOICE)
+
+
+
+
+    def createButtonPanel(self, line):
+        
+
+        buttonTexts = []
+        choices = line.choices        
+        if(len(choices) > 0): 
+            for c in reversed(range(len(choices))):                
+                buttonTexts.append(choices[c].text)
+        else: 
+            buttonTexts = ["[Next]"]
+
+
+        self.buttonPanel = ButtonPanel(
+            object_id=NPC_NAME + "(Buttons)",
+
+           
+            buttons=buttonTexts,
+            
+            font="Roboto-Mono",
+
+            position=CHOICE_BUBBLE_POSITION,
+            rotation=CHOICE_BUBBLE_ROTATION,
+            scale=CHOICE_BUBBLE_SCALE,
+            
+            evt_handler=self.buttonPanelHandler,
+            parent=self.npc,
+            vertical=True,
+
+            persist=True
+        )
+        self.scene.add_object(self.buttonPanel)
+
+    
+
 
     def createButtons(self, line):
         choices = line.choices
