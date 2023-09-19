@@ -479,7 +479,7 @@ class ArenaDialogueBubbleGroup():
 
             fontSize = 0.05,
 
-            img = FILESTORE+"store/users/johnchoi/Images/nyan.jpg",
+            img = FILESTORE+"store/users/johnchoi/Characters/RobotBuddy/RobotBuddyBlue.png",
             imgDirection="left",
             imgSize="contain", #cover, contain, stretch
             
