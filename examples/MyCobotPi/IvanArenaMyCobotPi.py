@@ -120,14 +120,10 @@ def rotateMyCobot(angles):
         myCobot.send_angles(angles, 50)
     print("::send_angles() ==> angles {}, speed 100\n".format(angles))
 
-
 def setMyCobotColor(r,g,b):
     #update arena virtual robot
-    
     randomColorObject.update_attributes(color=(r,g,b,))
     scene.update_object(randomColorObject)
-
-
     #update real robot
     if(USE_ROBOT):
         myCobot.set_color(r,g,b)
@@ -155,11 +151,7 @@ def resetAngleButton_handler():
     print("Reset Button pressed!")
     rotateMyCobot([0,0,0,0,0,0])
 
-
-#------MAKE BUTTON PANEL ------#
-
-
-def button_dispatcher(_scene, evt, _msg):
+def cobotButtonPanelHandler(_scene, evt, _msg):
     if evt.type == "buttonClick":
         buttonName = evt.data.buttonName
         if buttonName == "Goto random angle":
@@ -168,6 +160,40 @@ def button_dispatcher(_scene, evt, _msg):
             resetAngleButton_handler()
         elif buttonName == "Set random color":
             randomColorButton_handler()
+
+def jointIncrementHandler(scene, evt, msg):
+    if evt.type == "buttonClick":
+        buttonName = evt.data.buttonName
+        print("Joint (" + buttonName + ") Button pressed!")
+        jointNum = int( buttonName[1] )
+        
+        increment = 0
+        if(buttonName[2] == "+"):
+            increment = 10
+        elif(buttonName[2] == "-"):
+            increment = -10
+
+        if(USE_ROBOT):
+            currAngles = myCobot.get_angles()
+            currAngles[jointNum-1] = currAngles[jointNum-1] + increment
+            rotateMyCobot(currAngles)
+
+def updateJointData():
+    if(USE_ROBOT):
+        angles = myCobot.get_angles()
+
+        j1 = "{:07.2f}".format(angles[0])
+        j2 = "{:07.2f}".format(angles[1])
+        j3 = "{:07.2f}".format(angles[2])
+        j4 = "{:07.2f}".format(angles[3])
+        j5 = "{:07.2f}".format(angles[4])
+        j6 = "{:07.2f}".format(angles[5])
+
+        jointDataText.data.text = j1+"\n"+j2+"\n"+j3+"\n"+j4+"\n"+j5+"\n"+j6,    
+
+        scene.update_object(jointDataText)
+
+#------MAKE BUTTON PANELS ------#
 
 buttonPanel = ButtonPanel(
     object_id="cobotButtons",
@@ -180,33 +206,11 @@ buttonPanel = ButtonPanel(
     rotation=(0.0,0.0,0.0),
     scale=(0.5,0.5,0.5),
 
-    evt_handler=button_dispatcher,
+    evt_handler=cobotButtonPanelHandler,
     parent=MyCobotPi_Base,
     vertical=True,
     persist=True
 )
-scene.add_object(buttonPanel)
-
-
-def jointIncrementHandler(scene, evt, msg):
-    if evt.type == "buttonClick":
-        buttonName = evt.data.buttonName
-        
-        print("Joint (" + buttonName + ") Button pressed!")
-        
-        jointNum = int( buttonName[1] )
-        
-        increment = 0
-        if(buttonName[2] == "+"):
-            increment = 10
-        elif(buttonName[2] == "-"):
-            increment = -10
-        
-        currAngles = myCobot.get_angles()
-        currAngles[jointNum-1] = currAngles[jointNum-1] + increment
-
-        rotateMyCobot(currAngles)
-
 
 jointIncrementButtons = ButtonPanel(
     object_id="jointIncrementButtons",
@@ -223,8 +227,6 @@ jointIncrementButtons = ButtonPanel(
     vertical=True,
     persist=True
 )
-scene.add_object(jointIncrementButtons)
-
 
 jointDecrementButtons = ButtonPanel(
     object_id="jointDecrementButtons",
@@ -241,12 +243,23 @@ jointDecrementButtons = ButtonPanel(
     vertical=True,
     persist=True
 )
-scene.add_object(jointDecrementButtons)
 
+jointDataText = Text(
+    object_id="jointDataText",
+
+    text="000.00"+"\n"+"000.00"+"\n"+"000.00"+"\n"+"000.00"+"\n"+"000.00"+"\n"+"000.00",
+    color=(100,255,255),
+
+    position=(0.9, 0.3, 0.0),
+    rotation=(0.0,0.0,0.0),
+    scale=(0.44,0.44,0.44),
+
+    parent=MyCobotPi_Base,
+    persist=True
+)
 
 randomColorObject = Box(
     object_id="randomColorObject",
-
     material = Material(color = (0,255,0), transparent = True, opacity=0.5),
 
     position=(0.5, 0.8, 0.0),
@@ -255,10 +268,7 @@ randomColorObject = Box(
 
     parent = MyCobotPi_Base,
     persist=True
-
 )
-scene.add_object(randomColorObject)
-
 
 #------ PROGRAM INIT/UPDATE ------#
 
@@ -273,5 +283,17 @@ def programStart():
     scene.add_object(MyCobotPi_J4)
     scene.add_object(MyCobotPi_J5)
     scene.add_object(MyCobotPi_J6)
+    
+    # Add myCobotPi UI
+    scene.add_object(buttonPanel)
+    scene.add_object(jointIncrementButtons)
+    scene.add_object(jointDecrementButtons)
+    scene.add_object(randomColorObject)
+    scene.add_object(jointDataText)
+
+@scene.run_forever(interval_ms=500)
+def updateData():
+    # updating data text display and gripper text display ever second
+    updateJointData()
 
 scene.run_tasks()
