@@ -14,7 +14,7 @@ USE_DEV_ARENAPY = False
 ARENAPY_DEV_PATH = "D:/Github/arena-py/"  # Linux/Mac (Civilized)
 ARENAPY_DEV_PATH = "D:\\Github\\arena-py" # Windows   (Uncivilized)
 
-USE_DEV_SERVER = False
+USE_DEV_SERVER = True
 if(USE_DEV_SERVER):
     HOST = "arena-dev1.conix.io" #dev server
 if(USE_DEV_SERVER):

@@ -427,6 +427,7 @@ class ArenaDialogueBubbleGroup():
 
     def createNewButtons(self, line):
         self.createSpeechBubble(line)
+        self.createSpeechBubbleCard(line)
         #self.createButtons(line)
         self.createButtonPanel(line)
         self.runCommands(line)
@@ -458,9 +459,44 @@ class ArenaDialogueBubbleGroup():
             align="center",
             color = SPEECH_TEXT_COLOR,            
             position=SPEECH_TEXT_POSITION,
-            scale=SPEECH_TEXT_SCALE,
+            scale=Scale(0,0,0),
         )
         self.scene.add_object(speechBubble) # add the box
+        return speechBubble
+
+    def createSpeechBubbleCard(self, line):
+        self.speech = line.text
+        self.speechIndex = 0
+
+        speechBubble = Card(
+            object_id=NPC_NAME + "_speechBubbleCard",
+            
+            title=NPC_NAME,
+            imgCaption=NPC_NAME,
+
+            body=self.speech,
+            bodyAlign="center",
+
+            fontSize = 0.05,
+
+            img = FILESTORE+"store/users/johnchoi/Images/nyan.jpg",
+            imgDirection="left",
+            imgSize="contain", #cover, contain, stretch
+            
+            widthScale=0.5,
+
+            position=Position(0,1.7,0),
+            scale=Scale(1,1,1),
+            parent=self.npc,
+            persist = True
+        )
+        self.scene.add_object(speechBubble) # add the box
+        
+        speechBubble.data["textImageRatio"] = 2.5
+
+        self.scene.update_object(speechBubble) # add the box
+        
+
         return speechBubble
 
 
