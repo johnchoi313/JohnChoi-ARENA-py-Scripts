@@ -23,7 +23,8 @@ if(USE_ROBOT):
     myCobot.set_gripper_value(99, 80)
 
 #------MAKE CONNECT TO ARENA------#
-scene = Scene(host="mqtt.arenaxr.org", namespace = "johnchoi", scene="MyCobotPi320")
+#scene = Scene(host="mqtt.arenaxr.org", namespace = "johnchoi", scene="MyCobotPi320")
+scene = Scene(host="arenaxr.org", namespace = "public", scene="arena")
 
 #------MAKE ROBOT ARM------#
 MyCobotPi_Base = Box(

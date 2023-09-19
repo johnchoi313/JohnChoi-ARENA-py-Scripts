@@ -42,8 +42,8 @@ class ArenaDialogueBubbleGroup():
         self.videoUsedThisLine = False
         self.soundUsedThisLine = False
 
-        self.lastImageSize = (0,0,0)
-        self.lastVideoSize = (0,0,0)
+        self.lastImageSize = Scale(0,0,0)
+        self.lastVideoSize = Scale(0,0,0)
 
         self.lastTransform = TRANSFORM_RESET
 
@@ -262,10 +262,10 @@ class ArenaDialogueBubbleGroup():
         self.scene.update_object(self.video)
 
     def HideVideo(self):
-        self.ScaleAnimation(self.video, self.lastVideoSize, (0,0,random.uniform(0, 0.01)))        
+        #self.ScaleAnimation(self.video, self.lastVideoSize, Scale(0,0,random.uniform(0, 0.01)))        
         self.lastVideoSize = (0,0,0)
     def ShowVideo(self, scale):
-        self.ScaleAnimation(self.video, (0,0,random.uniform(0, 0.01)), scale)
+        #self.ScaleAnimation(self.video, Scale(0,0,random.uniform(0, 0.01)), scale)
         self.lastVideoSize = scale
 
     #Images
@@ -290,10 +290,10 @@ class ArenaDialogueBubbleGroup():
         self.ShowImage(self.getNewScale(img.w, img.h, img.size))
         self.scene.update_object(self.image, url = img.url)
     def HideImage(self):
-        self.ScaleAnimation(self.image, self.lastImageSize, (0,0,random.uniform(0, 0.01)))
+        #self.ScaleAnimation(self.image, self.lastImageSize, Scale(0,0,random.uniform(0, 0.01)))
         self.lastImageSize = (0,0,0)
     def ShowImage(self, scale):
-        self.ScaleAnimation(self.image, (0,0,random.uniform(0, 0.01)), scale)
+        #self.ScaleAnimation(self.image, Scale(0,0,random.uniform(0, 0.01)), scale)
         self.lastImageSize = scale
 
         if(USE_DEFAULT_SOUNDS and not self.soundUsedThisLine):
@@ -301,9 +301,11 @@ class ArenaDialogueBubbleGroup():
 
     #Scaling helper functions.
     def ScaleAnimation(self, plane, startScale, endScale):
-        animation = Animation(property="scale", start=startScale, end=endScale, easing="easeInOutQuad", dur=PLANE_SCALE_DURATION)
-        plane.dispatch_animation(animation)
-        self.scene.run_animations(plane)
+        #animation = Animation(property="scale", start=startScale, end=endScale, easing="easeInOutQuad", dur=PLANE_SCALE_DURATION)
+        #plane.dispatch_animation(animation)
+        #self.scene.run_animations(plane)
+        plane.update_attributes(scale = endScale)
+
     def getNewScale(self, w, h, size):
         aspect = ( w * 1.0 ) / ( h * 1.0 )
         scale = 1
@@ -333,7 +335,7 @@ class ArenaDialogueBubbleGroup():
     def ClearCommandProperties(self):
         #scale the link button out because delete won't work
         if(self.linkButton != None and self.checkIfArenaObjectExists(self.linkButton.box)):
-            self.ScaleAnimation(self.linkButton.box, LINK_BUBBLE_SCALE, (0,0,random.uniform(0, 0.01)))
+            #self.ScaleAnimation(self.linkButton.box, LINK_BUBBLE_SCALE, Scale(0,0,random.uniform(0, 0.01)))
             self.scene.delete_object(self.linkButton.text)
             self.scene.delete_object(self.linkButton.box)
         
@@ -468,7 +470,7 @@ class ArenaDialogueBubbleGroup():
                 printMagenta("    [["+str(c)+"]] choiceText: " + choices[c].text)
                 printMagenta(         "          choiceNode: " + choices[c].node)
         
-                choiceButton = Button(self.scene, self.npc, self.npc.object_id + "_choiceButton_" + self.randomUUID(UUID_LEN)+"_"+str(c), choices[c].text, self.onClickChoiceButton, 
+                choiceButton = NPCButton(self.scene, self.npc, self.npc.object_id + "_choiceButton_" + self.randomUUID(UUID_LEN)+"_"+str(c), choices[c].text, self.onClickChoiceButton, 
                 #choiceButton = Button(self.scene, self.npc, self.npc.object_id + "_choiceButton_" + "_"+str(c), choices[c].text, self.onClickChoiceButton, 
                                       position = (CHOICE_BUBBLE_POSITION[0], CHOICE_BUBBLE_POSITION[1] + (len(choices) - c - 1) * CHOICE_BUBBLE_OFFSET_Y, CHOICE_BUBBLE_POSITION[2]), 
                                       rotation = CHOICE_BUBBLE_ROTATION, buttonScale = CHOICE_BUBBLE_SCALE, textScale = CHOICE_TEXT_SCALE, color = CHOICE_BUBBLE_COLOR, textColor = CHOICE_TEXT_COLOR, 
@@ -476,7 +478,7 @@ class ArenaDialogueBubbleGroup():
 
                 self.buttons.append(choiceButton)
         else: 
-            nextButton = Button(self.scene, self.npc, self.npc.object_id + "_nextButton_" + self.randomUUID(UUID_LEN), "[Next]", self.onClickNextButton, 
+            nextButton = NPCButton(self.scene, self.npc, self.npc.object_id + "_nextButton_" + self.randomUUID(UUID_LEN), "[Next]", self.onClickNextButton, 
             #nextButton = Button(self.scene, self.npc, self.npc.object_id + "_nextButton", "[Next]", self.onClickNextButton, 
                                 position = CHOICE_BUBBLE_POSITION, rotation = CHOICE_BUBBLE_ROTATION, buttonScale = CHOICE_BUBBLE_SCALE, 
                                 textScale = CHOICE_TEXT_SCALE, color = CHOICE_BUBBLE_COLOR, textColor = CHOICE_TEXT_COLOR,

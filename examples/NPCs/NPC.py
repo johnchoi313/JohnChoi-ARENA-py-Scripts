@@ -49,7 +49,7 @@ class NPC:
             position=ROOT_POSITION,
             #position=(0,0,0),
             #rotation=ROOT_ROTATION,
-            material = Material(opacity=ROOT_OPACITY, transparent=True),
+            material = Material(opacity=ROOT_OPACITY, transparent=True, visible=True),
             sound = None,
             persist=True
         )
@@ -112,7 +112,7 @@ class NPC:
             object_id=NPC_NAME + "(IMAGE)",
             position=PLANE_POSITION,
             rotation=PLANE_ROTATION,
-            scale=(0,0,0),
+            scale=PLANE_SCALE, #Scale(0,0,0),
             url = FILESTORE+"store/users/johnchoi/Images/nyan.jpg",
             material = Material(transparent = True, opacity = PLANE_OPACITY),
             parent=self.root,
@@ -124,7 +124,7 @@ class NPC:
             object_id=NPC_NAME + "(VIDEO)",
             position=PLANE_POSITION,
             rotation=PLANE_ROTATION,
-            scale=(0,0,0),
+            scale=PLANE_SCALE, #Scale(0,0,0),
             material = Material(src = FILESTORE+"store/users/johnchoi/Videos/rays.mp4", transparent = True, opacity = PLANE_OPACITY, w = 1920, h = 1080, size = 1),
             parent=self.root,
             clickable=True,
@@ -209,6 +209,7 @@ def EnterExit_Handler(): #checks whether or not a user is in range of NPC
     
     npc.userCount = userCount
 
+
 @scene.run_forever(interval_ms=RESET_INTERVAL)
 def Reset_Handler(): #RESET_TIME milliseconds of no activity resets interaction.
     if(npc.bubbles.resetTimer > 0):
@@ -218,7 +219,6 @@ def Reset_Handler(): #RESET_TIME milliseconds of no activity resets interaction.
         npc.bubbles.gotoNodeWithName(ENTER_NODE)
         printLightRedB("NPC with name \"" + NPC_NAME + "\" detected no activity for " + str(RESET_TIME) + " milliseconds. Resetting.")
         
-
 
 #@scene.run_forever(interval_ms=TRANSFORM_TIMER)
 #def Transform_Handler(): #send a heartbeat transform to keep position correct for new players
@@ -251,7 +251,7 @@ def Speech_Handler(): #iteratively adds characters to speech bubble
             #Update Position Manually to prevent slingshotting
             if(npc.moving == True):
                 npc.moving = False
-                npc.bubbles.UpdateLastPosition()
+                #npc.bubbles.UpdateLastPosition()
 
             if(0 <= npc.bubbles.speechIndex and npc.bubbles.speechIndex * SPEECH_SPEED < len(npc.bubbles.speech)):
                 npc.bubbles.speechIndex += 1
