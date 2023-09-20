@@ -190,7 +190,7 @@ def updateJointData():
         j5 = "{:07.2f}".format(angles[4])
         j6 = "{:07.2f}".format(angles[5])
 
-        jointDataText.data.text = j1+"\n"+j2+"\n"+j3+"\n"+j4+"\n"+j5+"\n"+j6,    
+        jointDataText.data.text = j1+"\n"+j2+"\n"+j3+"\n"+j4+"\n"+j5+"\n"+j6    
         scene.update_object(jointDataText)
 
         print(jointDataText.data.text)
