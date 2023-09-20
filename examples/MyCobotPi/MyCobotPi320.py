@@ -191,8 +191,9 @@ def updateJointData():
         j6 = "{:07.2f}".format(angles[5])
 
         jointDataText.data.text = j1+"\n"+j2+"\n"+j3+"\n"+j4+"\n"+j5+"\n"+j6,    
-
         scene.update_object(jointDataText)
+
+        print(jointDataText.data.text)
 
 #------MAKE BUTTON PANELS ------#
 
@@ -219,7 +220,7 @@ jointIncrementButtons = ButtonPanel(
     buttons=[Button("J1+"),Button("J2+"),Button("J3+"),Button("J4+"),Button("J5+"),Button("J6+")],
     font="Roboto-Mono",
 
-    position=(0.4, 0.3, 0.0),
+    position=(0.4, 0.9, 0.0),
     rotation=(0.0,0.0,0.0),
     scale=(0.5,0.5,0.5),
 
@@ -235,7 +236,7 @@ jointDecrementButtons = ButtonPanel(
     buttons=[Button("J1-"),Button("J2-"),Button("J3-"),Button("J4-"),Button("J5-"),Button("J6-")],
     font="Roboto-Mono",
 
-    position=(0.6, 0.3, 0.0),
+    position=(0.6, 0.9, 0.0),
     rotation=(0.0,0.0,0.0),
     scale=(0.5,0.5,0.5),
 
@@ -251,7 +252,7 @@ jointDataText = Text(
     text="000.00"+"\n"+"000.00"+"\n"+"000.00"+"\n"+"000.00"+"\n"+"000.00"+"\n"+"000.00",
     color=(100,255,255),
 
-    position=(0.9, 0.3, 0.0),
+    position=(0.9, 0.9, 0.0),
     rotation=(0.0,0.0,0.0),
     scale=(0.44,0.44,0.44),
 
@@ -263,7 +264,7 @@ randomColorObject = Box(
     object_id="randomColorObject",
     material = Material(color = (0,255,0), transparent = True, opacity=0.5),
 
-    position=(0.5, 0.8, 0.0),
+    position=(-0.5, 0.8, 0.0),
     rotation=(0,0,0),
     scale=(.3,.3,.1),
 
