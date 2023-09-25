@@ -1,3 +1,12 @@
+#TODO:
+#  Pawn->Queen/Rook/Bishop/Knight
+#  Reset/Clear not working, fix
+#  Undo/Redo
+#  Motion Animations
+#  Death Animations/Particles/Sounds
+#  Pawn Upgrade Animation/Particles/Sounds
+#  Win Animation (Kill King)
+
 # ------------------------------------------ #
 # ----------IMPORTING EVERYTHING------------ #
 # ------------------------------------------ #
