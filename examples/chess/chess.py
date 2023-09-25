@@ -8,7 +8,6 @@ from enum import Enum
 
 from arena import *
 
-
 HEADER = "Chess"
 
 class ChessPieceTeam(Enum):
@@ -30,7 +29,8 @@ class ChessPieceType(Enum):
 # ------------------------------------------ #
 
 class ChessSquare:
-    def __init__(self, scene, root, x, y): 
+    def __init__(self, scene, root, x, y, clickHandler): 
+        self.clickHandler = clickHandler
         self.team = ChessPieceTeam.NONE
         self.type = ChessPieceType.NONE
         self.scene = scene
@@ -67,10 +67,16 @@ class ChessSquare:
             position=Position(x-3.5,0,3.5-y),
             rotation=Rotation(0,0,0),
 
+            evt_handler=self.clickHandler,
+            clickable = True,
+
             parent = self.root,
             persist=True
         )
         self.scene.add_object(self.tile)
+
+
+
 
     def DeletePiece(self):
         if(self.team == ChessPieceTeam.NONE or self.type == ChessPieceType.NONE):
@@ -94,7 +100,7 @@ class ChessSquare:
 
         #team = black, white
         #type = pawn, rook, knight, bishop, queen, king 
-        PIECE_NAME = HEADER+"_Piece_"+str(team.name)+"_"+str(type.name)+"_["+str(self.X)+"]["+str(self.Y)+"]" 
+        PIECE_NAME = HEADER+"_Piece_"+str(team.name)+"_"+str(type.name)+"_["+chr(self.X+65)+"]["+str(self.Y+1)+"]" 
         PIECE_URL = ""
         if(team == ChessPieceTeam.WHITE):
             if(type == ChessPieceType.PAWN):
@@ -131,42 +137,371 @@ class ChessSquare:
             rotation=Rotation(0,-90,0),
             scale=Scale(.2,.2,.2),
 
+            evt_handler=self.clickHandler,
+            clickable = True,
+
+
             parent = self.tile,
             persist=True
         )
         self.scene.add_object(self.piece)
+
+
+
 
 class ArenaChess:
     def __init__(self, scene):
         self.scene = scene
         self.initialized = False
 
+
+        self.moveStep = 0
+        self.pointer = None
+        self.selection = None
+        self.destination = None
+        self.selectionCylinder = None
+        self.destinationCylinder = None
+
+        self.actionReady = False
+        self.actionX = 0
+        self.actionY = 0
+
         self.InitializeEverything()
         #self.DeleteEverything()
 
     def InitializeEverything(self):
         self.board = [[],[],[],[],[],[],[],[]]
+    
         self.CreateRoot()
         self.CreateBoard()
         self.CreateLettersAndNumbers()
         self.CreateAllPieces()
+        self.CreateUI()
         self.initialized = True
+        
     def DeleteEverything(self):
         if(self.initialized):
             self.DeleteLettersAndNumbers()
+            
+            self.DeletePointerCylinders()
+
             self.DeleteAllPieces()
+
             self.DeleteAllTiles()
+
+            self.DeleteUI()
+            
             self.DeleteRoot()
+            
             self.initialized = False
         else:
             printWarning("Can only delete everything after initialization! Not initialized yet...")
+
+
+
+
+    def DeletePointerCylinders(self):
+        if(self.pointer is not None):
+            self.scene.delete_object(self.pointer)
+        if(self.selectionCylinder is not None):
+            self.scene.delete_object(self.selectionCylinder)
+        if(self.destinationCylinder is not None):
+            self.scene.delete_object(self.destinationCylinder)
+        self.selection = None
+        self.destination = None
+
+
+    
+    def CreatePointer(self, x, y):
+        tile = self.board[x][y].tile
+
+        self.pointer = Cone(
+            object_id=HEADER+"_Pointer",
+            material = Material(color=Color(255,0,255), opacity=0.7, transparent=True, visible=True),
+
+            scale=Scale(.1,.15,.1),
+            position=Position(0,1.3,0),
+            rotation=Rotation(180,0,0),
+            
+            parent = tile,
+            persist=True        
+        )
+        self.scene.add_object(self.pointer)
+
+
+
+    def CreateSelection(self, x, y):
+        tile = self.board[x][y].tile
+
+        self.selection = self.board[x][y]
+
+
+        self.selectionCylinder = Cylinder(
+            object_id=HEADER+"_Selection",
+            material = Material(color=Color(0,0,255), opacity=0.2, transparent=True, visible=True),
+
+            scale=Scale(.3,1.1,.3),
+            position=Position(0,.55,0),
+            rotation=Rotation(0,0,0),
+            
+            parent = tile,
+            persist=True        
+        )
+        self.scene.add_object(self.selectionCylinder)
+
+
+    def CreateDestination(self, x, y):
+        tile = self.board[x][y].tile
+
+        self.destination = self.board[x][y]
+
+        self.destinationCylinder = Cylinder(
+            object_id=HEADER+"_Destination",
+            material = Material(color=Color(0,255,255), opacity=0.2, transparent=True, visible=True),
+
+            scale=Scale(.3,1.1,.3),
+            position=Position(0,.55,0),
+            rotation=Rotation(0,0,0),
+            
+            parent = tile,
+            persist=True        
+        )
+        self.scene.add_object(self.destinationCylinder)
+
+
+
+
+
+    def getX(self,text):
+        printLightYellow(text[-5])
+        return ord(text[-5])-65
+    def getY(self,text):
+        printLightYellow(text[-2])
+        return int(text[-2])-1
+
+    def ClickHandler(self, scene, evt, msg):
+        if evt.type == "mousedown":
+
+            printLightGreen(str(msg))
+            printLightCyan(str(evt.data))
+            printLightYellow(msg["object_id"])
+
+
+            self.actionReady = True
+    
+            self.actionX = self.getX(msg["object_id"])
+            self.actionY = self.getY(msg["object_id"])
+
+            self.RunClickAction()
+
+
+    def RunClickAction(self):
+
+        self.actionReady = False
+
+        x = self.actionX
+        y = self.actionY
+
+        print("X = " + str(x))      
+        print("Y = " + str(y))      
+
+        printCyanB("MoveStep = " + str(self.moveStep))
+
+        self.CreatePointer(x,y)
+
+        if(self.moveStep % 3 == 0):
+
+            if(self.board[x][y].team is not ChessPieceTeam.NONE and 
+               self.board[x][y].type is not ChessPieceType.NONE):
+                self.CreateSelection(x,y)            
+                self.moveStep = 1
+    
+        elif(self.moveStep % 3 == 1):
+            if(self.selection.X != x or self.selection.Y != y):
+                self.CreateDestination(x,y)            
+                self.moveStep = 2
+                self.CreateActionConfirmationPrompt()
+
+
+    def CreateActionConfirmationPrompt(self, buttons):
+        self.prompt = Prompt(
+            object_id=HEADER + "_ConfirmationPrompt",
+            look_at="#my-camera",
+            
+            title="Confirmation",
+            description="Are you sure you want to do this?",
+            
+            buttons=["Yes","No"],
+            
+            fontSize = 0.05,
+       
+            evt_handler=self.prompt_handler,
+                
+            position=Position(0,2,0),
+            rotation=Rotation(0,90,0),
+            scale=Scale(1,1,1),
+            
+            parent=self.root,
+            persist = True
+        )
+        self.scene.add_object(self.prompt)
+
+      
+    def prompt_handler(self, scene, evt, msg):
+        if evt.type == "buttonClick":
+            if(evt.data.buttonName == "Yes"):
+                print("Pressed confirmation button: " + evt.data.buttonName)
+                scene.delete_object(self.prompt)
+
+                self.moveStep = 0
+
+                self.destination.DeletePiece()
+                self.destination.CreatePiece(self.selection.team, self.selection.type)
+                self.selection.DeletePiece()
+
+                self.DeletePointerCylinders()
+
+            if(evt.data.buttonName == "No"):
+                print("Pressed confirmation button: " + evt.data.buttonName)
+                scene.delete_object(self.prompt)
+                
+                self.moveStep = 0
+
+                self.DeletePointerCylinders()
+
+
+    def CreateActionConfirmationPrompt(self):
+        self.prompt = Prompt(
+            object_id=HEADER + "_ConfirmationPrompt",
+            look_at="#my-camera",
+            
+            title="Confirmation",
+            description="Are you sure you want to make this move?",
+            
+            buttons=["Yes","No"],
+            
+            fontSize = 0.05,
+       
+            evt_handler=self.prompt_handler,
+                
+            position=Position(0,2,0),
+            rotation=Rotation(0,90,0),
+            scale=Scale(1,1,1),
+            
+            parent=self.root,
+            persist = True
+        )
+        self.scene.add_object(self.prompt)
+
+
+    def UI_handler(self, scene, evt, msg):
+        if evt.type == "buttonClick":
+            if(evt.data.buttonName == "Reset Game"):
+                print("Pressed confirmation button: " + evt.data.buttonName)
+                self.DeleteEverything()
+                self.InitializeEverything()
+
+
+            if(evt.data.buttonName == "Clear Chess"):
+                print("Pressed confirmation button: " + evt.data.buttonName)
+                self.DeleteEverything()
+
+
+
+    def DeleteUI(self):
+        printBlue("UI Deleted!")
+        if(self.Card is not None):
+            self.scene.delete_object(self.Card)
+        if(self.ButtonPanel is not None):
+            self.scene.delete_object(self.ButtonPanel)
+
+
+    def CreateUI(self):
+        printBlue("UI Created!")
+
+        self.Card = Card(
+            object_id=HEADER + "_Card",
+            #look_at="#my-camera",
+            
+            title="ARENA Chess!",
+            
+
+            body="Play Chess in ARENA!",
+            bodyAlign="center",
+            
+            font="Roboto-Mono",
+            fontSize = 0.15,
+       
+            #widthScale=1.25,
+            
+            position=Position(4.5,2.8,0),
+            rotation=Rotation(0,-90,0),
+            scale=Scale(1,1,1),
+            
+            parent=self.root,
+            persist = True
+        )
+        self.scene.add_object(self.Card)
+
+        self.UndoRedoPanel = ButtonPanel(
+            object_id=HEADER + "_UndoRedoPanel",
+            
+            title="Undo or Redo",
+            
+            font="Roboto-Mono",
+            fontSize = 0.5,
+       
+            buttons=["Undo","Redo"],
+        
+            widthScale=1,
+            
+            #evt_handler=self.UI_handler,
+                
+            position=Position(4.5,1.7,0),
+            rotation=Rotation(0,-90,0),
+            scale=Scale(1.2,1.2,1.2),
+            
+            parent=self.root,
+            persist = True
+        )
+        self.scene.add_object(self.UndoRedoPanel)
+
+        self.ButtonPanel = ButtonPanel(
+            object_id=HEADER + "_ButtonPanel",
+            #look_at="#my-camera",
+            
+            title="00:00",
+            
+            description="Chess UI",
+
+            body="Please applaud",
+            bodyAlign="center",
+            
+            font="Roboto-Mono",
+            fontSize = 0.5,
+       
+            buttons=["Reset Game","Clear Chess"],
+        
+            widthScale=1,
+            
+            evt_handler=self.UI_handler,
+                
+            position=Position(4.5,1,0),
+            rotation=Rotation(0,-90,0),
+            scale=Scale(1.2,1.2,1.2),
+            
+            parent=self.root,
+            persist = True
+        )
+        self.scene.add_object(self.ButtonPanel)
+
 
     def DeleteRoot(self):
         self.scene.delete_object(self.root)
     def CreateRoot(self):
         self.root = Box(
             object_id=HEADER+"_Root",
-            material = Material( color=Color(255,0,0), opacity=0.1, transparent=True, visible=True),
+            material = Material( color=Color(255,0,0), opacity=0.1, transparent=True, visible=False),
 
             scale=Scale(1,1,1),
             position=Position(0,0,0),
@@ -175,6 +510,10 @@ class ArenaChess:
             persist=True
         )
         self.scene.add_object(self.root)
+
+
+
+
 
     def DeleteLettersAndNumbers(self):
         if(self.letters is not None):
@@ -222,6 +561,7 @@ class ArenaChess:
             self.scene.add_object(number)
             self.numbers.append(number)
 
+
     def DeleteAllTiles(self):
         for x in range(8):
             for y in range(8):
@@ -229,8 +569,9 @@ class ArenaChess:
     def CreateBoard(self):
         for x in range(8):
             for y in range(8):
-                square = ChessSquare(scene, self.root, x, y)            
+                square = ChessSquare(scene, self.root, x, y, self.ClickHandler)            
                 self.board[x].append(square)
+
 
     def DeleteAllPieces(self):
         for x in range(8):
@@ -273,5 +614,9 @@ arenaChess = ArenaChess(scene)
 #@scene.run_once
 #def ProgramStart():
 
-    
+#@scene.run_forever(interval_ms=100)
+#def RunActionLoop(): #checks whether or not a user is in range of NPC
+#    if(arenaChess.actionReady):
+#        arenaChess.RunClickAction()
+
 scene.run_tasks()
