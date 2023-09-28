@@ -7,17 +7,52 @@
 #  Pawn Upgrade Animation/Particles/Sounds
 #  Win Animation (Kill King)
 
+
+HEADER = "Chess"
+
+ACTION_INTERVAL = 50
+
+#ARENA SETTINGS
+HOST = "arenaxr.org" #main server
+NAMESPACE = "johnchoi" #"johnchoi"
+SCENE = "Chess" #"NPC"
+
+#FILESTORE SETTINGS
+FILESTORE = "https://arenaxr.org/" #main server
+FILEPATH = "store/users/johnchoi/Chess/" #Path
+    
+#DEVELOPER DEBUG SETTINGS
+USE_DEV_ARENAPY = False
+ARENAPY_DEV_PATH = "D:/Github/arena-py/"  # Linux/Mac (Civilized)
+ARENAPY_DEV_PATH = "D:\\Github\\arena-py" # Windows   (Uncivilized)
+
+USE_DEV_SERVER = True
+if(USE_DEV_SERVER):
+    HOST = "arena-dev1.conix.io" #dev server
+if(USE_DEV_SERVER):
+    FILESTORE = "https://arena-dev1.conix.io/" #dev server
+
+
+
 # ------------------------------------------ #
 # ----------IMPORTING EVERYTHING------------ #
 # ------------------------------------------ #
 
-from config import *
+#from config import *
+
+import sys
+if(USE_DEV_ARENAPY):
+    sys.path.append(ARENAPY_DEV_PATH)
+
+
 from ColorPrinter import *
 from enum import Enum
 
 from arena import *
 
-HEADER = "Chess"
+
+
+
 
 class ChessPieceTeam(Enum):
     NONE = 0
@@ -47,6 +82,9 @@ class ChessSquare:
         self.X = x
         self.Y = y
         self.CreateTile()
+
+        self.animationTimer = 0
+        self.animationPhase = 0
 
     def DeleteTile(self):
         if(self.tile is not None):
@@ -86,7 +124,60 @@ class ChessSquare:
 
 
 
+    def AnimatePieceStart(self,fromX,fromY):
+        
+        self.midX = (fromX-self.X)*.5
+        self.midY = (self.Y-fromY)*.5
 
+        self.piece.dispatch_animation(
+            Animation(
+                property="position",
+                start=Position(fromX-self.X,0.1,self.Y-fromY), 
+                end=Position(self.midX,1,self.midY),
+                easing="easeOutCubic",
+                dur=600
+            )
+        )
+        self.scene.run_animations(self.piece)
+
+        self.animationTimer = 1500
+        self.animationPhase = 2
+
+    def AnimatePieceMid(self):
+        self.piece.dispatch_animation(
+            Animation(
+                property="position",
+                start=Position(self.midX,1,self.midY), 
+                end=Position(0,0.1,0),
+                easing="easeInCubic",
+                dur=600
+            )
+        )
+        self.scene.run_animations(self.piece)
+        self.animationPhase = 1
+
+    def AnimatePieceEnd(self):
+        print("end")
+        self.animationPhase = 0
+        '''
+        self.piece.dispatch_animation(
+            Animation(
+                property="position",
+                start=Position(self.midX,0.5,self.midY), 
+                end=Position(0,0.1,0),
+                easing="easeOutCirc",
+                dur=500
+            )
+        )
+        self.scene.run_animations(self.piece)
+        '''
+
+
+
+
+
+
+        
     def DeletePiece(self):
         if(self.team == ChessPieceTeam.NONE or self.type == ChessPieceType.NONE):
             return
@@ -97,8 +188,6 @@ class ChessSquare:
         self.type = ChessPieceType.NONE
 
     def CreatePiece(self, team, type):
-        FILESTORE = "https://arenaxr.org/" #main server
-        FILEPATH = "store/users/johnchoi/Chess/" #Path
         
         if(team == ChessPieceTeam.NONE or type == ChessPieceType.NONE):
             printError("Error: Cannot create piece with team NONE or type NONE!")
@@ -148,7 +237,6 @@ class ChessSquare:
 
             evt_handler=self.clickHandler,
             clickable = True,
-
 
             parent = self.tile,
             persist=True
@@ -331,30 +419,6 @@ class ArenaChess:
                 self.moveStep = 2
                 self.CreateActionConfirmationPrompt()
 
-
-    def CreateActionConfirmationPrompt(self, buttons):
-        self.prompt = Prompt(
-            object_id=HEADER + "_ConfirmationPrompt",
-            look_at="#my-camera",
-            
-            title="Confirmation",
-            description="Are you sure you want to do this?",
-            
-            buttons=["Yes","No"],
-            
-            fontSize = 0.05,
-       
-            evt_handler=self.prompt_handler,
-                
-            position=Position(0,2,0),
-            rotation=Rotation(0,90,0),
-            scale=Scale(1,1,1),
-            
-            parent=self.root,
-            persist = True
-        )
-        self.scene.add_object(self.prompt)
-
       
     def prompt_handler(self, scene, evt, msg):
         if evt.type == "buttonClick":
@@ -365,7 +429,11 @@ class ArenaChess:
                 self.moveStep = 0
 
                 self.destination.DeletePiece()
+                
                 self.destination.CreatePiece(self.selection.team, self.selection.type)
+
+                self.destination.AnimatePieceStart(self.selection.X,self.selection.Y)
+
                 self.selection.DeletePiece()
 
                 self.DeletePointerCylinders()
@@ -623,9 +691,24 @@ arenaChess = ArenaChess(scene)
 #@scene.run_once
 #def ProgramStart():
 
-#@scene.run_forever(interval_ms=100)
-#def RunActionLoop(): #checks whether or not a user is in range of NPC
-#    if(arenaChess.actionReady):
-#        arenaChess.RunClickAction()
+@scene.run_forever(interval_ms=ACTION_INTERVAL)
+def RunActionLoop(): #checks whether or not a user is in range of NPC
+
+
+    for x in range(8):
+        for y in range(8):
+        
+            square = arenaChess.board[x][y]
+
+            if(square.animationTimer > 0):
+                square.animationTimer = square.animationTimer - ACTION_INTERVAL
+
+            if(square.animationTimer < 1000 and square.animationPhase == 2):
+                square.AnimatePieceMid()
+
+            if(square.animationTimer < 500 and square.animationPhase == 1):
+                square.AnimatePieceEnd()
+
+
 
 scene.run_tasks()
