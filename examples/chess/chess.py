@@ -7,6 +7,28 @@
 #  Pawn Upgrade Animation/Particles/Sounds
 #  Win Animation (Kill King)
 
+# ------------------------------------------ #
+# ----------IMPORTING EVERYTHING------------ #
+# ------------------------------------------ #
+
+#from config import *
+
+#import sys
+#if(USE_DEV_ARENAPY):
+#    sys.path.append(ARENAPY_DEV_PATH)
+
+
+from ColorPrinter import *
+from enum import Enum
+
+from arena import *
+
+import random
+import math
+
+# ------------------------------------------ #
+# ----------IMPORTING EVERYTHING------------ #
+# ------------------------------------------ #
 
 HEADER = "Chess"
 
@@ -33,27 +55,6 @@ if(USE_DEV_SERVER):
     FILESTORE = "https://arena-dev1.conix.io/" #dev server
 
 
-
-# ------------------------------------------ #
-# ----------IMPORTING EVERYTHING------------ #
-# ------------------------------------------ #
-
-#from config import *
-
-import sys
-if(USE_DEV_ARENAPY):
-    sys.path.append(ARENAPY_DEV_PATH)
-
-
-from ColorPrinter import *
-from enum import Enum
-
-from arena import *
-
-
-
-
-
 class ChessPieceTeam(Enum):
     NONE = 0
     WHITE = 1
@@ -67,6 +68,45 @@ class ChessPieceType(Enum):
     ROOK = 4
     QUEEN = 5
     KING = 6
+
+def GET_PIECE_NAME(header, team, type, x, y):
+        return header+"_Piece_"+str(team.name)+"_"+str(type.name)+"_["+chr(x+65)+"]["+str(y+1)+"]" 
+        
+def GET_PIECE_URL(team, type):
+    url = ""
+    if(team == ChessPieceTeam.WHITE):
+        if(type == ChessPieceType.PAWN):
+            url = FILESTORE+FILEPATH+"white_pawn.glb"
+        if(type == ChessPieceType.KNIGHT):
+            url = FILESTORE+FILEPATH+"white_knight.glb"
+        if(type == ChessPieceType.BISHOP):
+            url = FILESTORE+FILEPATH+"white_bishop.glb"
+        if(type == ChessPieceType.ROOK):
+            url = FILESTORE+FILEPATH+"white_rook.glb"
+        if(type == ChessPieceType.QUEEN):
+            url = FILESTORE+FILEPATH+"white_queen.glb"
+        if(type == ChessPieceType.KING):
+            url = FILESTORE+FILEPATH+"white_king.glb"
+    elif(team == ChessPieceTeam.BLACK):
+        if(type == ChessPieceType.PAWN):
+            url = FILESTORE+FILEPATH+"black_pawn.glb"
+        if(type == ChessPieceType.KNIGHT):
+            url = FILESTORE+FILEPATH+"black_knight.glb"
+        if(type == ChessPieceType.BISHOP):
+            url = FILESTORE+FILEPATH+"black_bishop.glb"
+        if(type == ChessPieceType.ROOK):
+            url = FILESTORE+FILEPATH+"black_rook.glb"
+        if(type == ChessPieceType.QUEEN):
+            url = FILESTORE+FILEPATH+"black_queen.glb"
+        if(type == ChessPieceType.KING):
+            url = FILESTORE+FILEPATH+"black_king.glb"
+    return url
+
+
+
+
+
+
 
 # ------------------------------------------ #
 # ----------MAIN CHESS MASTERCLASS---------- #
@@ -83,8 +123,12 @@ class ChessSquare:
         self.Y = y
         self.CreateTile()
 
-        self.animationTimer = 0
-        self.animationPhase = 0
+        self.animationTimer = 10000
+        self.animationPhase = -1
+
+        self.deadPiece = None
+        self.piece = None
+        
 
     def DeleteTile(self):
         if(self.tile is not None):
@@ -125,10 +169,8 @@ class ChessSquare:
 
 
     def AnimatePieceStart(self,fromX,fromY):
-        
         self.midX = (fromX-self.X)*.5
         self.midY = (self.Y-fromY)*.5
-
         self.piece.dispatch_animation(
             Animation(
                 property="position",
@@ -140,9 +182,9 @@ class ChessSquare:
         )
         self.scene.run_animations(self.piece)
 
-        self.animationTimer = 1500
-        self.animationPhase = 2
-
+        self.animationTimer = 0
+        self.animationPhase = 1
+        
     def AnimatePieceMid(self):
         self.piece.dispatch_animation(
             Animation(
@@ -154,11 +196,9 @@ class ChessSquare:
             )
         )
         self.scene.run_animations(self.piece)
-        self.animationPhase = 1
-
     def AnimatePieceEnd(self):
         print("end")
-        self.animationPhase = 0
+
         '''
         self.piece.dispatch_animation(
             Animation(
@@ -172,12 +212,80 @@ class ChessSquare:
         self.scene.run_animations(self.piece)
         '''
 
+    def DeleteDeadPiece(self):
+        if(self.deadPiece is not None):
+            self.scene.delete_object(self.deadPiece)
+            self.deadPiece = None
+
+    def CreateDeadPiece(self, team, type):
+        #team = black, white
+        #type = pawn, rook, knight, bishop, queen, king 
+        if(team == ChessPieceTeam.NONE or type == ChessPieceType.NONE):
+            printError("Error: Cannot create piece with team NONE or type NONE!")
+            return
+
+        PIECE_NAME = GET_PIECE_NAME(HEADER+"(Dead)", team, type, self.X, self.Y)
+        PIECE_URL = GET_PIECE_URL(team, type)
+
+        self.deadPiece = GLTF(
+            object_id=PIECE_NAME,
+            url=PIECE_URL,
+            
+            position=Position(0,0.1,0),
+            rotation=Rotation(0,-90,0),
+            scale=Scale(.2,.2,.2),
+
+            parent = self.tile,
+            persist=True
+        )
+        self.scene.add_object(self.deadPiece)
+
+
+        randomAngle = random.randint(0,360)
+
+        randomX = -math.cos(math.radians(randomAngle)) *.3
+        randomY = math.sin(math.radians(randomAngle)) *.3
+
+        self.deadPiece.dispatch_animation(
+            [
+                Animation(
+                    property="rotation",
+                    start=(0,randomAngle,0), 
+                    end=(0,randomAngle,90),
+                    easing="linear",
+                    dur=300,
+                    delay=1100
+                )
+                ,
+                Animation(
+                    property="position",
+                    start=(0,0.1,0), 
+                    end=(randomX,0.1,randomY),
+                    easing="linear",
+                    dur=300,
+                    delay=1100
+                )
+                ,    
+                Animation(
+                    property="scale",
+                    start=(0.2,0.2,0.2), 
+                    end=(0.1,0.1,0.1),
+                    easing="linear",
+                    dur=600,
+                    delay=2000
+                )
+            ]
+        )
+        self.scene.run_animations(self.deadPiece)
+
+    def AnimateDeadPiece(self):
+        return
 
 
 
 
+    
 
-        
     def DeletePiece(self):
         if(self.team == ChessPieceTeam.NONE or self.type == ChessPieceType.NONE):
             return
@@ -186,9 +294,9 @@ class ChessSquare:
 
         self.team = ChessPieceTeam.NONE
         self.type = ChessPieceType.NONE
-
     def CreatePiece(self, team, type):
-        
+        #team = black, white
+        #type = pawn, rook, knight, bishop, queen, king 
         if(team == ChessPieceTeam.NONE or type == ChessPieceType.NONE):
             printError("Error: Cannot create piece with team NONE or type NONE!")
             return
@@ -196,36 +304,8 @@ class ChessSquare:
         self.team = team
         self.type = type
 
-        #team = black, white
-        #type = pawn, rook, knight, bishop, queen, king 
-        PIECE_NAME = HEADER+"_Piece_"+str(team.name)+"_"+str(type.name)+"_["+chr(self.X+65)+"]["+str(self.Y+1)+"]" 
-        PIECE_URL = ""
-        if(team == ChessPieceTeam.WHITE):
-            if(type == ChessPieceType.PAWN):
-                PIECE_URL = FILESTORE+FILEPATH+"white_pawn.glb"
-            if(type == ChessPieceType.KNIGHT):
-                PIECE_URL = FILESTORE+FILEPATH+"white_knight.glb"
-            if(type == ChessPieceType.BISHOP):
-                PIECE_URL = FILESTORE+FILEPATH+"white_bishop.glb"
-            if(type == ChessPieceType.ROOK):
-                PIECE_URL = FILESTORE+FILEPATH+"white_rook.glb"
-            if(type == ChessPieceType.QUEEN):
-                PIECE_URL = FILESTORE+FILEPATH+"white_queen.glb"
-            if(type == ChessPieceType.KING):
-                PIECE_URL = FILESTORE+FILEPATH+"white_king.glb"
-        elif(team == ChessPieceTeam.BLACK):
-            if(type == ChessPieceType.PAWN):
-                PIECE_URL = FILESTORE+FILEPATH+"black_pawn.glb"
-            if(type == ChessPieceType.KNIGHT):
-                PIECE_URL = FILESTORE+FILEPATH+"black_knight.glb"
-            if(type == ChessPieceType.BISHOP):
-                PIECE_URL = FILESTORE+FILEPATH+"black_bishop.glb"
-            if(type == ChessPieceType.ROOK):
-                PIECE_URL = FILESTORE+FILEPATH+"black_rook.glb"
-            if(type == ChessPieceType.QUEEN):
-                PIECE_URL = FILESTORE+FILEPATH+"black_queen.glb"
-            if(type == ChessPieceType.KING):
-                PIECE_URL = FILESTORE+FILEPATH+"black_king.glb"
+        PIECE_NAME = GET_PIECE_NAME(HEADER, team, type, self.X, self.Y)
+        PIECE_URL = GET_PIECE_URL(team, type)
 
         self.piece = GLTF(
             object_id=PIECE_NAME,
@@ -250,7 +330,6 @@ class ArenaChess:
     def __init__(self, scene):
         self.scene = scene
         self.initialized = False
-
 
         self.moveStep = 0
         self.pointer = None
@@ -428,11 +507,15 @@ class ArenaChess:
 
                 self.moveStep = 0
 
+                self.destination.CreateDeadPiece(self.destination.team,self.destination.type)
+                self.destination.AnimateDeadPiece()
+
                 self.destination.DeletePiece()
                 
                 self.destination.CreatePiece(self.selection.team, self.selection.type)
-
                 self.destination.AnimatePieceStart(self.selection.X,self.selection.Y)
+
+
 
                 self.selection.DeletePiece()
 
@@ -700,14 +783,20 @@ def RunActionLoop(): #checks whether or not a user is in range of NPC
         
             square = arenaChess.board[x][y]
 
-            if(square.animationTimer > 0):
-                square.animationTimer = square.animationTimer - ACTION_INTERVAL
+            if(square.animationTimer < 5000):
+                square.animationTimer = square.animationTimer + ACTION_INTERVAL
 
-            if(square.animationTimer < 1000 and square.animationPhase == 2):
+            if(square.animationTimer > 500 and square.animationPhase == 1):
+                square.animationPhase = 2
                 square.AnimatePieceMid()
 
-            if(square.animationTimer < 500 and square.animationPhase == 1):
+            if(square.animationTimer > 1000 and square.animationPhase == 2):
+                square.animationPhase = 3
                 square.AnimatePieceEnd()
+
+            if(square.animationTimer > 3500 and square.animationPhase == 3):
+                square.animationPhase = 4
+                square.DeleteDeadPiece()
 
 
 
