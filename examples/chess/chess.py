@@ -166,6 +166,21 @@ class ChessSquare:
         )
         self.scene.add_object(self.tile)
 
+        #self.AnimateTile()
+
+    def AnimateTile(self):
+        self.tile.dispatch_animation(
+            [
+                Animation(
+                    property="scale",
+                    start=Scale(1.1, 1.1, 1.1), 
+                    end=Scale(1,1,1),
+                    easing="easeOutCubic",
+                    dur=300
+                )
+            ]
+        )
+        self.scene.run_animations(self.tile)
 
 
     def AnimatePieceStart(self,fromX,fromY):
@@ -269,7 +284,7 @@ class ChessSquare:
                 Animation(
                     property="scale",
                     start=(0.2,0.2,0.2), 
-                    end=(0.05,0.05,0.05),
+                    end=(0.0,0.0,0.0), #(.05,.05,.05)
                     easing="linear",
                     dur=600,
                     delay=2000
@@ -394,6 +409,7 @@ class ArenaChess:
     
     def CreatePointer(self, x, y):
         tile = self.board[x][y].tile
+        self.board[x][y].AnimateTile()
 
         self.pointer = Cone(
             object_id=HEADER+"_Pointer",
@@ -402,11 +418,27 @@ class ArenaChess:
             scale=Scale(.1,.15,.1),
             position=Position(0,1.3,0),
             rotation=Rotation(180,0,0),
-            
+
             parent = tile,
             persist=True        
         )
         self.scene.add_object(self.pointer)
+
+        self.pointer.dispatch_animation(
+            [
+                Animation(
+                    property="position",
+                    start=(0,1.25,0), 
+                    end=(0,1.35,0),
+                    dir="normal",
+                    easing="easeInOutElastic",
+                    loop=True,
+                    dur=500
+                )
+            ]
+        )
+        self.scene.run_animations(self.pointer)
+
 
 
 
