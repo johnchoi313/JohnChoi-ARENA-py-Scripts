@@ -104,19 +104,18 @@ def GET_PIECE_URL(team, type):
 
 
 
-
-
-
-
 # ------------------------------------------ #
 # ----------MAIN CHESS MASTERCLASS---------- #
 # ------------------------------------------ #
 
 class ChessSquare:
     def __init__(self, scene, root, x, y, clickHandler): 
+        self.tile = None
+
         self.clickHandler = clickHandler
         self.team = ChessPieceTeam.NONE
         self.type = ChessPieceType.NONE
+                
         self.scene = scene
         self.root = root
         self.X = x
@@ -133,6 +132,7 @@ class ChessSquare:
     def DeleteTile(self):
         if(self.tile is not None):
             self.scene.delete_object(self.tile)
+            self.tile = None
 
     def CreateTile(self):
         x = self.X
@@ -269,7 +269,7 @@ class ChessSquare:
                 Animation(
                     property="scale",
                     start=(0.2,0.2,0.2), 
-                    end=(0.1,0.1,0.1),
+                    end=(0.05,0.05,0.05),
                     easing="linear",
                     dur=600,
                     delay=2000
@@ -291,6 +291,7 @@ class ChessSquare:
             return
 
         self.scene.delete_object(self.piece)
+        self.piece = None
 
         self.team = ChessPieceTeam.NONE
         self.type = ChessPieceType.NONE
@@ -379,10 +380,13 @@ class ArenaChess:
     def DeletePointerCylinders(self):
         if(self.pointer is not None):
             self.scene.delete_object(self.pointer)
+            self.pointer = None
         if(self.selectionCylinder is not None):
             self.scene.delete_object(self.selectionCylinder)
+            self.selectionCylinder = None
         if(self.destinationCylinder is not None):
             self.scene.delete_object(self.destinationCylinder)
+            self.destinationCylinder = None
         self.selection = None
         self.destination = None
 
