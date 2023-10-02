@@ -48,7 +48,7 @@ USE_DEV_ARENAPY = False
 ARENAPY_DEV_PATH = "D:/Github/arena-py/"  # Linux/Mac (Civilized)
 ARENAPY_DEV_PATH = "D:\\Github\\arena-py" # Windows   (Uncivilized)
 
-USE_DEV_SERVER = True
+USE_DEV_SERVER = False
 if(USE_DEV_SERVER):
     HOST = "arena-dev1.conix.io" #dev server
 if(USE_DEV_SERVER):
@@ -169,11 +169,16 @@ class ChessSquare:
         #self.AnimateTile()
 
     def AnimateTile(self):
+        #self.tile.update_attributes(animation = None)
+        #self.scene.add_object(self.tile)
+
+        scaleStart = random.uniform(1.2,1.3)
+
         self.tile.dispatch_animation(
             [
                 Animation(
                     property="scale",
-                    start=Scale(1.1, 1.1, 1.1), 
+                    start=(scaleStart,scaleStart,scaleStart), 
                     end=Scale(1,1,1),
                     easing="easeOutCubic",
                     dur=300
