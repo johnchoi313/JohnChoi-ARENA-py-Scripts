@@ -47,9 +47,8 @@ class NPC:
             width=ROOT_SIZE,
             height=ROOT_SIZE,
             position=ROOT_POSITION,
-            #position=(0,0,0),
             #rotation=ROOT_ROTATION,
-            material = Material(opacity=ROOT_OPACITY, transparent=True, visible=True),
+            material = Material(opacity=ROOT_OPACITY, transparent=True, visible=False),
             sound = None,
             persist=True
         )
@@ -67,9 +66,6 @@ class NPC:
             persist=True
         )
         scene.add_object(self.gltf)
-        
-
-        
         
 
         '''
@@ -166,7 +162,6 @@ def user_join_callback(scene, obj, msg):
     #npc.bubbles.PlayLastTransform()
     npc.bubbles.reloadCurrentLine()
     npc.bubbles.PlayAnimation(ANIM_IDLE)
-
 scene.user_join_callback = user_join_callback
 
 #def user_left_callback(scene, obj, msg):
@@ -178,7 +173,6 @@ scene.user_join_callback = user_join_callback
     #camera.displayName
     # etc.
 #scene.user_left_callback = user_left_callback
-
 
 @scene.run_forever(interval_ms=ENTER_INTERVAL)
 def EnterExit_Handler(): #checks whether or not a user is in range of NPC
@@ -294,5 +288,5 @@ def Speech_Handler(): #iteratively adds characters to speech bubble
         #if(npc.bubbles.speechBubble.data.text != npc.bubbles.speech):
         scene.update_object(npc.bubbles.speechBubble)
         
-            
+        
 scene.run_tasks()

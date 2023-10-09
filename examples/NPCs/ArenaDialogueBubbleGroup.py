@@ -15,7 +15,6 @@ from asyncio import create_subprocess_exec
 import string
 import random
 
-
 # ------------------------------------------ #
 # -----------ARENA BUBBLE GROUP------------- #
 # ------------------------------------------ #
@@ -67,14 +66,11 @@ class ArenaDialogueBubbleGroup():
 
         #self.PlayLastTransform()
 
-
     #creates new bubbles
     def initializeBubbles(self, line = None):
         if(line == None):
             self.dialogue.currentNode.currentLine = self.dialogue.currentNode.lines[0]
             line = self.dialogue.currentNode.currentLine
-        #self.speechBubble = self.createSpeechBubble(line)
-        #self.buttons = self.createButtons(line)
 
     # ------------------------------------------ #
     # ------------RUNNING COMMANDS-------------- #
@@ -244,10 +240,10 @@ class ArenaDialogueBubbleGroup():
         self.scene.update_object(self.video)
 
     def HideVideo(self):
-        #self.ScaleAnimation(self.video, self.lastVideoSize, Scale(0,0,random.uniform(0, 0.01)))        
-        self.lastVideoSize = (0,0,0)
+        self.ScaleAnimation(self.video, self.lastVideoSize, Scale(0,0,random.uniform(0, 0.01)))        
+        self.lastVideoSize = Scale(0,0,0)
     def ShowVideo(self, scale):
-        #self.ScaleAnimation(self.video, Scale(0,0,random.uniform(0, 0.01)), scale)
+        self.ScaleAnimation(self.video, Scale(0,0,random.uniform(0, 0.01)), scale)
         self.lastVideoSize = scale
 
     #Images
@@ -272,10 +268,10 @@ class ArenaDialogueBubbleGroup():
         self.ShowImage(self.getNewScale(img.w, img.h, img.size))
         self.scene.update_object(self.image, url = img.url)
     def HideImage(self):
-        #self.ScaleAnimation(self.image, self.lastImageSize, Scale(0,0,random.uniform(0, 0.01)))
-        self.lastImageSize = (0,0,0)
+        self.ScaleAnimation(self.image, self.lastImageSize, Scale(0,0,random.uniform(0, 0.01)))
+        self.lastImageSize = Scale(0,0,0)
     def ShowImage(self, scale):
-        #self.ScaleAnimation(self.image, Scale(0,0,random.uniform(0, 0.01)), scale)
+        self.ScaleAnimation(self.image, Scale(0,0,random.uniform(0, 0.01)), scale)
         self.lastImageSize = scale
 
         if(USE_DEFAULT_SOUNDS and not self.soundUsedThisLine):
@@ -283,9 +279,9 @@ class ArenaDialogueBubbleGroup():
 
     #Scaling helper functions.
     def ScaleAnimation(self, plane, startScale, endScale):
-        #animation = Animation(property="scale", start=startScale, end=endScale, easing="easeInOutQuad", dur=PLANE_SCALE_DURATION)
-        #plane.dispatch_animation(animation)
-        #self.scene.run_animations(plane)
+        animation = Animation(property="scale", start=startScale, end=endScale, easing="easeInOutQuad", dur=PLANE_SCALE_DURATION)
+        plane.dispatch_animation(animation)
+        self.scene.run_animations(plane)
         plane.update_attributes(scale = endScale)
 
     def getNewScale(self, w, h, size):
@@ -300,7 +296,7 @@ class ArenaDialogueBubbleGroup():
         nw = aspect * scale * size * PLANE_SCALE
         nh = 1.0 * scale * size * PLANE_SCALE
 
-        return (nw, nh, 1)
+        return Scale(nw, nh, 1)
     
     #Visibility
     def SetVisible(self, key, visible):            
@@ -317,7 +313,7 @@ class ArenaDialogueBubbleGroup():
     def ClearCommandProperties(self):
         #scale the link button out because delete won't work
         if(self.linkButton != None and self.checkIfArenaObjectExists(self.linkButton.box)):
-            #self.ScaleAnimation(self.linkButton.box, LINK_BUBBLE_SCALE, Scale(0,0,random.uniform(0, 0.01)))
+            self.ScaleAnimation(self.linkButton.box, LINK_BUBBLE_SCALE, Scale(0,0,random.uniform(0, 0.01)))
             self.scene.delete_object(self.linkButton.text)
             self.scene.delete_object(self.linkButton.box)
         
