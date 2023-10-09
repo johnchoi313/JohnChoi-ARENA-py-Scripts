@@ -73,8 +73,8 @@ class ArenaDialogueBubbleGroup():
         if(line == None):
             self.dialogue.currentNode.currentLine = self.dialogue.currentNode.lines[0]
             line = self.dialogue.currentNode.currentLine
-        self.speechBubble = self.createSpeechBubble(line)
-        self.buttons = self.createButtons(line)
+        #self.speechBubble = self.createSpeechBubble(line)
+        #self.buttons = self.createButtons(line)
 
     # ------------------------------------------ #
     # ------------RUNNING COMMANDS-------------- #
@@ -408,49 +408,19 @@ class ArenaDialogueBubbleGroup():
     # ------------------------------------------ #
 
     def createNewButtons(self, line):
-        self.createSpeechBubble(line)
         self.createSpeechBubbleCard(line)
-        #self.createButtons(line)
         self.createButtonPanel(line)
         self.runCommands(line)
         
     def clearButtons(self):
         self.ClearCommandProperties()
-
-        if(self.checkIfArenaObjectExists(self.speechBubble)):
-            #self.ScaleAnimation(self.speechBubble, SPEECH_TEXT_SCALE, (0,0,random.uniform(0, 0.01)))
-            self.scene.delete_object(self.speechBubble)
-
-        for button in self.buttons:
-            if(self.checkIfArenaObjectExists(button.box)):
-                #self.ScaleAnimation(button.box, CHOICE_BUBBLE_SCALE, (0,0,random.uniform(0, 0.01)))
-                self.scene.delete_object(button.box)
-            if(self.checkIfArenaObjectExists(button.text)):
-                self.scene.delete_object(button.text)
-            
         self.commands = []
-
-    def createSpeechBubble(self, line):
-        self.speech = line.text
-        self.speechIndex = 0
-
-        speechBubble = Text(
-            object_id=self.npc.object_id + "_speechBubble",
-            text="",
-            parent=self.npc,
-            align="center",
-            color = SPEECH_TEXT_COLOR,            
-            position=SPEECH_TEXT_POSITION,
-            scale=Scale(0,0,0),
-        )
-        self.scene.add_object(speechBubble) # add the box
-        return speechBubble
 
     def createSpeechBubbleCard(self, line):
         self.speech = line.text
         self.speechIndex = 0
 
-        speechBubble = Card(
+        self.speechBubble = Card(
             object_id=NPC_NAME + "_speechBubbleCard",
             
             title=NPC_NAME,
@@ -472,14 +442,14 @@ class ArenaDialogueBubbleGroup():
             parent=self.npc,
             persist = True
         )
-        self.scene.add_object(speechBubble) # add the box
+        self.scene.add_object(self.speechBubble) # add the box
         
-        speechBubble.data["textImageRatio"] = 2.5
+        self.speechBubble.data["textImageRatio"] = 2.5
 
-        self.scene.update_object(speechBubble) # add the box
+        self.scene.update_object(self.speechBubble) # add the box
         
 
-        return speechBubble
+        return self.speechBubble
 
 
 
@@ -552,34 +522,6 @@ class ArenaDialogueBubbleGroup():
         self.scene.add_object(self.buttonPanel)
 
     
-
-
-    def createButtons(self, line):
-        choices = line.choices
-        self.buttons = []
-        if(len(choices) > 0): 
-            for c in reversed(range(len(choices))):                
-                printMagenta("    [["+str(c)+"]] choiceText: " + choices[c].text)
-                printMagenta(         "          choiceNode: " + choices[c].node)
-        
-                choiceButton = NPCButton(self.scene, self.npc, self.npc.object_id + "_choiceButton_" + self.randomUUID(UUID_LEN)+"_"+str(c), choices[c].text, self.onClickChoiceButton, 
-                #choiceButton = Button(self.scene, self.npc, self.npc.object_id + "_choiceButton_" + "_"+str(c), choices[c].text, self.onClickChoiceButton, 
-                                      position = (CHOICE_BUBBLE_POSITION[0], CHOICE_BUBBLE_POSITION[1] + (len(choices) - c - 1) * CHOICE_BUBBLE_OFFSET_Y, CHOICE_BUBBLE_POSITION[2]), 
-                                      rotation = CHOICE_BUBBLE_ROTATION, buttonScale = CHOICE_BUBBLE_SCALE, textScale = CHOICE_TEXT_SCALE, color = CHOICE_BUBBLE_COLOR, textColor = CHOICE_TEXT_COLOR, 
-                                      persist=False)
-
-                self.buttons.append(choiceButton)
-        else: 
-            nextButton = NPCButton(self.scene, self.npc, self.npc.object_id + "_nextButton_" + self.randomUUID(UUID_LEN), "[Next]", self.onClickNextButton, 
-            #nextButton = Button(self.scene, self.npc, self.npc.object_id + "_nextButton", "[Next]", self.onClickNextButton, 
-                                position = CHOICE_BUBBLE_POSITION, rotation = CHOICE_BUBBLE_ROTATION, buttonScale = CHOICE_BUBBLE_SCALE, 
-                                textScale = CHOICE_TEXT_SCALE, color = CHOICE_BUBBLE_COLOR, textColor = CHOICE_TEXT_COLOR,
-                                persist=False)
-                
-            self.buttons.append(nextButton)
-
-        return self.buttons
-
     def randomUUID(self, n = 6):
         return ''.join(random.choices(string.ascii_uppercase + string.digits, k=n))
 
@@ -639,12 +581,6 @@ class ArenaDialogueBubbleGroup():
             if(USE_DEFAULT_SOUNDS):
                 self.PlaySound(SOUND_NEXT)
 
-    '''
-    def nodeWithNameExists(self, nodeName):
-        return True    
-    def nodeWithIndexExists(self, nodeIndex):
-        return (0 <= nodeIndex and nodeIndex < len(self.dialogue.nodes))
-    '''
 
     def gotoNodeWithName(self, nodeName):
         nodeIndex = self.dialogue.getNodeIndexFromString(nodeName)

@@ -290,7 +290,7 @@ def Speech_Handler(): #iteratively adds characters to speech bubble
             npc.isTalking = npc.talking
 
         #Iterate through speech bubble text
-        npc.bubbles.speechBubble.data.text = npc.bubbles.speech[:npc.bubbles.speechIndex * SPEECH_SPEED]
+        npc.bubbles.speechBubble.data.body = npc.bubbles.speech[:npc.bubbles.speechIndex * SPEECH_SPEED]
         #if(npc.bubbles.speechBubble.data.text != npc.bubbles.speech):
         scene.update_object(npc.bubbles.speechBubble)
         
