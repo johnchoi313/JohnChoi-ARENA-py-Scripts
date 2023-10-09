@@ -143,24 +143,6 @@ class ArenaDialogueBubbleGroup():
         
         self.lastTransform = transform
 
-        '''
-        #self.lastTransform = transform
-        print(transform)
-        
-        p = getVectorFromString(transform[0].end)
-        print(p[0])
-        print(p[1])
-        print(p[2])
-        r = getVectorFromString(transform[1].end)
-        print(r[0])
-        print(r[1])
-        print(r[2])
-
-        self.npc.data.position = Position(p[0], p[1], p[2])
-        #self.npc.data.rotation = Position(r[0], r[1], r[2])
-        
-        #self.scene.update_object(self.npc)
-        '''
 
     def UpdateLastPosition(self):
         transform = self.lastTransform
@@ -203,7 +185,7 @@ class ArenaDialogueBubbleGroup():
         if(PRINT_VERBOSE):
             printWhiteB("Playing BLOB gotoUrl...")
         
-        self.linkButton = Button(self.scene, self.npc, self.npc.object_id + "(LINK)", "[Next]", self.onClickLinkButton, 
+        self.linkButton = NPCButton(self.scene, self.npc, self.npc.object_id + "(LINK)", "[Next]", self.onClickLinkButton, 
                             position = LINK_BUBBLE_POSITION, rotation = LINK_BUBBLE_ROTATION, buttonScale = LINK_BUBBLE_SCALE, 
                             textScale = LINK_TEXT_SCALE, color = LINK_BUBBLE_COLOR, textColor = LINK_TEXT_COLOR, persist=False)
         
@@ -506,7 +488,7 @@ class ArenaDialogueBubbleGroup():
             buttonName = evt.data.buttonName
             buttonIndex = evt.data.buttonIndex
             
-            printCyan("  Choice Button with text \"" + buttonName + "\" pressed!")
+            printCyan("  Choice Button with text \"" + buttonName + "\" and index " + str(buttonIndex) + " pressed!")
 
             if(buttonName == "[Next]" and buttonIndex == 0):
                 self.resetTimer = RESET_TIME
@@ -520,12 +502,15 @@ class ArenaDialogueBubbleGroup():
             
             else:   
                 self.resetTimer = RESET_TIME
-      
+
+                printCyan("  Choice Button with text \"" + buttonName + "\" and index " + str(buttonIndex) + " pressed!")
+
+                choiceIndex = len(self.dialogue.currentNode.lines[self.dialogue.currentNode.currentLineIndex].choices)-buttonIndex
+
                 choiceText = self.dialogue.currentNode.lines[self.dialogue.currentNode.currentLineIndex].choices[buttonIndex].text
                 choiceNodeName = self.dialogue.currentNode.lines[self.dialogue.currentNode.currentLineIndex].choices[buttonIndex].node
                 
-                printCyan("  Choice Button with text \"" + choiceText + "\" pressed!")
-                            
+            
                 self.gotoNodeWithName(choiceNodeName)
 
                 if(USE_DEFAULT_SOUNDS):
@@ -540,7 +525,7 @@ class ArenaDialogueBubbleGroup():
         buttonTexts = []
         choices = line.choices        
         if(len(choices) > 0): 
-            for c in reversed(range(len(choices))):                
+            for c in range(len(choices)):                
                 buttonTexts.append(choices[c].text)
         else: 
             buttonTexts = ["[Next]"]

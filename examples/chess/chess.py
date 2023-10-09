@@ -36,8 +36,8 @@ ACTION_INTERVAL = 50
 
 #ARENA SETTINGS
 HOST = "arenaxr.org" #main server
-NAMESPACE = "johnchoi" #"johnchoi"
-SCENE = "Chess" #"NPC"
+NAMESPACE = "public" #"johnchoi"
+SCENE = "arena" #"Chess"
 
 #FILESTORE SETTINGS
 FILESTORE = "https://arenaxr.org/" #main server
@@ -605,7 +605,7 @@ class ArenaChess:
 
             if(evt.data.buttonName == "Clear Chess"):
                 print("Pressed confirmation button: " + evt.data.buttonName)
-                self.DeleteEverything()
+                #self.DeleteEverything()
 
 
 
@@ -704,9 +704,9 @@ class ArenaChess:
             object_id=HEADER+"_Root",
             material = Material( color=Color(255,0,0), opacity=0.1, transparent=True, visible=False),
 
-            scale=Scale(1,1,1),
-            position=Position(0,0,0),
-            rotation=Rotation(0,0,0),
+            scale=Scale(.15,.15,.15),
+            position=Position(1.5,0,-1.5),
+            rotation=Rotation(0,90,0),
 
             persist=True
         )
