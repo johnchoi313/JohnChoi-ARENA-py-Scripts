@@ -185,6 +185,33 @@ class ArenaDialogueBubbleGroup():
                             position = LINK_BUBBLE_POSITION, rotation = LINK_BUBBLE_ROTATION, buttonScale = LINK_BUBBLE_SCALE, 
                             textScale = LINK_TEXT_SCALE, color = LINK_BUBBLE_COLOR, textColor = LINK_TEXT_COLOR, persist=False)
         
+        '''
+        self.prompt = Prompt(
+            object_id=HEADER + "_ConfirmationPrompt",
+            look_at="#my-camera",
+            
+            title="Confirmation",
+            description="Are you sure you want to make this move?",
+            
+            buttons=["Yes","No"],
+            
+            fontSize = 0.05,
+       
+            evt_handler=self.onClickLinkButton,
+
+
+            position=LINK_BUBBLE_POSITION,
+            rotation=LINK_BUBBLE_ROTATION,
+            scale=LINK_BUBBLE_SCALE,
+
+
+
+            parent=self.npc,
+            persist = True
+        )
+        self.scene.add_object(self.prompt)
+        '''
+
         self.linkButton.box.data.goto_url = gotoUrl
         self.linkButton.text.data.text = gotoUrl.url
         self.scene.update_object(self.linkButton.box)

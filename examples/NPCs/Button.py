@@ -69,8 +69,8 @@ class NPCButton():
         )
         self.scene.add_object(button)
         #Button Appearance Animation    
-        #animation = Animation(property="scale", start=Position(0,0,0), end=buttonScale, easing="easeInOutQuad", dur=CHOICE_SCALE_DURATION)
-        #button.dispatch_animation(animation)
-        #self.scene.run_animations(button)
+        animation = Animation(property="scale", start=Scale(0,0,0), end=buttonScale, easing="easeInOutQuad", dur=CHOICE_SCALE_DURATION)
+        button.dispatch_animation(animation)
+        self.scene.run_animations(button)
         #Return created object
         return button
