@@ -38,6 +38,35 @@ class NPC:
         # create Dialogue, and show contents
         self.dialogue = Dialogue(DIALOGUE_FILENAME)
 
+        
+        #APRIL TAG (Optional)
+        MARKER_SCALE = 0.15
+        AprilTag = Box(
+            persist=True,            
+            object_id=NPC_NAME+"(AprilTag)",
+            
+            depth=0.05,
+            width=MARKER_SCALE,
+            height=MARKER_SCALE,
+            
+            material = Material(opacity=0.8, transparent=True, visible=True),
+            color=Color(0,255,0),
+
+            position=(0,1.0,0),
+
+            rotation=Rotation(0,0,0),
+            scale=Scale(1,1,1),
+        )
+        scene.add_object(AprilTag)
+        armarker = {
+            "markerid": 113,
+            "markertype": "apriltag_36h11",
+            "size": 150,
+            "buildable": False,
+            "dynamic": False,
+        }
+        scene.update_object(AprilTag, armarker=armarker)
+
         #NPC ROOT OBJECT (with debug box)
         self.root = Box(
             object_id=NPC_NAME,
@@ -46,13 +75,18 @@ class NPC:
             depth=ROOT_SIZE,
             width=ROOT_SIZE,
             height=ROOT_SIZE,
-            position=ROOT_POSITION,
+            #position=ROOT_POSITION,
+
+            position = (0,-0.7,-0.25),
+            
             #rotation=ROOT_ROTATION,
             material = Material(opacity=ROOT_OPACITY, transparent=True, visible=False),
             sound = None,
+            parent = AprilTag,
             persist=True
         )
         scene.add_object(self.root)
+
         #NPC GLTF
         self.gltf = GLTF(
             object_id=NPC_NAME + "(GLTF)",
@@ -61,12 +95,15 @@ class NPC:
             rotation=GLTF_ROTATION,
             scale=GLTF_SCALE,
             #animation_mixer = ANIM_IDLE,
+
             parent=self.root,
             clickable=True,
             persist=True
         )
         scene.add_object(self.gltf)
-        
+
+        self.gltf.data["hide-on-enter-ar"] = True
+        scene.update_object(self.gltf)
 
         '''
         #NPC ROOT OBJECT (with debug box)
@@ -145,11 +182,90 @@ scene = Scene(host=HOST, namespace=NAMESPACE, scene=SCENE)
 # make NPC
 npc = NPC(scene)
 
+
 @scene.run_once
 def ProgramStart():
     npc.dialogue.printJson()
     npc.dialogue.printInfo()
     npc.bubbles.start()
+
+    #create Bosch Car specific stuff:
+    BoschCar_Assembled = GLTF(
+        object_id="BoschCar_Assembled",
+        url=FILESTORE+"store/users/johnchoi/BoschCar/Models/Bosch Car Assembled.glb",
+        position=Position(0,0,0),
+        rotation=Rotation(0,180,0),
+        scale=Scale(1,1,1),
+        parent=npc.root,
+        clickable=True,
+        persist=True
+    )
+    scene.add_object(BoschCar_Assembled)
+
+    #BoschCar_Assembled.data["hide-on-enter-ar"] = True
+    #scene.update_object(BoschCar_Assembled)
+
+
+    BoschCar_Disassembled = GLTF(
+        object_id="BoschCar_Disassembled",
+        url=FILESTORE+"store/users/johnchoi/BoschCar/Models/Bosch Car Disassembled.glb",
+        position=Position(0,0,0),
+        rotation=Rotation(0,180,0),
+        scale=Scale(0,0,0),
+        parent=npc.root,
+        clickable=True,
+        persist=True
+    )
+    scene.add_object(BoschCar_Disassembled)
+
+    #BoschCar_Disassembled.data["hide-on-enter-ar"] = True
+    #scene.update_object(BoschCar_Disassembled)
+
+
+    def BoschCar_ButtonPanel_Handler(scene, evt, msg):
+        if evt.type == "buttonClick":
+            buttonName = evt.data.buttonName
+            buttonIndex = evt.data.buttonIndex
+        
+            if(buttonName == "Open"):
+                printCyan("  Bosch Car Opened!")
+
+                BoschCar_Assembled.data.scale = Scale(0,0,0)
+                BoschCar_Disassembled.data.scale = Scale(1,1,1)
+                scene.update_object(BoschCar_Assembled)
+                scene.update_object(BoschCar_Disassembled)
+
+            elif(buttonName == "Close"):
+                printCyan("  Bosch Car Closed!")
+
+                BoschCar_Assembled.data.scale = Scale(1,1,1)
+                BoschCar_Disassembled.data.scale = Scale(0,0,0)
+                scene.update_object(BoschCar_Assembled)
+                scene.update_object(BoschCar_Disassembled)
+
+
+
+    BoschCar_ButtonPanel = ButtonPanel(
+        object_id="BoschCar_ButtonPanel",
+
+        buttons=["Open","Close"],
+        
+        font="Roboto-Mono",
+
+        position=Position(-0.7,1.2,0.4),
+        rotation=CHOICE_BUBBLE_ROTATION,
+        scale=Scale(0.6,0.6,0.6),
+        
+        evt_handler=BoschCar_ButtonPanel_Handler,
+        parent=npc.root,
+
+        vertical=True,
+        persist=True
+    )
+    scene.add_object(BoschCar_ButtonPanel)
+
+
+
 
 def user_join_callback(scene, obj, msg):
     ## Get access to user state
@@ -299,11 +415,11 @@ def click(scene, evt, msg):
         start.y=start.y-.1
         start.x=start.x-.1
         start.z=start.z-.1
-        line = ThickLine(path=(start,end), color=(255,0,0), lineWidth=5, ttl=1)
+        line = ThickLine(path=(start,end), color=(255,0,0), lineWidth=15, ttl=1)
         scene.add_object(line)
         ball = Sphere(
             position=end,
-            scale = (0.06,0.06,0.06),
+            scale = (0.01,0.01,0.01),
             color=(255,0,0),
             ttl=1)
         scene.add_object(ball)

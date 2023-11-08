@@ -184,33 +184,6 @@ class ArenaDialogueBubbleGroup():
         self.linkButton = NPCButton(self.scene, self.npc, self.npc.object_id + "(LINK)", "[Next]", self.onClickLinkButton, 
                             position = LINK_BUBBLE_POSITION, rotation = LINK_BUBBLE_ROTATION, buttonScale = LINK_BUBBLE_SCALE, 
                             textScale = LINK_TEXT_SCALE, color = LINK_BUBBLE_COLOR, textColor = LINK_TEXT_COLOR, persist=False)
-        
-        '''
-        self.prompt = Prompt(
-            object_id=HEADER + "_ConfirmationPrompt",
-            look_at="#my-camera",
-            
-            title="Confirmation",
-            description="Are you sure you want to make this move?",
-            
-            buttons=["Yes","No"],
-            
-            fontSize = 0.05,
-       
-            evt_handler=self.onClickLinkButton,
-
-
-            position=LINK_BUBBLE_POSITION,
-            rotation=LINK_BUBBLE_ROTATION,
-            scale=LINK_BUBBLE_SCALE,
-
-
-
-            parent=self.npc,
-            persist = True
-        )
-        self.scene.add_object(self.prompt)
-        '''
 
         self.linkButton.box.data.goto_url = gotoUrl
         self.linkButton.text.data.text = gotoUrl.url
@@ -232,10 +205,6 @@ class ArenaDialogueBubbleGroup():
         if(PRINT_VERBOSE):
             printWhiteB("Play video from url \'" + url + "\":")        
         
-        #VideoControl Method
-        #video = VideoControl(video_path = url, frame_object = DEFAULT_VIDEO_FRAME_OBJECT, video_object = None, 
-        #                     anyone_clicks = True, video_loop = True, autoplay = True, volume = 1, w = 1920, h = 1080, size = 1),
-
         #Src Video Material Method
         video = Material(src = url, transparent = True, opacity = PLANE_OPACITY, w = 1920, h = 1080, size = 1)
 
@@ -244,20 +213,6 @@ class ArenaDialogueBubbleGroup():
     def PlayVideo(self, video):
         if(PRINT_VERBOSE):
             printWhiteB("Playing video...")
-        
-        '''
-        #VideoControl Method
-        self.video.data.material=None
-
-        #self.video.data.video_control=None 
-        #self.scene.update_object(self.video)
-        
-        self.ShowVideo(self.getNewScale(video.w, video.h, video.size))
-        
-        self.video.data.video_control=video
-        self.video.data.video_control.video_object = self.video.object_id
-        self.scene.update_object(self.video)
-        '''
         
         #Src Video Material Method
         self.video.data.material=None 
@@ -460,18 +415,16 @@ class ArenaDialogueBubbleGroup():
             
             widthScale=0.5,
 
-            position=Position(0,1.7,0),
-            scale=Scale(1,1,1),
+            position=SPEECH_BUBBLE_POSITION,
+            scale=SPEECH_BUBBLE_SCALE,
+            
             parent=self.npc,
             persist = True
         )
         self.scene.add_object(self.speechBubble) # add the box
-        
         self.speechBubble.data["textImageRatio"] = 2.5
-
         self.scene.update_object(self.speechBubble) # add the box
         
-
         return self.speechBubble
 
 

@@ -90,30 +90,6 @@ transformMappings = {
     "zero" : [              
         Animation(property="position", end=Position(0,0,0), easing="easeInOutSine", dur=TRANSFORM_TIMER),  
         Animation(property="rotation", end=Rotation(0,0,0), easing="linear", dur=TRANSFORM_TIMER*0.5)
-    ],
-    "rack" : [              
-        Animation(property="position", end=Position(2,0,-2), easing="easeInOutSine", dur=TRANSFORM_TIMER),  
-        Animation(property="rotation", end=Rotation(0,-45,0), easing="linear", dur=TRANSFORM_TIMER*0.5)
-    ],
-    "lambda" : [              
-        Animation(property="position", end=Position(-1.5,0,-0.8), easing="easeInOutSine", dur=TRANSFORM_TIMER),  
-        Animation(property="rotation", end=Rotation(0,75,0), easing="linear", dur=TRANSFORM_TIMER*0.5)
-    ],
-    "desks" : [              
-        Animation(property="position", end=Position(0.5,0.0,1.2), easing="easeInOutSine", dur=TRANSFORM_TIMER),
-        Animation(property="rotation", end=Rotation(0,180,0), easing="linear", dur=TRANSFORM_TIMER*0.5)
-    ],
-    "enter" : [              
-        Animation(property="position", end=Position(2.2, 0.0, -0.5), easing="easeInOutSine", dur=TRANSFORM_TIMER),
-        Animation(property="rotation", end=Rotation(0,-90,0), easing="linear", dur=TRANSFORM_TIMER*0.5)
-    ],
-    "exit" : [              
-        Animation(property="position", end=Position(4.3, 0.0, -0.5), easing="easeInOutSine", dur=TRANSFORM_TIMER),
-        Animation(property="rotation", end=Rotation(0,90,0), easing="linear", dur=TRANSFORM_TIMER*0.5)
-    ],
-    "couch" : [              
-        Animation(property="position", end=Position(7.2, 0.0, -2.8), easing="easeInOutSine", dur=TRANSFORM_TIMER),
-        Animation(property="rotation", end=Rotation(0,0,0), easing="linear", dur=TRANSFORM_TIMER*0.5)
     ]
 }
 
