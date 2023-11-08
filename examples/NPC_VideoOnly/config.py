@@ -1,13 +1,13 @@
 from arena import *
 
 #DIALOGUE TREE FILE
-DIALOGUE_FILENAME = "robot_arena.json"
+DIALOGUE_FILENAME = "video_only.json"
 
 #ARENA SETTINGS
 FILESTORE = "https://arenaxr.org/" #main server
 HOST = "arenaxr.org"          #main server
-NAMESPACE = "johnchoi" #"johnchoi"
-SCENE = "BoschCar" #"NPC"
+NAMESPACE = "public" #"johnchoi"
+SCENE = "poster" #"NPC"
 
 #DEVELOPER DEBUG SETTINGS
 USE_DEV_ARENAPY = False
@@ -23,14 +23,14 @@ if(USE_DEV_SERVER):
 PRINT_VERBOSE = False
 
 #NPC (name Alphanumeric only plus '_', no spaces!)
-NPC_NAME = "NPC_RobotBuddy"
-NPC_GLTF_URL = FILESTORE+"store/users/johnchoi/BoschCar/Models/Cart.glb"
-NPC_ICON_URL = FILESTORE+"store/users/johnchoi/BoschCar/Images/page_title.jpg"
+NPC_NAME = "ARENA Video Player"
+NPC_GLTF_URL = "" #FILESTORE+"store/users/johnchoi/Characters/RobotBuddy/RobotBuddyBlue.glb"
+NPC_ICON_URL = FILESTORE+"store/users/johnchoi/Images/xr-logo.png"
 
 #ENTER/EXIT SPECIAL EVENT NODES 
 ENTER_INTERVAL = 100
 ENTER_DISTANCE = 10
-ENTER_NODE = "Enter"
+ENTER_NODE = "ARENA Videos"
 EXIT_NODE = "Exit"
 
 #NO ACTIVITY RESET
@@ -49,20 +49,18 @@ USE_DEFAULT_MORPHS = True
 USE_DEFAULT_SOUNDS = True
 
 #NPC ROOT TRANSFORM
-ROOT_SCALE = Scale(1,1,1)
+ROOT_SCALE = Scale(0.8,0.8,0.8)
 ROOT_SIZE = 0.2
 
-ROOT_POSITION = Position(7.2, 0.0, -2.8) #This is the start position
+ROOT_POSITION = Position(0,0,0) #This is the start position
 ROOT_ROTATION = Rotation(0,0,0)
 
 ROOT_COLOR = Color(255,100,16)
 ROOT_OPACITY = 0.5
 
-
 COLLIDER_SCALE   = Scale(5,5,5)
 COLLIDER_COLOR   = Color(255,100,16)
 COLLIDER_OPACITY = 0.5
-
 
 #NPC GLTF TRANSFORM
 GLTF_SCALE = Scale(1,1,1)
@@ -72,7 +70,7 @@ GLTF_ROTATION = Rotation(0,180,0) #radians, not degrees??
 #NPC PLANE SETTINGS (for both images and videos)
 PLANE_SCALE = 1.2
 PLANE_SCALE_DURATION = 500
-PLANE_POSITION = Position(1.5,0.8,0)
+PLANE_POSITION = Position(1.6,1.6,0)
 PLANE_ROTATION = Rotation(0,-15,0) #radians, not degrees??
 PLANE_OPACITY = 0.9
 
@@ -80,15 +78,15 @@ PLANE_OPACITY = 0.9
 SPEECH_INTERVAL = 100
 SPEECH_SPEED = 3
 SPEECH_TEXT_COLOR = Color(250,100,250)
-SPEECH_TEXT_POSITION = Position(0,1.6,0)
-SPEECH_TEXT_SCALE = Scale(0.6,0.7,0.7)
+SPEECH_TEXT_POSITION = Position(0,2.5,0)
+SPEECH_TEXT_SCALE = Scale(1,1,1)
 
 #CHOICE SETTINGS
 CHOICE_TEXT_COLOR = Color(255,255,255)
 CHOICE_BUBBLE_COLOR = Color(0,0,200)
 CHOICE_BUBBLE_OPACITY = 0.5
 
-CHOICE_BUBBLE_POSITION = Position(-0.95,0.6,0.4)
+CHOICE_BUBBLE_POSITION = Position(-1.2,1.6,0.2)
 CHOICE_BUBBLE_ROTATION = Rotation(0,15,0)
 CHOICE_BUBBLE_OFFSET_Y = 0.25
 

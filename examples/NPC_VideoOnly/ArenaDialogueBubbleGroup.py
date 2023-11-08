@@ -447,7 +447,7 @@ class ArenaDialogueBubbleGroup():
             object_id=NPC_NAME + "_speechBubbleCard",
             
             title=NPC_NAME,
-            imgCaption=NPC_NAME,
+            #imgCaption=NPC_NAME,
 
             body=self.speech,
             bodyAlign="center",
@@ -458,10 +458,10 @@ class ArenaDialogueBubbleGroup():
             imgDirection="left",
             imgSize="contain", #cover, contain, stretch
             
-            widthScale=0.5,
+            widthScale=0.6,
 
-            position=Position(0,1.7,0),
-            scale=Scale(1,1,1),
+            position=SPEECH_TEXT_POSITION,
+            scale=SPEECH_TEXT_SCALE,
             parent=self.npc,
             persist = True
         )
