@@ -454,14 +454,14 @@ class ArenaDialogueBubbleGroup():
 
             fontSize = 0.05,
 
-            img = FILESTORE+"store/users/johnchoi/Characters/RobotBuddy/RobotBuddyBlue.png",
+            img = NPC_ICON_URL,
             imgDirection="left",
             imgSize="contain", #cover, contain, stretch
             
             widthScale=0.5,
 
-            position=Position(0,1.7,0),
-            scale=Scale(1,1,1),
+            position=SPEECH_BUBBLE_POSITION,
+            scale=SPEECH_BUBBLE_SCALE,
             parent=self.npc,
             persist = True
         )

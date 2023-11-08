@@ -25,6 +25,7 @@ PRINT_VERBOSE = False
 #NPC (name Alphanumeric only plus '_', no spaces!)
 NPC_NAME = "NPC_RobotBuddy"
 NPC_GLTF_URL = FILESTORE+"store/users/johnchoi/Characters/RobotBuddy/RobotBuddyBlue.glb"
+NPC_ICON_URL = FILESTORE+"store/users/johnchoi/Characters/RobotBuddy/RobotBuddyBlue.png"
 
 #ENTER/EXIT SPECIAL EVENT NODES 
 ENTER_INTERVAL = 100
@@ -57,11 +58,9 @@ ROOT_ROTATION = Rotation(0,0,0)
 ROOT_COLOR = Color(255,100,16)
 ROOT_OPACITY = 0.5
 
-
 COLLIDER_SCALE   = Scale(5,5,5)
 COLLIDER_COLOR   = Color(255,100,16)
 COLLIDER_OPACITY = 0.5
-
 
 #NPC GLTF TRANSFORM
 GLTF_SCALE = Scale(1,1,1)
@@ -81,6 +80,9 @@ SPEECH_SPEED = 3
 SPEECH_TEXT_COLOR = Color(250,100,250)
 SPEECH_TEXT_POSITION = Position(0,1.6,0)
 SPEECH_TEXT_SCALE = Scale(0.6,0.7,0.7)
+
+SPEECH_BUBBLE_POSITION = Position(0,1.7,0)
+SPEECH_BUBBLE_SCALE = Scale(1,1,1)
 
 #CHOICE SETTINGS
 CHOICE_TEXT_COLOR = Color(255,255,255)
