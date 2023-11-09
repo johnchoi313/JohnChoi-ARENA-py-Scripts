@@ -460,8 +460,9 @@ class ArenaDialogueBubbleGroup():
             
             widthScale=0.6,
 
-            position=SPEECH_TEXT_POSITION,
-            scale=SPEECH_TEXT_SCALE,
+            position=SPEECH_BUBBLE_POSITION,
+            scale=SPEECH_BUBBLE_SCALE,
+
             parent=self.npc,
             persist = True
         )
