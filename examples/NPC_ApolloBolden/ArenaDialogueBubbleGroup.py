@@ -32,6 +32,7 @@ class ArenaDialogueBubbleGroup():
         #Dialogue stuff
         self.dialogue = dialogue
         self.speech = ""
+        self.nodeName = ""
         self.speechIndex = 0
 
         #"Used this line" vars (if command was used this line. Needed to reset things correctly.)
@@ -441,25 +442,36 @@ class ArenaDialogueBubbleGroup():
         self.speech = line.text
         self.speechIndex = 0
 
+        titleText = ""
+        if(USE_NAME_AS_TITLE == True):
+            titleText = NPC_NAME
+        elif(self.nodeName != ""): 
+            titleText = self.nodeName
+        else:
+            titleText = ""
+
         self.speechBubble = Card(
             object_id=NPC_NAME + "_speechBubbleCard",
             
-            title=NPC_NAME,
+            title=titleText,
+
             #imgCaption=NPC_NAME,
 
             body=self.speech,
             bodyAlign="center",
 
-            fontSize = 0.05,
+            fontSize = UI_SPEECH_FONT_SIZE,
             theme = UI_THEME,
+
+            textImageRatio = UI_SPEECH_TEXT_WIDTH,
 
             img = NPC_ICON_URL,
             imgDirection="left",
             imgSize="contain", #cover, contain, stretch
-            
-            widthScale=0.6,
+            widthScale=UI_SPEECH_ICON_WIDTH,
 
             position=SPEECH_BUBBLE_POSITION,
+            rotation=SPEECH_BUBBLE_ROTATION,
             scale=SPEECH_BUBBLE_SCALE,
 
             parent=self.npc,
@@ -533,7 +545,7 @@ class ArenaDialogueBubbleGroup():
             
             evt_handler=self.buttonPanelHandler,
             parent=self.npc,
-            vertical=True,
+            vertical=UI_VERTICAL_BUTTONS,
 
             persist=True
         )
@@ -570,7 +582,7 @@ class ArenaDialogueBubbleGroup():
             choiceButtonNumber = int(choiceButtonID[filterLen:])
             choiceText = self.dialogue.currentNode.lines[self.dialogue.currentNode.currentLineIndex].choices[choiceButtonNumber].text
             choiceNodeName = self.dialogue.currentNode.lines[self.dialogue.currentNode.currentLineIndex].choices[choiceButtonNumber].node
-            
+
             printCyan("  Choice Button with text \"" + choiceText + "\" pressed!")
                         
             self.gotoNodeWithName(choiceNodeName)
@@ -603,6 +615,7 @@ class ArenaDialogueBubbleGroup():
     def gotoNodeWithName(self, nodeName):
         nodeIndex = self.dialogue.getNodeIndexFromString(nodeName)
         if(nodeIndex >= 0):
+            self.nodeName = nodeName
             self.gotoNodeWithIndex(nodeIndex)
             printBlueB("Going to node with name \"" + nodeName + "\"...")
         else:

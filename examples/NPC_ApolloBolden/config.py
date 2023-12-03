@@ -24,7 +24,7 @@ PRINT_VERBOSE = False
 
 #NPC (name Alphanumeric only plus '_', no spaces!)
 NPC_NAME = "NPC_ApolloBolden"
-NPC_GLTF_URL = FILESTORE+"store/users/johnchoi/Objects/Apollo/FlightSuitCharlesFBolden_2014-243-4-15k-2048_std_draco.glb"
+NPC_GLTF_URL = FILESTORE+"store/users/johnchoi/Objects/Apollo/FlightSuitCharlesFBolden_2014-243-4-10k-2048_std_draco.glb"
 NPC_ICON_URL = FILESTORE+"store/users/johnchoi/Objects/Apollo/NMAAHC-2014_243_4_014_screen.jpg"
 
 #ENTER/EXIT SPECIAL EVENT NODES 
@@ -41,7 +41,14 @@ RESET_TIME = 5*60000 #x min of no activity resets interaction.
 TRANSFORM_INTERVAL = 500
 TRANSFORM_TIMER = 3000
 UUID_LEN = 6
+USE_NAME_AS_TITLE = False
+
+#UI
 UI_THEME = "light" #"light" or "dark"
+UI_VERTICAL_BUTTONS = True
+UI_SPEECH_FONT_SIZE = 0.05
+UI_SPEECH_ICON_WIDTH = 0.5
+UI_SPEECH_TEXT_WIDTH = 0.5
 
 #USE DEFAULT ACTIONS
 USE_DEFAULT_ANIMATIONS = True
@@ -66,14 +73,14 @@ COLLIDER_OPACITY = 0.5
 
 #NPC GLTF TRANSFORM
 GLTF_SCALE = Scale(1,1,1)
-GLTF_POSITION = Position(-1,0,0)
-GLTF_ROTATION = Rotation(0,0,0) #radians, not degrees??
+GLTF_POSITION = Position(.6,-.6,0)
+GLTF_ROTATION = Rotation(0,-15,0) #radians, not degrees??
 
 #NPC PLANE SETTINGS (for both images and videos)
-PLANE_SCALE = 0.6
+PLANE_SCALE = 0.3
 PLANE_SCALE_DURATION = 500
-PLANE_POSITION = Position(.7,.9,0)
-PLANE_ROTATION = Rotation(0,-5,0) #radians, not degrees??
+PLANE_POSITION = Position(.6,-0.1,0.2)
+PLANE_ROTATION = Rotation(0,0,0) #radians, not degrees??
 
 PLANE_OPACITY = 0.9
 
@@ -82,19 +89,17 @@ SPEECH_INTERVAL = 100
 SPEECH_SPEED = 3
 SPEECH_TEXT_COLOR = Color(250,100,250)
 
-SPEECH_TEXT_POSITION = Position(0,1.5,0)
-SPEECH_TEXT_SCALE = Scale(1,1,1)
-
-SPEECH_BUBBLE_POSITION = Position(0,1.3,0)
-SPEECH_BUBBLE_SCALE = Scale(.5,.5,.5)
+SPEECH_BUBBLE_POSITION = Position(-.0,-.4,0.15)
+SPEECH_BUBBLE_ROTATION = Rotation(0,5,0)
+SPEECH_BUBBLE_SCALE = Scale(.4,.4,.4)
 
 #CHOICE SETTINGS
 CHOICE_TEXT_COLOR = Color(255,255,255)
 CHOICE_BUBBLE_COLOR = Color(0,0,200)
 CHOICE_BUBBLE_OPACITY = 0.5
 
-CHOICE_BUBBLE_ROTATION = Rotation(0,-5,0)
-CHOICE_BUBBLE_POSITION = Position(.7,.5,0)
+CHOICE_BUBBLE_POSITION = Position(1.0, -.4, 0.2)
+CHOICE_BUBBLE_ROTATION = Rotation(0,-15,0)
 CHOICE_BUBBLE_SCALE = Scale(0.3, 0.3, 0.3)
 
 CHOICE_TEXT_SCALE = Scale(0.4, 2, .5)
