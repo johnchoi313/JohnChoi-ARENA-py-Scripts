@@ -151,19 +151,12 @@ class IMG:
         self.size = size
         
 imageMappings = {
-    "yarn"        : IMG(url = FILESTORE+"store/users/johnchoi/Images/yarn.jpg", w = 1340, h = 912, size = 1),
-    "doge"        : IMG(url = FILESTORE+"store/users/johnchoi/Images/doge.jpg", w = 369, h = 273, size = 1),
-    "dragon"      : IMG(url = FILESTORE+"store/users/johnchoi/Images/dragon.jpg", w = 1200, h = 1200, size = 1),
-    "exclamation" : IMG(url = FILESTORE+"store/users/johnchoi/Images/exclamation.png", w = 920, h = 951, size = 1),
-    "fish"        : IMG(url = FILESTORE+"store/users/johnchoi/Images/fish.jpg", w = 800, h = 450, size = 1),
-    "forest"      : IMG(url = FILESTORE+"store/users/johnchoi/Images/forest.jpg", w = 1500, h = 1000, size = 1),
-    "graph"       : IMG(url = FILESTORE+"store/users/johnchoi/Images/graph.png", w = 918, h = 669, size = 1),
-    "meme"        : IMG(url = FILESTORE+"store/users/johnchoi/Images/meme.jpg", w = 800, h = 450, size = 1),
-    "nyan"        : IMG(url = FILESTORE+"store/users/johnchoi/Images/nyan.jpg", w = 800, h = 450, size = 1),
-    "question"    : IMG(url = FILESTORE+"store/users/johnchoi/Images/question.png", w = 360, h = 480, size = 1),
-    "potato"      : IMG(url = FILESTORE+"store/users/johnchoi/Images/potato.jpg", w = 1920, h = 1080, size = 1),
-    "stonks"      : IMG(url = FILESTORE+"store/users/johnchoi/Images/stonks.png", w = 680, h = 510, size = 1),
-    "sushi"       : IMG(url = FILESTORE+"store/users/johnchoi/Images/sushi.jpg", w = 1240, h = 1995, size = 1)
+    "01" : IMG(url = FILESTORE+"store/users/johnchoi/Images/Bolden Pictures/01_NASA_S91-49083_orig.jpg",                         w = 1200, h = 1548, size = 1),
+    "02" : IMG(url = FILESTORE+"store/users/johnchoi/Images/Bolden Pictures/02_Nasa-9.jpg",                                      w = 1200, h = 1208, size = 1),
+    "03" : IMG(url = FILESTORE+"store/users/johnchoi/Images/Bolden Pictures/03_Charles_Bolden_astronaut_photo.jpg",              w = 1200, h = 1529, size = 1),
+    "04" : IMG(url = FILESTORE+"store/users/johnchoi/Images/Bolden Pictures/04_STS-61-C_crew.jpg",                               w = 1200, h = 932, size = 1),
+    "05" : IMG(url = FILESTORE+"store/users/johnchoi/Images/Bolden Pictures/05_Space_Shuttle_Columbia_launches_on_STS-61-C.jpg", w = 1200, h = 960, size = 1),
+    "06" : IMG(url = FILESTORE+"store/users/johnchoi/Images/Bolden Pictures/06_NASA_61c-01-007_orig.jpg",                        w = 1200, h = 783, size = 1)
 }
 
 # Shorthand image names mapped to (Website URL, volume, loop)

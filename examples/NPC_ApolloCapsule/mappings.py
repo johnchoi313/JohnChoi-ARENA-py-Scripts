@@ -151,19 +151,27 @@ class IMG:
         self.size = size
         
 imageMappings = {
-    "yarn"        : IMG(url = FILESTORE+"store/users/johnchoi/Images/yarn.jpg", w = 1340, h = 912, size = 1),
-    "doge"        : IMG(url = FILESTORE+"store/users/johnchoi/Images/doge.jpg", w = 369, h = 273, size = 1),
-    "dragon"      : IMG(url = FILESTORE+"store/users/johnchoi/Images/dragon.jpg", w = 1200, h = 1200, size = 1),
-    "exclamation" : IMG(url = FILESTORE+"store/users/johnchoi/Images/exclamation.png", w = 920, h = 951, size = 1),
-    "fish"        : IMG(url = FILESTORE+"store/users/johnchoi/Images/fish.jpg", w = 800, h = 450, size = 1),
-    "forest"      : IMG(url = FILESTORE+"store/users/johnchoi/Images/forest.jpg", w = 1500, h = 1000, size = 1),
-    "graph"       : IMG(url = FILESTORE+"store/users/johnchoi/Images/graph.png", w = 918, h = 669, size = 1),
-    "meme"        : IMG(url = FILESTORE+"store/users/johnchoi/Images/meme.jpg", w = 800, h = 450, size = 1),
-    "nyan"        : IMG(url = FILESTORE+"store/users/johnchoi/Images/nyan.jpg", w = 800, h = 450, size = 1),
-    "question"    : IMG(url = FILESTORE+"store/users/johnchoi/Images/question.png", w = 360, h = 480, size = 1),
-    "potato"      : IMG(url = FILESTORE+"store/users/johnchoi/Images/potato.jpg", w = 1920, h = 1080, size = 1),
-    "stonks"      : IMG(url = FILESTORE+"store/users/johnchoi/Images/stonks.png", w = 680, h = 510, size = 1),
-    "sushi"       : IMG(url = FILESTORE+"store/users/johnchoi/Images/sushi.jpg", w = 1240, h = 1995, size = 1)
+    "01" : IMG(url = FILESTORE+"store/users/johnchoi/Images/Capsule Pictures/01_DoorsAndWindows.jpg",                    w = 1000, h = 952, size = 1),
+    "02" : IMG(url = FILESTORE+"store/users/johnchoi/Images/Capsule Pictures/02_Windows.jpg",                            w = 1000, h = 857, size = 1),
+    "03" : IMG(url = FILESTORE+"store/users/johnchoi/Images/Capsule Pictures/03_EVAhandlesSeaAnchor.jpg",                w = 984,  h = 599, size = 1),
+    "04" : IMG(url = FILESTORE+"store/users/johnchoi/Images/Capsule Pictures/04_WasteManagementNozzles.jpg",             w = 1000, h = 563, size = 1),
+    "05" : IMG(url = FILESTORE+"store/users/johnchoi/Images/Capsule Pictures/05_S-BandAntenna.jpg",                      w = 1000, h = 563, size = 1),
+    "06" : IMG(url = FILESTORE+"store/users/johnchoi/Images/Capsule Pictures/06_SteamVent.jpg",                          w = 1000, h = 563, size = 1),
+    "07" : IMG(url = FILESTORE+"store/users/johnchoi/Images/Capsule Pictures/07_Reaction_control_systems.jpg",           w = 992,  h = 912, size = 1),
+    "08" : IMG(url = FILESTORE+"store/users/johnchoi/Images/Capsule Pictures/08_CentralHeatShield.jpg",                  w = 1000, h = 1454, size = 1),
+    "09" : IMG(url = FILESTORE+"store/users/johnchoi/Images/Capsule Pictures/09_SextantTelescope2.jpg",                  w = 1000, h = 593, size = 1),
+    "10" : IMG(url = FILESTORE+"store/users/johnchoi/Images/Capsule Pictures/10_UmbilicalConnectorCover1.jpg",           w = 1000, h = 858, size = 1),
+    "11" : IMG(url = FILESTORE+"store/users/johnchoi/Images/Capsule Pictures/11_HoneycombAblator.jpg",                   w = 1000, h = 921, size = 1),
+    "12" : IMG(url = FILESTORE+"store/users/johnchoi/Images/Capsule Pictures/12_AftHeatShield_Compartment.jpg",          w = 1000, h = 1944, size = 1),
+    "13" : IMG(url = FILESTORE+"store/users/johnchoi/Images/Capsule Pictures/13_AvcoatInsertion.jpg",                    w = 976,  h = 684, size = 1),
+    "14" : IMG(url = FILESTORE+"store/users/johnchoi/Images/Capsule Pictures/14_MylarCoating.jpg",                       w = 295,  h = 300, size = 1),
+    "15" : IMG(url = FILESTORE+"store/users/johnchoi/Images/Capsule Pictures/15_CompressionPadsTensionTies.jpg",         w = 1000, h = 854, size = 1),
+    "16" : IMG(url = FILESTORE+"store/users/johnchoi/Images/Capsule Pictures/16_Command_Module_Forward_compartment.jpg", w = 1000, h = 662, size = 1),
+    "17" : IMG(url = FILESTORE+"store/users/johnchoi/Images/Capsule Pictures/17_ForwardHeatShield.jpg",                  w = 1000, h = 1125, size = 1),
+    "18" : IMG(url = FILESTORE+"store/users/johnchoi/Images/Capsule Pictures/18_DyeMarkerUmbilical.jpg",                 w = 1000, h = 682, size = 1),
+    "19" : IMG(url = FILESTORE+"store/users/johnchoi/Images/Capsule Pictures/19_PilotChuteMortars.jpg",                  w = 1000, h = 736, size = 1),
+    "20" : IMG(url = FILESTORE+"store/users/johnchoi/Images/Capsule Pictures/20_ForwardCompartment.jpg",                 w = 1000, h = 810, size = 1),
+    "21" : IMG(url = FILESTORE+"store/users/johnchoi/Images/Capsule Pictures/21_Crew_access_Hatch.jpg",                  w = 1000, h = 537, size = 1),
 }
 
 # Shorthand image names mapped to (Website URL, volume, loop)

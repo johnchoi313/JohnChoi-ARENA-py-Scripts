@@ -467,7 +467,7 @@ class ArenaDialogueBubbleGroup():
 
             img = NPC_ICON_URL,
             imgDirection="left",
-            imgSize="contain", #cover, contain, stretch
+            imgSize=UI_SPEECH_ICON_FILL,
             widthScale=UI_SPEECH_ICON_WIDTH,
 
             position=SPEECH_BUBBLE_POSITION,

@@ -1,7 +1,7 @@
 from arena import *
 
 #DIALOGUE TREE FILE
-DIALOGUE_FILENAME = "video_only.json"
+DIALOGUE_FILENAME = "apollo_bolden.json"
 
 #ARENA SETTINGS
 FILESTORE = "https://arenaxr.org/" #main server
@@ -25,12 +25,12 @@ PRINT_VERBOSE = False
 #NPC (name Alphanumeric only plus '_', no spaces!)
 NPC_NAME = "NPC_ApolloBolden"
 NPC_GLTF_URL = FILESTORE+"store/users/johnchoi/Objects/Apollo/FlightSuitCharlesFBolden_2014-243-4-10k-2048_std_draco.glb"
-NPC_ICON_URL = FILESTORE+"store/users/johnchoi/Objects/Apollo/NMAAHC-2014_243_4_014_screen.jpg"
+NPC_ICON_URL = FILESTORE+"store/users/johnchoi/Objects/Apollo/NMAAHC-2014_243_4_011_screen.jpg"
 
 #ENTER/EXIT SPECIAL EVENT NODES 
 ENTER_INTERVAL = 100
 ENTER_DISTANCE = 10
-ENTER_NODE = "ARENA Videos"
+ENTER_NODE = "Charles F. Bolden's Flight Suit"
 EXIT_NODE = "Exit"
 
 #NO ACTIVITY RESET
@@ -49,6 +49,7 @@ UI_VERTICAL_BUTTONS = True
 UI_SPEECH_FONT_SIZE = 0.05
 UI_SPEECH_ICON_WIDTH = 0.5
 UI_SPEECH_TEXT_WIDTH = 0.5
+UI_SPEECH_ICON_FILL = "cover", #cover, contain, stretch
 
 #USE DEFAULT ACTIONS
 USE_DEFAULT_ANIMATIONS = True
@@ -77,7 +78,7 @@ GLTF_POSITION = Position(.6,-.6,0)
 GLTF_ROTATION = Rotation(0,-15,0) #radians, not degrees??
 
 #NPC PLANE SETTINGS (for both images and videos)
-PLANE_SCALE = 0.3
+PLANE_SCALE = 0.4
 PLANE_SCALE_DURATION = 500
 PLANE_POSITION = Position(.6,-0.1,0.2)
 PLANE_ROTATION = Rotation(0,0,0) #radians, not degrees??
@@ -91,7 +92,7 @@ SPEECH_TEXT_COLOR = Color(250,100,250)
 
 SPEECH_BUBBLE_POSITION = Position(-.0,-.4,0.15)
 SPEECH_BUBBLE_ROTATION = Rotation(0,5,0)
-SPEECH_BUBBLE_SCALE = Scale(.4,.4,.4)
+SPEECH_BUBBLE_SCALE = Scale(.35,.35,.35)
 
 #CHOICE SETTINGS
 CHOICE_TEXT_COLOR = Color(255,255,255)
@@ -100,7 +101,7 @@ CHOICE_BUBBLE_OPACITY = 0.5
 
 CHOICE_BUBBLE_POSITION = Position(1.0, -.4, 0.2)
 CHOICE_BUBBLE_ROTATION = Rotation(0,-15,0)
-CHOICE_BUBBLE_SCALE = Scale(0.3, 0.3, 0.3)
+CHOICE_BUBBLE_SCALE = Scale(0.25, 0.25, 0.25)
 
 CHOICE_TEXT_SCALE = Scale(0.4, 2, .5)
 CHOICE_SCALE_DURATION = 500
