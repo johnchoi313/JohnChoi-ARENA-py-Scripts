@@ -447,21 +447,23 @@ class ArenaDialogueBubbleGroup():
             object_id=NPC_NAME + "_speechBubbleCard",
             
             title=NPC_NAME,
-            imgCaption=NPC_NAME,
+            #imgCaption=NPC_NAME,
 
             body=self.speech,
             bodyAlign="center",
 
             fontSize = 0.05,
+            theme = UI_THEME,
 
             img = NPC_ICON_URL,
             imgDirection="left",
             imgSize="contain", #cover, contain, stretch
             
-            widthScale=0.5,
+            widthScale=0.6,
 
             position=SPEECH_BUBBLE_POSITION,
             scale=SPEECH_BUBBLE_SCALE,
+
             parent=self.npc,
             persist = True
         )
@@ -471,10 +473,7 @@ class ArenaDialogueBubbleGroup():
 
         self.scene.update_object(self.speechBubble) # add the box
         
-
         return self.speechBubble
-
-
 
     def buttonPanelHandler(self, _scene, evt, _msg):
         if evt.type == "buttonClick":
@@ -514,7 +513,6 @@ class ArenaDialogueBubbleGroup():
 
     def createButtonPanel(self, line):
         
-
         buttonTexts = []
         choices = line.choices        
         if(len(choices) > 0): 
@@ -523,14 +521,13 @@ class ArenaDialogueBubbleGroup():
         else: 
             buttonTexts = ["[Next]"]
 
-
         self.buttonPanel = ButtonPanel(
             object_id=NPC_NAME + "(Buttons)",
 
-           
             buttons=buttonTexts,
             
             font="Roboto-Mono",
+            theme = UI_THEME,
 
             position=CHOICE_BUBBLE_POSITION,
             rotation=CHOICE_BUBBLE_ROTATION,

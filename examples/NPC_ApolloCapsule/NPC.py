@@ -47,12 +47,17 @@ class NPC:
             width=ROOT_SIZE,
             height=ROOT_SIZE,
             position=ROOT_POSITION,
-            #rotation=ROOT_ROTATION,
+            rotation=ROOT_ROTATION,
             material = Material(opacity=ROOT_OPACITY, transparent=True, visible=False),
             sound = None,
             persist=True
         )
         scene.add_object(self.root)
+        printLightRedB(ROOT_PARENT)
+        if(ROOT_PARENT != ""):
+            self.root.data.parent = ROOT_PARENT
+            scene.update_object(self.root)
+
         #NPC GLTF
         self.gltf = GLTF(
             object_id=NPC_NAME + "(GLTF)",
@@ -67,45 +72,6 @@ class NPC:
         )
         scene.add_object(self.gltf)
         
-
-        '''
-        #NPC ROOT OBJECT (with debug box)
-        self.collider = Box(
-            object_id=NPC_NAME + "(COLLIDER)",
-            #position=ROOT_POSITION,
-            #rotation=ROOT_ROTATION,
-            scale=COLLIDER_SCALE,
-            color=COLLIDER_COLOR,
-            material = Material(opacity=COLLIDER_OPACITY, transparent=True),
-
-
-            evt_handler=onCollisionHandler,
-            parent=self.root,
-            
-            sound = None,
-            persist=True
-
-
-        )
-        scene.add_object(self.collider)
-        
-        #functions to control choice button click behaviour
-        def onCollisionHandler(self, scene, evt, msg):
-            if evt.type == "mousedown":
-
-                printCyan("  Next Button Pressed!")
-                
-
-                if(USE_DEFAULT_SOUNDS):
-                    self.PlaySound(SOUND_NEXT)
-        '''
-
-        '''
-        https://docs.arenaxr.org/content/python/tutorial/advanced.html#user-management
-        scene.user_join_callback
-        user_left_callback
-        evt_handler=my_collision_listener
-        '''
 
         #NPC IMAGE
         self.image = Image(
@@ -174,7 +140,7 @@ scene.user_join_callback = user_join_callback
     # etc.
 #scene.user_left_callback = user_left_callback
 
-@scene.run_forever(interval_ms=ENTER_INTERVAL)
+#@scene.run_forever(interval_ms=ENTER_INTERVAL)
 def EnterExit_Handler(): #checks whether or not a user is in range of NPC
     users = scene.get_user_list()
     sceneUserCount = len(scene.get_user_list())
@@ -185,11 +151,6 @@ def EnterExit_Handler(): #checks whether or not a user is in range of NPC
         users = []
         sceneUserCount = 0
 
-    '''
-    for user in scene.get_user_list():
-        if user.data.position.distance_to(npc.root.data.position) <= ENTER_DISTANCE:
-            userCount+=1
-    '''
             
     if(npc.userCount != userCount):
         printLightRedB(str(userCount) + " users in area of NPC with name \"" + NPC_NAME + "\".")
@@ -224,7 +185,7 @@ def Reset_Handler(): #RESET_TIME milliseconds of no activity resets interaction.
 #    npc.bubbles.PlayLastTransform()
 #    npc.bubbles.reloadCurrentLine()
 
-@scene.run_forever(interval_ms=SPEECH_INTERVAL)
+#@scene.run_forever(interval_ms=SPEECH_INTERVAL)
 def Speech_Handler(): #iteratively adds characters to speech bubble
 
     if(npc.bubbles.checkIfArenaObjectExists(npc.bubbles.speechBubble)):
