@@ -53,6 +53,11 @@ class NPC:
             persist=True
         )
         scene.add_object(self.root)
+
+        self.root.data["remote-render"] = "{enabled: False}"
+        scene.update_object(self.root)
+
+
         #NPC GLTF
         self.gltf = GLTF(
             object_id=NPC_NAME + "(GLTF)",
@@ -66,7 +71,9 @@ class NPC:
             persist=True
         )
         scene.add_object(self.gltf)
-        
+
+        self.gltf.data["remote-render"] = "{enabled: False}"
+        scene.update_object(self.gltf)
 
         '''
         #NPC ROOT OBJECT (with debug box)
@@ -118,7 +125,11 @@ class NPC:
             parent=self.root,
             persist=True
         )
-        scene.add_object(self.image)    
+        scene.add_object(self.image)   
+
+        self.image.data["remote-render"] = {"enabled": False}
+        scene.update_object(self.image)
+
         #NPC VIDEO
         self.video = Plane(
             object_id=NPC_NAME + "(VIDEO)",
@@ -131,7 +142,10 @@ class NPC:
             persist=True
         )
         scene.add_object(self.video)
-        
+
+        self.video.data["remote-render"] = {"enabled": False}
+        scene.update_object(self.video)
+
         #Create Bubbles
         self.bubbles = ArenaDialogueBubbleGroup(self.scene, self.root , self.gltf, self.image, self.video, self.dialogue)
 
@@ -286,6 +300,8 @@ def Speech_Handler(): #iteratively adds characters to speech bubble
         #Iterate through speech bubble text
         npc.bubbles.speechBubble.data.body = npc.bubbles.speech[:npc.bubbles.speechIndex * SPEECH_SPEED]
         #if(npc.bubbles.speechBubble.data.text != npc.bubbles.speech):
+        npc.bubbles.speechBubble.data["remote-render"] = {"enabled": False}
+        
         scene.update_object(npc.bubbles.speechBubble)
         
         

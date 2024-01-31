@@ -54,6 +54,7 @@ class ArenaDialogueBubbleGroup():
 
     def addResetClickHandler(self):
         self.gltf.data.evt_handler=self.OnClickReloadCurrentLine
+        self.gltf.data["remote-render"] = {"enabled": False}
         self.scene.update_object(self.gltf)
         
     #reinitializes and restarts the interaction
@@ -94,8 +95,12 @@ class ArenaDialogueBubbleGroup():
         if(PRINT_VERBOSE):
             printWhiteB("Playing sound...")
         self.npc.data.sound=None #resets so can play same sound again
+
+        self.npc.data["remote-render"] = {"enabled": False}        
         self.scene.update_object(self.npc)
         self.npc.data.sound=sound
+
+        self.npc.data["remote-render"] = {"enabled": False}
         self.scene.update_object(self.npc)
 
     #Animations
@@ -144,6 +149,8 @@ class ArenaDialogueBubbleGroup():
         transform = self.lastTransform
         p = getVectorFromString(transform[0].end)
         self.npc.data.position = Position(p[0], p[1], p[2])
+
+        self.npc.data["remote-render"] = {"enabled": False}
         self.scene.update_object(self.npc)
 
     def PlayLastTransform(self):
@@ -161,6 +168,7 @@ class ArenaDialogueBubbleGroup():
         if(PRINT_VERBOSE):
             printWhiteB("Playing morph...")
         self.gltf.update_morph(morphs)
+        self.gltf.data["remote-render"] = {"enabled": False}
         self.scene.update_object(self.gltf)
 
     #GotoUrl
@@ -214,7 +222,11 @@ class ArenaDialogueBubbleGroup():
 
         self.linkButton.box.data.goto_url = gotoUrl
         self.linkButton.text.data.text = gotoUrl.url
+        
+        self.linkButton.box.data["remote-render"] = {"enabled": False}
         self.scene.update_object(self.linkButton.box)
+
+        self.linkButton.text.data["remote-render"] = {"enabled": False}
         self.scene.update_object(self.linkButton.text)
 
     #Videos
@@ -245,25 +257,16 @@ class ArenaDialogueBubbleGroup():
         if(PRINT_VERBOSE):
             printWhiteB("Playing video...")
         
-        '''
-        #VideoControl Method
-        self.video.data.material=None
-
-        #self.video.data.video_control=None 
-        #self.scene.update_object(self.video)
-        
-        self.ShowVideo(self.getNewScale(video.w, video.h, video.size))
-        
-        self.video.data.video_control=video
-        self.video.data.video_control.video_object = self.video.object_id
-        self.scene.update_object(self.video)
-        '''
-        
         #Src Video Material Method
         self.video.data.material=None 
+        
+        self.video.data["remote-render"] = {"enabled": False}
         self.scene.update_object(self.video)
+        
         self.ShowVideo(self.getNewScale(video.w, video.h, video.size))
         self.video.data.material=video
+
+        self.video.data["remote-render"] = {"enabled": False}
         self.scene.update_object(self.video)
 
     def HideVideo(self):
@@ -292,8 +295,11 @@ class ArenaDialogueBubbleGroup():
     def PlayImage(self, img):
         if(PRINT_VERBOSE):
             printWhiteB("Playing image...")
+        
         self.ShowImage(self.getNewScale(img.w, img.h, img.size))
+        self.image.data["remote-render"] = {"enabled": False}
         self.scene.update_object(self.image, url = img.url)
+
     def HideImage(self):
         self.ScaleAnimation(self.image, self.lastImageSize, Scale(0,0,random.uniform(0, 0.01)))
         self.lastImageSize = Scale(0,0,0)
@@ -329,6 +335,7 @@ class ArenaDialogueBubbleGroup():
     def SetVisible(self, key, visible):            
         if (self.scene.all_objects.get(key) is not None):
             self.scene.all_objects.get[key].data.visible = visible
+            self.scene.all_objects.get[key].data["remote-render"] = {"enabled": False}
             self.scene.update_object(self.scene.all_objects.get[key])
         else:
             if(PRINT_VERBOSE):
@@ -469,6 +476,7 @@ class ArenaDialogueBubbleGroup():
         
         self.speechBubble.data["textImageRatio"] = 2.5
 
+        self.speechBubble.data["remote-render"] = {"enabled": False}
         self.scene.update_object(self.speechBubble) # add the box
         
 
@@ -544,7 +552,10 @@ class ArenaDialogueBubbleGroup():
         )
         self.scene.add_object(self.buttonPanel)
 
-    
+        self.buttonPanel.data["remote-render"] = {"enabled": False}
+        self.scene.update_object(self.buttonPanel) # add the box
+        
+
     def randomUUID(self, n = 6):
         return ''.join(random.choices(string.ascii_uppercase + string.digits, k=n))
 
