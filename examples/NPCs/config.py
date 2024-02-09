@@ -7,7 +7,7 @@ DIALOGUE_FILENAME = "robot_arena.json"
 FILESTORE = "https://arenaxr.org/" #main server
 HOST = "arenaxr.org"          #main server
 NAMESPACE = "public" #"johnchoi"
-SCENE = "arena-live" #"NPC"
+SCENE = "arena" #"NPC"
 
 #DEVELOPER DEBUG SETTINGS
 USE_DEV_ARENAPY = False
