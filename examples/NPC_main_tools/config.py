@@ -1,13 +1,6 @@
+from ColorPrinter import *
 from arena import *
-
-#DIALOGUE TREE FILE
-DIALOGUE_FILENAME = "apollo_bolden.json"
-
-#ARENA SETTINGS
-FILESTORE = "https://arenaxr.org/" #main server
-HOST = "arenaxr.org"          #main server
-NAMESPACE = "johnchoi" #"johnchoi"
-SCENE = "Astronaut" #"NPC"
+import json
 
 #DEVELOPER DEBUG SETTINGS
 USE_DEV_ARENAPY = False
@@ -22,96 +15,118 @@ if(USE_DEV_SERVER):
 
 PRINT_VERBOSE = False
 
+# CLI ARGUMENT: CONFIG (Contains path to dialogue file, mappings file, and various settings)
+CONFIG_FILENAME = "config.json"
+
+# Open config file
+f = open(CONFIG_FILENAME)
+jsonString = f.read()
+configJson = json.loads(jsonString) 
+
+
+def ToPosition(json):
+    return Position(json["x"],json["y"],json["z"])
+def ToRotation(json):
+    return Rotation(json["x"],json["y"],json["z"])
+def ToScale(json):
+    return Scale(json["x"],json["y"],json["z"])
+def ToColor(json):
+    return Color(json["r"],json["g"],json["b"])
+
+
+
+#GET DIALOGUE AND MAPPINGS FILENAMES
+DIALOGUE_FILENAME = configJson["DIALOGUE_FILENAME"] #"robot_arena.json"
+MAPPINGS_FILENAME = configJson["MAPPINGS_FILENAME"] #"mappings.json"
+
+#ARENA CONNECTION SETTINGS
+HOST = configJson["HOST"]           #"arenaxr.org"      
+NAMESPACE = configJson["NAMESPACE"] #"johnchoi"
+SCENE = configJson["SCENE"]         #"arena"
+
 #NPC (name Alphanumeric only plus '_', no spaces!)
-NPC_NAME = "NPC_ApolloBolden"
-NPC_GLTF_URL = FILESTORE+"store/users/johnchoi/Objects/Apollo/FlightSuitCharlesFBolden_2014-243-4-10k-2048_std_draco.glb"
-NPC_ICON_URL = FILESTORE+"store/users/johnchoi/Objects/Apollo/NMAAHC-2014_243_4_011_screen.jpg"
+NPC_NAME = configJson["NPC_NAME"]         #"NPC_RobotBuddy"
+NPC_GLTF_URL = configJson["NPC_GLTF_URL"] #"https://arenaxr.org/store/users/johnchoi/Characters/RobotBuddy/RobotBuddyBlue.glb"
+NPC_ICON_URL = configJson["NPC_GLTF_URL"] #"https://arenaxr.org/store/users/johnchoi/Characters/RobotBuddy/RobotBuddyBlue.png"
 
 #ENTER/EXIT SPECIAL EVENT NODES 
-ENTER_INTERVAL = 100
-ENTER_DISTANCE = 10
-ENTER_NODE = "Charles F. Bolden's Flight Suit"
-EXIT_NODE = "Exit"
+ENTER_NODE = configJson["ENTER_NODE"] #"Enter"
+EXIT_NODE = configJson["EXIT_NODE"]   #"Exit"
 
 #NO ACTIVITY RESET
-RESET_INTERVAL = 100
-RESET_TIME = 5*60000 #x min of no activity resets interaction.
+RESET_INTERVAL = configJson["RESET_INTERVAL"] #100
+RESET_TIME = configJson["RESET_TIME"] #5*60000 #x min of no activity resets interaction.
 
 #MISCELLANEOUS
-TRANSFORM_INTERVAL = 500
-TRANSFORM_TIMER = 3000
-UUID_LEN = 6
-USE_NAME_AS_TITLE = False
+TRANSFORM_INTERVAL = configJson["TRANSFORM_INTERVAL"] #500
+TRANSFORM_TIMER = configJson["TRANSFORM_TIMER"]       #3000
 
 #UI
-UI_THEME = "light" #"light" or "dark"
-UI_VERTICAL_BUTTONS = True
-UI_SPEECH_FONT_SIZE = 0.05
-UI_SPEECH_ICON_WIDTH = 0.5
-UI_SPEECH_TEXT_WIDTH = 0.5
-UI_SPEECH_ICON_FILL = "cover", #cover, contain, stretch
+USE_NAME_AS_TITLE = configJson["USE_NAME_AS_TITLE"]       #False
+UI_THEME = configJson["UI_THEME"]                         #"light" or "dark"
+UI_VERTICAL_BUTTONS = configJson["UI_VERTICAL_BUTTONS"]   #True
+UI_SPEECH_FONT_SIZE = configJson["UI_SPEECH_FONT_SIZE"]   #0.05
+UI_SPEECH_TEXT_WIDTH = configJson["UI_SPEECH_TEXT_WIDTH"] #0.5
+UI_SPEECH_ICON_WIDTH = configJson["UI_SPEECH_ICON_WIDTH"] #0.5
+UI_SPEECH_ICON_FILL = configJson["UI_SPEECH_ICON_FILL"]   #cover, contain, stretch
 
 #USE DEFAULT ACTIONS
-USE_DEFAULT_ANIMATIONS = True
-USE_DEFAULT_MORPHS = True
-USE_DEFAULT_SOUNDS = True
+USE_DEFAULT_ANIMATIONS = configJson["USE_DEFAULT_ANIMATIONS"] #True
+USE_DEFAULT_MORPHS = configJson["USE_DEFAULT_MORPHS"]         #True
+USE_DEFAULT_SOUNDS = configJson["USE_DEFAULT_SOUNDS"]         #True
 
 #NPC ROOT TRANSFORM
-ROOT_PARENT = "marker1"
-
-ROOT_SCALE = Scale(1,1,1)
-ROOT_SIZE = 0.2
-
-ROOT_POSITION = Position(0,0,0) #This is the start position
-ROOT_ROTATION = Rotation(0,0,0)
-
-ROOT_COLOR = Color(255,100,16)
-ROOT_OPACITY = 0.5
-
-COLLIDER_SCALE   = Scale(5,5,5)
-COLLIDER_COLOR   = Color(255,100,16)
-COLLIDER_OPACITY = 0.5
+ROOT_PARENT = configJson["ROOT_PARENT"]     #"" or "marker1"
+ROOT_SCALE = ToScale(configJson["ROOT_SCALE"])       #Scale(0.8,0.8,0.8)
+ROOT_SIZE = configJson["ROOT_SIZE"]         #0.2
+ROOT_POSITION = ToPosition(configJson["ROOT_POSITION"]) #Position(7.2, 0.0, -2.8) #This is the start position
+ROOT_ROTATION = ToRotation(configJson["ROOT_ROTATION"]) #Rotation(0,0,0)
+ROOT_COLOR = ToColor(configJson["ROOT_COLOR"])       #Color(255,100,16)
+ROOT_OPACITY = configJson["ROOT_OPACITY"]   #0.5
 
 #NPC GLTF TRANSFORM
-GLTF_SCALE = Scale(1,1,1)
-GLTF_POSITION = Position(.6,-.6,0)
-GLTF_ROTATION = Rotation(0,-15,0) #radians, not degrees??
+GLTF_SCALE = ToScale(configJson["GLTF_SCALE"])       #Scale(1,1,1)
+GLTF_POSITION = ToPosition(configJson["GLTF_POSITION"]) #Position(0,0,0)
+GLTF_ROTATION = ToRotation(configJson["GLTF_ROTATION"]) #Rotation(0,180,0) 
 
 #NPC PLANE SETTINGS (for both images and videos)
-PLANE_SCALE = 0.4
-PLANE_SCALE_DURATION = 500
-PLANE_POSITION = Position(.6,-0.1,0.2)
-PLANE_ROTATION = Rotation(0,0,0) #radians, not degrees??
-
-PLANE_OPACITY = 0.9
+PLANE_SIZE = configJson["PLANE_SIZE"]                  #1.2
+PLANE_SIZE_DURATION = configJson["PLANE_SIZE_DURATION"] #500
+PLANE_POSITION = ToPosition(configJson["PLANE_POSITION"])             #Position(1.5,0.8,0)
+PLANE_ROTATION = ToRotation(configJson["PLANE_ROTATION"])             #Rotation(0,-15,0) 
+PLANE_OPACITY = configJson["PLANE_OPACITY"]               #0.9
 
 #SPEECH SETTINGS
-SPEECH_INTERVAL = 100
-SPEECH_SPEED = 3
-SPEECH_TEXT_COLOR = Color(250,100,250)
+SPEECH_INTERVAL = configJson["SPEECH_INTERVAL"] #100
+SPEECH_SPEED = configJson["SPEECH_SPEED"]       #3
 
-SPEECH_BUBBLE_POSITION = Position(-.0,-.4,0.15)
-SPEECH_BUBBLE_ROTATION = Rotation(0,5,0)
-SPEECH_BUBBLE_SCALE = Scale(.35,.35,.35)
+SPEECH_TEXT_COLOR = configJson["SPEECH_TEXT_COLOR"]       #Color(250,100,250)
+SPEECH_TEXT_POSITION = configJson["SPEECH_TEXT_POSITION"] #Position(0,1.6,0)
+SPEECH_TEXT_SCALE = configJson["SPEECH_TEXT_SCALE"]       #Scale(0.6,0.7,0.7)
+
+SPEECH_BUBBLE_POSITION = ToPosition(configJson["SPEECH_BUBBLE_POSITION"]) #Position(0,1.7,0)
+SPEECH_BUBBLE_ROTATION = ToRotation(configJson["SPEECH_BUBBLE_ROTATION"]) #Rotation(0,5,0)
+SPEECH_BUBBLE_SCALE = ToScale(configJson["SPEECH_BUBBLE_SCALE"])       #Scale(1,1,1)
 
 #CHOICE SETTINGS
-CHOICE_TEXT_COLOR = Color(255,255,255)
-CHOICE_BUBBLE_COLOR = Color(0,0,200)
-CHOICE_BUBBLE_OPACITY = 0.5
+CHOICE_TEXT_COLOR = ToColor(configJson["CHOICE_TEXT_COLOR"])         #Color(255,255,255)
+CHOICE_BUBBLE_COLOR = ToColor(configJson["CHOICE_BUBBLE_COLOR"])     #Color(0,0,200)
+CHOICE_BUBBLE_OPACITY = configJson["CHOICE_BUBBLE_OPACITY"] #0.5
 
-CHOICE_BUBBLE_POSITION = Position(1.1, -.4, 0.2)
-CHOICE_BUBBLE_ROTATION = Rotation(0,-15,0)
-CHOICE_BUBBLE_SCALE = Scale(0.35, 0.35, 0.35)
+CHOICE_BUBBLE_POSITION = ToPosition(configJson["CHOICE_BUBBLE_POSITION"]) #Position(-0.95,0.6,0.4)
+CHOICE_BUBBLE_ROTATION = ToRotation(configJson["CHOICE_BUBBLE_ROTATION"]) #Rotation(0,15,0)
+CHOICE_BUBBLE_OFFSET_Y = configJson["CHOICE_BUBBLE_OFFSET_Y"] #0.25
 
-CHOICE_TEXT_SCALE = Scale(0.4, 2, .5)
-CHOICE_SCALE_DURATION = 500
+CHOICE_BUBBLE_SCALE = ToScale(configJson["CHOICE_BUBBLE_SCALE"])     #Scale(0.8, 0.8, 0.8)
+CHOICE_TEXT_SCALE = ToScale(configJson["CHOICE_TEXT_SCALE"])        #Scale(0.4, 2, .5)
+CHOICE_SCALE_DURATION = configJson["CHOICE_SCALE_DURATION"] #500
 
 #URL SETTINGS
-LINK_TEXT_COLOR = Color(255,255,255)
-LINK_BUBBLE_COLOR = Color(0,200,100)
-LINK_BUBBLE_OPACITY = 0.8
+LINK_TEXT_COLOR = ToColor(configJson["LINK_TEXT_COLOR"])         #Color(255,255,255)
+LINK_BUBBLE_COLOR = ToColor(configJson["LINK_BUBBLE_COLOR"])     #Color(0,200,100)
+LINK_BUBBLE_OPACITY = configJson["LINK_BUBBLE_OPACITY"] #0.8
 
-LINK_BUBBLE_POSITION = Position(0,0.8,0.7)
-LINK_BUBBLE_ROTATION = Rotation(0,0,0)
-LINK_BUBBLE_SCALE = Scale(1.5, 0.2, 0.08)
-LINK_TEXT_SCALE = Scale(0.2, 2, .5)
+LINK_BUBBLE_POSITION = ToPosition(configJson["LINK_BUBBLE_POSITION"]) #Position(0,0.8,0.7)
+LINK_BUBBLE_ROTATION = ToRotation(configJson["LINK_BUBBLE_ROTATION"]) #Rotation(0,0,0)
+LINK_BUBBLE_SCALE = ToScale(configJson["LINK_BUBBLE_SCALE"])       #Scale(1.5, 0.2, 0.08)
+LINK_TEXT_SCALE = ToScale(configJson["LINK_TEXT_SCALE"])           #Scale(0.2, 2, .5)

@@ -1,4 +1,7 @@
+
+from ColorPrinter import *
 from config import *
+import json
 
 import sys
 if(USE_DEV_ARENAPY):
@@ -6,16 +9,26 @@ if(USE_DEV_ARENAPY):
 
 from arena import *
 
+# Open config file
+f = open(MAPPINGS_FILENAME)
+jsonString = f.read()
+mappingsJson = json.loads(jsonString) 
+
+
+
+
+
+
 #---PRE-DEFINED DEFAULT ACTIONS (triggered when talking/moving/clicking/etc)---#
 
 #DEFAULT SOUNDS (set these to None if you don't want default sound effects, or set USE_DEFAULT_SOUNDS = False)
-SOUND_NEXT    = Sound(volume=1.0, autoplay=True, positional=True, src=FILESTORE+"store/users/johnchoi/Sounds/NPC/Next.wav")
-SOUND_CHOICE  = Sound(volume=1.0, autoplay=True, positional=True, src=FILESTORE+"store/users/johnchoi/Sounds/NPC/Choice.wav")
-SOUND_ENTER   = Sound(volume=0.8, autoplay=True, positional=True, src=FILESTORE+"store/users/johnchoi/Sounds/NPC/Enter.wav")
-SOUND_EXIT    = Sound(volume=0.8, autoplay=True, positional=True, src=FILESTORE+"store/users/johnchoi/Sounds/NPC/Exit.wav")
-SOUND_IMAGE   = Sound(volume=0.8, autoplay=True, positional=True, src=FILESTORE+"store/users/johnchoi/Sounds/NPC/Enter.wav")
-SOUND_TALKING = Sound(volume=1.0, autoplay=True, positional=True, src=FILESTORE+"store/users/johnchoi/Sounds/NPC/Talking.wav")
-SOUND_WALKING = Sound(volume=1.0, autoplay=True, positional=True, src=FILESTORE+"store/users/johnchoi/Sounds/NPC/Walking.wav") #Not applied yet, TODO
+SOUND_NEXT    = Sound(volume=1.0, autoplay=True, positional=True, src="https://arenaxr.org/store/users/johnchoi/Sounds/NPC/Next.wav")
+SOUND_CHOICE  = Sound(volume=1.0, autoplay=True, positional=True, src="https://arenaxr.org/store/users/johnchoi/Sounds/NPC/Choice.wav")
+SOUND_ENTER   = Sound(volume=0.8, autoplay=True, positional=True, src="https://arenaxr.org/store/users/johnchoi/Sounds/NPC/Enter.wav")
+SOUND_EXIT    = Sound(volume=0.8, autoplay=True, positional=True, src="https://arenaxr.org/store/users/johnchoi/Sounds/NPC/Exit.wav")
+SOUND_IMAGE   = Sound(volume=0.8, autoplay=True, positional=True, src="https://arenaxr.org/store/users/johnchoi/Sounds/NPC/Enter.wav")
+SOUND_TALKING = Sound(volume=1.0, autoplay=True, positional=True, src="https://arenaxr.org/store/users/johnchoi/Sounds/NPC/Talking.wav")
+SOUND_WALKING = Sound(volume=1.0, autoplay=True, positional=True, src="https://arenaxr.org/store/users/johnchoi/Sounds/NPC/Walking.wav") #Not applied yet, TODO
 
 #DEFAULT ANIMATIONS (set these to None if you don't want default animations, or set USE_DEFAULT_ANIMATIONS = False)
 ANIM_IDLE = AnimationMixer(clip="Idle", loop="repeat", timeScale = 1, crossFadeDuration=0.5)
@@ -30,7 +43,7 @@ MORPH_BLINK_OFF = [Morph(morphtarget="Blink",value=0.0)]
 MORPH_RESET =     [Morph(morphtarget="a",value=0.0), Morph(morphtarget="Blink",value=0.0)]
 
 #DEFAULT VIDEO LOADING FRAME
-DEFAULT_VIDEO_FRAME_OBJECT = FILESTORE+"store/users/wiselab/images/conix-face-white.jpg"
+DEFAULT_VIDEO_FRAME_OBJECT = "https://arenaxr.org/store/users/wiselab/images/conix-face-white.jpg"
 
 #DEFAULT TRANSFORM 
 TRANSFORM_RESET = [ Animation(property="position", end=ROOT_POSITION, easing="easeInOutSine", dur=TRANSFORM_TIMER), 
@@ -42,12 +55,12 @@ TRANSFORM_RESET = [ Animation(property="position", end=ROOT_POSITION, easing="ea
 # --Sound Schema: https://docs.arenaxr.org/content/schemas/message/sound.html
 # --Sound Example: https://github.com/arenaxr/arena-py/blob/master/examples/attributes/sound.py 
 soundMappings = {
-    "next"    : Sound(volume=1.0, autoplay=True, positional=True, src=FILESTORE+"store/users/johnchoi/Sounds/NPC/Next.wav"),
-    "choice"  : Sound(volume=1.0, autoplay=True, positional=True, src=FILESTORE+"store/users/johnchoi/Sounds/NPC/Choice.wav"),
-    "enter"   : Sound(volume=0.8, autoplay=True, positional=True, src=FILESTORE+"store/users/johnchoi/Sounds/NPC/Enter.wav"),
-    "exit"    : Sound(volume=0.8, autoplay=True, positional=True, src=FILESTORE+"store/users/johnchoi/Sounds/NPC/Exit.wav"),
-    "talking" : Sound(volume=1.0, autoplay=True, positional=True, src=FILESTORE+"store/users/johnchoi/Sounds/NPC/Talking.wav"),
-    "jingle"  : Sound(volume=1.0, autoplay=True, positional=True, src=FILESTORE+"store/users/johnchoi/Sounds/jingle.wav")
+    "next"    : Sound(volume=1.0, autoplay=True, positional=True, src="https://arenaxr.org/store/users/johnchoi/Sounds/NPC/Next.wav"),
+    "choice"  : Sound(volume=1.0, autoplay=True, positional=True, src="https://arenaxr.org/store/users/johnchoi/Sounds/NPC/Choice.wav"),
+    "enter"   : Sound(volume=0.8, autoplay=True, positional=True, src="https://arenaxr.org/store/users/johnchoi/Sounds/NPC/Enter.wav"),
+    "exit"    : Sound(volume=0.8, autoplay=True, positional=True, src="https://arenaxr.org/store/users/johnchoi/Sounds/NPC/Exit.wav"),
+    "talking" : Sound(volume=1.0, autoplay=True, positional=True, src="https://arenaxr.org/store/users/johnchoi/Sounds/NPC/Talking.wav"),
+    "jingle"  : Sound(volume=1.0, autoplay=True, positional=True, src="https://arenaxr.org/store/users/johnchoi/Sounds/jingle.wav")
 }
 
 # Shorthand animation names mapped to (animationName, crossFade, timeScale, loopMode['once', 'repeat', 'pingpong'])
@@ -151,12 +164,19 @@ class IMG:
         self.size = size
         
 imageMappings = {
-    "01" : IMG(url = FILESTORE+"store/users/johnchoi/Images/Bolden Pictures/01_NASA_S91-49083_orig.jpg",                         w = 1200, h = 1548, size = 1),
-    "02" : IMG(url = FILESTORE+"store/users/johnchoi/Images/Bolden Pictures/02_Nasa-9.jpg",                                      w = 1200, h = 1208, size = 1),
-    "03" : IMG(url = FILESTORE+"store/users/johnchoi/Images/Bolden Pictures/03_Charles_Bolden_astronaut_photo.jpg",              w = 1200, h = 1529, size = 1),
-    "04" : IMG(url = FILESTORE+"store/users/johnchoi/Images/Bolden Pictures/04_STS-61-C_crew.jpg",                               w = 1200, h = 932, size = 1),
-    "05" : IMG(url = FILESTORE+"store/users/johnchoi/Images/Bolden Pictures/05_Space_Shuttle_Columbia_launches_on_STS-61-C.jpg", w = 1200, h = 960, size = 1),
-    "06" : IMG(url = FILESTORE+"store/users/johnchoi/Images/Bolden Pictures/06_NASA_61c-01-007_orig.jpg",                        w = 1200, h = 783, size = 1)
+    "yarn"        : IMG(url = "https://arenaxr.org/store/users/johnchoi/Images/yarn.jpg", w = 1340, h = 912, size = 1),
+    "doge"        : IMG(url = "https://arenaxr.org/store/users/johnchoi/Images/doge.jpg", w = 369, h = 273, size = 1),
+    "dragon"      : IMG(url = "https://arenaxr.org/store/users/johnchoi/Images/dragon.jpg", w = 1200, h = 1200, size = 1),
+    "exclamation" : IMG(url = "https://arenaxr.org/store/users/johnchoi/Images/exclamation.png", w = 920, h = 951, size = 1),
+    "fish"        : IMG(url = "https://arenaxr.org/store/users/johnchoi/Images/fish.jpg", w = 800, h = 450, size = 1),
+    "forest"      : IMG(url = "https://arenaxr.org/store/users/johnchoi/Images/forest.jpg", w = 1500, h = 1000, size = 1),
+    "graph"       : IMG(url = "https://arenaxr.org/store/users/johnchoi/Images/graph.png", w = 918, h = 669, size = 1),
+    "meme"        : IMG(url = "https://arenaxr.org/store/users/johnchoi/Images/meme.jpg", w = 800, h = 450, size = 1),
+    "nyan"        : IMG(url = "https://arenaxr.org/store/users/johnchoi/Images/nyan.jpg", w = 800, h = 450, size = 1),
+    "question"    : IMG(url = "https://arenaxr.org/store/users/johnchoi/Images/question.png", w = 360, h = 480, size = 1),
+    "potato"      : IMG(url = "https://arenaxr.org/store/users/johnchoi/Images/potato.jpg", w = 1920, h = 1080, size = 1),
+    "stonks"      : IMG(url = "https://arenaxr.org/store/users/johnchoi/Images/stonks.png", w = 680, h = 510, size = 1),
+    "sushi"       : IMG(url = "https://arenaxr.org/store/users/johnchoi/Images/sushi.jpg", w = 1240, h = 1995, size = 1)
 }
 
 # Shorthand image names mapped to (Website URL, volume, loop)
@@ -164,26 +184,35 @@ imageMappings = {
 # --Url Example: https://github.com/arenaxr/arena-py/blob/master/examples/attributes/material.py
 videoMappings = {
     #Src Video Material Method
-    "rays"       : Material(src = FILESTORE+"store/users/johnchoi/Videos/rays.mp4", transparent = True, opacity = PLANE_OPACITY, w = 1920, h = 1080, size = 1),
-    "hydroponic" : Material(src = FILESTORE+"store/users/johnchoi/Videos/hydroponic.mp4", transparent = True, opacity = PLANE_OPACITY, w = 1920, h = 1080, size = 1),
-    "greenhouse" : Material(src = FILESTORE+"store/users/johnchoi/Videos/greenhouse.mp4", transparent = True, opacity = PLANE_OPACITY, w = 1920, h = 1080, size = 1),
+    "rays"       : Material(src = "https://arenaxr.org/store/users/johnchoi/Videos/rays.mp4", transparent = True, opacity = PLANE_OPACITY, w = 1920, h = 1080, size = 1),
+    "hydroponic" : Material(src = "https://arenaxr.org/store/users/johnchoi/Videos/hydroponic.mp4", transparent = True, opacity = PLANE_OPACITY, w = 1920, h = 1080, size = 1),
+    "greenhouse" : Material(src = "https://arenaxr.org/store/users/johnchoi/Videos/greenhouse.mp4", transparent = True, opacity = PLANE_OPACITY, w = 1920, h = 1080, size = 1),
     
-    "1" : Material(src = FILESTORE+"store/users/johnchoi/Videos/ARENA/20200707_ARENA - A Collaborative Mixed Reality Environment.mp4", 
+    #"rays"       : Material(src = "https://arenaxr.org/store/users/johnchoi/Videos/rays.mp4", transparent = True, opacity = PLANE_OPACITY, w = 1920, h = 1080, size = 1),
+    #"hydroponic" : Material(src = "https://arenaxr.org/store/users/johnchoi/Videos/hydroponic.mp4", transparent = True, opacity = PLANE_OPACITY, w = 1920, h = 1080, size = 1),
+    #"greenhouse" : Material(src = "https://arenaxr.org/store/users/johnchoi/Videos/greenhouse.mp4", transparent = True, opacity = PLANE_OPACITY, w = 1920, h = 1080, size = 1)
+
+    "1" : Material(src = "https://arenaxr.org/store/users/johnchoi/Videos/ARENA/20200707_ARENA - A Collaborative Mixed Reality Environment.mp4", 
                    transparent = True, opacity = PLANE_OPACITY, w = 1920, h = 1080, size = 1),
-    "2" : Material(src = FILESTORE+"store/users/johnchoi/Videos/ARENA/20200819_ARENA Collaborative AR Authoring Tool Demo.mp4", 
+    "2" : Material(src = "https://arenaxr.org/store/users/johnchoi/Videos/ARENA/20200819_ARENA Collaborative AR Authoring Tool Demo.mp4", 
                    transparent = True, opacity = PLANE_OPACITY, w = 1920, h = 1080, size = 1),
-    "3" : Material(src = FILESTORE+"store/users/johnchoi/Videos/ARENA/20200819_ARENA Indoor Location Tracking Demo.mp4", 
+    "3" : Material(src = "https://arenaxr.org/store/users/johnchoi/Videos/ARENA/20200819_ARENA Indoor Location Tracking Demo.mp4", 
                    transparent = True, opacity = PLANE_OPACITY, w = 1920, h = 1080, size = 1),
-    "4" : Material(src = FILESTORE+"store/users/johnchoi/Videos/ARENA/20200819_ARENA Micro-UAV Swarm Control.mp4", 
+    "4" : Material(src = "https://arenaxr.org/store/users/johnchoi/Videos/ARENA/20200819_ARENA Micro-UAV Swarm Control.mp4", 
                    transparent = True, opacity = PLANE_OPACITY, w = 1920, h = 1080, size = 1),
-    "5" : Material(src = FILESTORE+"store/users/johnchoi/Videos/ARENA/20200819_ARENA One Minute Madness.mp4", 
+    "5" : Material(src = "https://arenaxr.org/store/users/johnchoi/Videos/ARENA/20200819_ARENA One Minute Madness.mp4", 
                    transparent = True, opacity = PLANE_OPACITY, w = 1920, h = 1080, size = 1),
-    "6" : Material(src = FILESTORE+"store/users/johnchoi/Videos/ARENA/20200819_ARENA Physical Object Capture (Digital Twin).mp4", 
+    "6" : Material(src = "https://arenaxr.org/store/users/johnchoi/Videos/ARENA/20200819_ARENA Physical Object Capture (Digital Twin).mp4", 
                    transparent = True, opacity = PLANE_OPACITY, w = 1920, h = 1080, size = 1),
-    "7" : Material(src = FILESTORE+"store/users/johnchoi/Videos/ARENA/20200819_ARENA Real-Time Face Performance Capture.mp4", 
+    "7" : Material(src = "https://arenaxr.org/store/users/johnchoi/Videos/ARENA/20200819_ARENA Real-Time Face Performance Capture.mp4", 
                    transparent = True, opacity = PLANE_OPACITY, w = 1920, h = 1080, size = 1),
-    "8" : Material(src = FILESTORE+"store/users/johnchoi/Videos/ARENA/20200819_ARENA Robot's First Steps.mp4", 
+    "8" : Material(src = "https://arenaxr.org/store/users/johnchoi/Videos/ARENA/20200819_ARENA Robot's First Steps.mp4", 
                    transparent = True, opacity = PLANE_OPACITY, w = 1920, h = 1080, size = 1),
-    "9" : Material(src = FILESTORE+"store/users/johnchoi/Videos/ARENA/20200819_ARENA Virtual Robot Arm.mp4", 
+    "9" : Material(src = "https://arenaxr.org/store/users/johnchoi/Videos/ARENA/20200819_ARENA Virtual Robot Arm.mp4", 
                    transparent = True, opacity = PLANE_OPACITY, w = 1920, h = 1080, size = 1)
+    
+    #VideoControl Method
+    #"rays"       : VideoControl(video_path = "https://arenaxr.org/store/users/johnchoi/Videos/rays.mp4", frame_object = DEFAULT_VIDEO_FRAME_OBJECT, video_object = None, anyone_clicks = True, video_loop = True, autoplay = True, volume = 1, w = 1920, h = 1080, size = 1),
+    #"hydroponic" : VideoControl(video_path = "https://arenaxr.org/store/users/johnchoi/Videos/hydroponic.mp4", frame_object = DEFAULT_VIDEO_FRAME_OBJECT, video_object = None, anyone_clicks = True, video_loop = True, autoplay = True, volume = 1, w = 1920, h = 1080, size = 1),
+    #"greenhouse" : VideoControl(video_path = "https://arenaxr.org/store/users/johnchoi/Videos/greenhouse.mp4", frame_object = DEFAULT_VIDEO_FRAME_OBJECT, video_object = None, anyone_clicks = True, video_loop = True, autoplay = True, volume = 1, w = 1920, h = 1080, size = 1)
 }

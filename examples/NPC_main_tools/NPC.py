@@ -77,8 +77,8 @@ class NPC:
             object_id=NPC_NAME + "(IMAGE)",
             position=PLANE_POSITION,
             rotation=PLANE_ROTATION,
-            scale=PLANE_SCALE, #Scale(0,0,0),
-            url = FILESTORE+"store/users/johnchoi/Images/nyan.jpg",
+            scale=Scale(0,0,random.uniform(0, 0.01)), #Start at zero, not PLANE_SIZE to hide at start
+            url = "https://arenaxr.org/store/users/johnchoi/Images/nyan.jpg",
             material = Material(transparent = True, opacity = PLANE_OPACITY),
             parent=self.root,
             persist=True
@@ -89,8 +89,8 @@ class NPC:
             object_id=NPC_NAME + "(VIDEO)",
             position=PLANE_POSITION,
             rotation=PLANE_ROTATION,
-            scale=PLANE_SCALE, #Scale(0,0,0),
-            material = Material(src = FILESTORE+"store/users/johnchoi/Videos/rays.mp4", transparent = True, opacity = PLANE_OPACITY, w = 1920, h = 1080, size = 1),
+            scale=Scale(0,0,random.uniform(0, 0.01)), #Start at zero, not PLANE_SIZE to hide at start
+            material = Material(src = "https://arenaxr.org/store/users/johnchoi/Videos/rays.mp4", transparent = True, opacity = PLANE_OPACITY, w = 1920, h = 1080, size = 1),
             parent=self.root,
             clickable=True,
             persist=True
@@ -116,58 +116,8 @@ def ProgramStart():
     npc.dialogue.printInfo()
     npc.bubbles.start()
 
-def user_join_callback(scene, obj, msg):
-    ## Get access to user state
-    # camera is a Camera class instance (see Objects)
-    #camera.object_id
-    #camera.displayName
-    #camera.hasVideo
-    #camera.displayName
-    # etc.
-    #npc.bubbles.PlayLastTransform()
-    npc.bubbles.reloadCurrentLine()
-    npc.bubbles.PlayAnimation(ANIM_IDLE)
-scene.user_join_callback = user_join_callback
-
-#def user_left_callback(scene, obj, msg):
-    ## Get access to user state
-    # camera is a Camera class instance (see Objects)
-    #camera.object_id
-    #camera.displayName
-    #camera.hasVideo
-    #camera.displayName
-    # etc.
-#scene.user_left_callback = user_left_callback
-
-@scene.run_forever(interval_ms=ENTER_INTERVAL)
-def EnterExit_Handler(): #checks whether or not a user is in range of NPC
-    users = scene.get_user_list()
-    sceneUserCount = len(scene.get_user_list())
-    userCount = 0
-
-    #strange bug - closing browser does not send exit message?
-    if(scene.get_user_list() == None):
-        users = []
-        sceneUserCount = 0
-           
-    if(npc.userCount != userCount):
-        printLightRedB(str(userCount) + " users in area of NPC with name \"" + NPC_NAME + "\".")
-        if(userCount > 0 and npc.entered == False): # At least one user in range of NPC starts interaction.
-            npc.entered = True
-            #npc.bubbles.gotoNodeWithName(ENTER_NODE) #doesn't work?
-            if(USE_DEFAULT_SOUNDS):
-                npc.bubbles.PlaySound(SOUND_ENTER)
-
-        if(userCount == 0 and npc.entered == True): # All users left, so end interaction.
-            npc.entered = False
-            #npc.bubbles.gotoNodeWithName(EXIT_NODE) #doesn't work?
-            if(USE_DEFAULT_SOUNDS):
-                npc.bubbles.PlaySound(SOUND_EXIT)
-    
-    npc.userCount = userCount
 
 
-'''
 @scene.run_forever(interval_ms=RESET_INTERVAL)
 def Reset_Handler(): #RESET_TIME milliseconds of no activity resets interaction.
     if(npc.bubbles.resetTimer > 0):
@@ -176,7 +126,7 @@ def Reset_Handler(): #RESET_TIME milliseconds of no activity resets interaction.
         npc.bubbles.resetTimer = RESET_TIME
         npc.bubbles.gotoNodeWithName(ENTER_NODE)
         printLightRedB("NPC with name \"" + NPC_NAME + "\" detected no activity for " + str(RESET_TIME) + " milliseconds. Resetting.")
-'''        
+
 
 
 #@scene.run_forever(interval_ms=SPEECH_INTERVAL)

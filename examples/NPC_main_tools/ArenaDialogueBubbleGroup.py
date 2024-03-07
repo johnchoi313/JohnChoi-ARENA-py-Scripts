@@ -175,6 +175,7 @@ class ArenaDialogueBubbleGroup():
         
         gotoUrl = GotoUrl(dest="popup", on="mousedown", url=link)
         self.PlayGotoUrl(gotoUrl)
+
     def PlayGotoUrl(self, gotoUrl):
         if(PRINT_VERBOSE):
             printWhiteB("Playing BLOB gotoUrl...")
@@ -254,7 +255,7 @@ class ArenaDialogueBubbleGroup():
 
     #Scaling helper functions.
     def ScaleAnimation(self, plane, startScale, endScale):
-        animation = Animation(property="scale", start=startScale, end=endScale, easing="easeInOutQuad", dur=PLANE_SCALE_DURATION)
+        animation = Animation(property="scale", start=startScale, end=endScale, easing="easeInOutQuad", dur=PLANE_SIZE_DURATION)
         plane.dispatch_animation(animation)
         self.scene.run_animations(plane)
         plane.update_attributes(scale = endScale)
@@ -268,8 +269,8 @@ class ArenaDialogueBubbleGroup():
         else:
             scale = (w + h) * 0.5 / (h * 1.0)
             
-        nw = aspect * scale * size * PLANE_SCALE
-        nh = 1.0 * scale * size * PLANE_SCALE
+        nw = aspect * scale * size * PLANE_SIZE
+        nh = 1.0 * scale * size * PLANE_SIZE
 
         return Scale(nw, nh, 1)
     
@@ -491,9 +492,6 @@ class ArenaDialogueBubbleGroup():
         )
         self.scene.add_object(self.buttonPanel)
 
-    def randomUUID(self, n = 6):
-        return ''.join(random.choices(string.ascii_uppercase + string.digits, k=n))
-
     def checkIfArenaObjectExists(self, obj):
         if(obj != None):
             return self.checkIfArenaObjectIDExists(obj.object_id)
@@ -510,26 +508,6 @@ class ArenaDialogueBubbleGroup():
     # ------------------------------------------ #
 
     #functions to control choice button click behaviour
-    def onClickChoiceButton(self, scene, evt, msg):
-        if evt.type == "mousedown":
-            
-            self.resetTimer = RESET_TIME
-
-            choiceButtonID = msg["object_id"]
-            filterLen = len(self.npc.object_id + "_choiceButton_") + UUID_LEN + 1
-
-            choiceButtonNumber = int(choiceButtonID[filterLen:])
-            choiceText = self.dialogue.currentNode.lines[self.dialogue.currentNode.currentLineIndex].choices[choiceButtonNumber].text
-            choiceNodeName = self.dialogue.currentNode.lines[self.dialogue.currentNode.currentLineIndex].choices[choiceButtonNumber].node
-
-            printCyan("  Choice Button with text \"" + choiceText + "\" pressed!")
-                        
-            self.gotoNodeWithName(choiceNodeName)
-
-            if(USE_DEFAULT_SOUNDS):
-                self.PlaySound(SOUND_CHOICE)
-
-    #functions to control choice button click behaviour
     def onClickNextButton(self, scene, evt, msg):
         if evt.type == "mousedown":
             self.resetTimer = RESET_TIME
@@ -541,9 +519,14 @@ class ArenaDialogueBubbleGroup():
                 self.PlaySound(SOUND_NEXT)
     #functions to control link button click behaviour
     def onClickLinkButton(self, scene, evt, msg):
+        
+        if evt.type == "buttonClick":
+            printCyan("  Link Button Pressed!")
+            if(USE_DEFAULT_SOUNDS):
+                self.PlaySound(SOUND_NEXT)
+            
         if evt.type == "mousedown":
             printCyan("  Link Button Pressed!")
-            
             if(USE_DEFAULT_SOUNDS):
                 self.PlaySound(SOUND_NEXT)
 
