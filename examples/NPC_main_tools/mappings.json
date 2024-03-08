@@ -1,3 +1,110 @@
 {
+ 
+    "DEFAULTS": {
+
+        "SOUND": {
+            "NEXT0": {"Sound":{"volume":1.0, "src":"https://arenaxr.org/store/users/johnchoi/Sounds/NPC/Next.wav"}},
+            "NEXT1": {"Sound":{"volume":1.0, "src":"https://arenaxr.org/store/users/johnchoi/Sounds/NPC/Next.wav"}},
+            "NEXT2": {"Sound":{"volume":1.0, "src":"https://arenaxr.org/store/users/johnchoi/Sounds/NPC/Next.wav"}},
+            "NEXT3": {"Sound":{"volume":1.0, "src":"https://arenaxr.org/store/users/johnchoi/Sounds/NPC/Next.wav"}},
+            "NEXT4": {"Sound":{"volume":1.0, "src":"https://arenaxr.org/store/users/johnchoi/Sounds/NPC/Next.wav"}},
+            "NEXT5": {"Sound":{"volume":1.0, "src":"https://arenaxr.org/store/users/johnchoi/Sounds/NPC/Next.wav"}},
+            "NEXT6": {"Sound":{"volume":1.0, "src":"https://arenaxr.org/store/users/johnchoi/Sounds/NPC/Next.wav"}}
+        },
+
+        "ANIMATION": {
+
+        },
+
+        "MORPH": {
+
+        },
+
+        "VIDEO":{
+
+        },
+
+        "TRANSFORM":{
+
+        }
+
+    },
+
+    "SOUND_MAPPINGS": [
+        {
+            "NAME": "next",
+            "SOUND": {"volume": 1.0, "src": ""}
+        },
+        {
+            "NAME": "choice",
+            "SOUND": {"volume": 1.0, "src": ""}
+        }
+    ],
+
+    "ANIMATION_MAPPINGS": [
+        {
+            "NAME": "next",
+            "ANIMATION": {"clip": "", "loop": "", "crossFadeDuration":0.5, "timeScale":1 }
+        },
+        {
+            "NAME": "choice",
+            "ANIMATION": {"clip": "", "loop": "", "crossFadeDuration":0.5, "timeScale":1 }
+        }
+    ],
     
+    "TRANSFORM_MAPPINGS": [
+        {
+            "NAME": "next",
+            "TRANSFORM": {"position":{"x":0,"y":0,"z":0}, "rotation":{"x":0,"y":0,"z":0}}
+        },
+        {
+            "NAME": "choice",
+            "TRANSFORM": {"position":{"x":0,"y":0,"z":0}, "rotation":{"x":0,"y":0,"z":0}}
+        }
+    ],
+    
+    "MORPH_MAPPINGS": [
+        {
+            "NAME": "next",
+            "MORPH": {"morphtarget": "", "value":1.0}
+        },
+        {
+            "NAME": "choice",
+            "MORPH": {"morphtarget": "", "value":1.0}
+        }
+    ],
+    
+    "URL_MAPPINGS": [
+        {
+            "NAME": "next",
+            "GOTOURL": {"dest": "popup", "url":""}
+        },
+        {
+            "NAME": "choice",
+            "GOTOURL": {"dest": "popup", "url":""}
+        }
+    ],
+    
+    "IMAGE_MAPPINGS": [
+        {
+            "NAME": "next",
+            "IMAGE": {"src": "", "w":1920, "h": 1080, "size": 1}
+        },
+        {
+            "NAME": "choice",
+            "IMAGE": {"src": "", "w":1920, "h": 1080, "size": 1}
+        }
+    ],
+    
+    "VIDEO_MAPPINGS": [
+        {
+            "NAME": "next",
+            "VIDEO": {"url": "", "w":1920, "h": 1080, "size": 1}
+        },
+        {
+            "NAME": "choice",
+            "VIDEO": {"url": "", "w":1920, "h": 1080, "size": 1}
+        }
+    ]
+
 }

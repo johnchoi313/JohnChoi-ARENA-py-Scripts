@@ -39,7 +39,7 @@ def ToColor(json):
 DIALOGUE_FILENAME = configJson["DIALOGUE_FILENAME"] #"robot_arena.json"
 MAPPINGS_FILENAME = configJson["MAPPINGS_FILENAME"] #"mappings.json"
 
-#ARENA CONNECTION SETTINGS
+#ARENA CONNECTION
 HOST = configJson["HOST"]           #"arenaxr.org"      
 NAMESPACE = configJson["NAMESPACE"] #"johnchoi"
 SCENE = configJson["SCENE"]         #"arena"
@@ -47,7 +47,7 @@ SCENE = configJson["SCENE"]         #"arena"
 #NPC (name Alphanumeric only plus '_', no spaces!)
 NPC_NAME = configJson["NPC_NAME"]         #"NPC_RobotBuddy"
 NPC_GLTF_URL = configJson["NPC_GLTF_URL"] #"https://arenaxr.org/store/users/johnchoi/Characters/RobotBuddy/RobotBuddyBlue.glb"
-NPC_ICON_URL = configJson["NPC_GLTF_URL"] #"https://arenaxr.org/store/users/johnchoi/Characters/RobotBuddy/RobotBuddyBlue.png"
+NPC_ICON_URL = configJson["NPC_ICON_URL"] #"https://arenaxr.org/store/users/johnchoi/Characters/RobotBuddy/RobotBuddyBlue.png"
 
 #ENTER/EXIT SPECIAL EVENT NODES 
 ENTER_NODE = configJson["ENTER_NODE"] #"Enter"
@@ -119,7 +119,6 @@ CHOICE_BUBBLE_OFFSET_Y = configJson["CHOICE_BUBBLE_OFFSET_Y"] #0.25
 
 CHOICE_BUBBLE_SCALE = ToScale(configJson["CHOICE_BUBBLE_SCALE"])     #Scale(0.8, 0.8, 0.8)
 CHOICE_TEXT_SCALE = ToScale(configJson["CHOICE_TEXT_SCALE"])        #Scale(0.4, 2, .5)
-CHOICE_SCALE_DURATION = configJson["CHOICE_SCALE_DURATION"] #500
 
 #URL SETTINGS
 LINK_TEXT_COLOR = ToColor(configJson["LINK_TEXT_COLOR"])         #Color(255,255,255)

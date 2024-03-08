@@ -84,18 +84,6 @@ animationMappings = {
     "walk"     : AnimationMixer(clip="Walk",       loop="repeat", crossFadeDuration=0.5, timeScale = 1)
 }
 
-#Quick shorthand helper to add two Vector3s (x,y,z):
-def AddVector3(A,B):
-    return (A[0]+B[0],A[1]+B[1],A[2]+B[2])
-def SubtractVector3(A,B):
-    return (A[0]-B[0],A[1]-B[1],A[2]-B[2])
-
-def RootOffset(x,y,z):
-    return(x,y,z);
-    return SubtractVector3 (ROOT_POSITION, SubtractVector3(ROOT_POSITION, (x,y,z)) )
-def getVectorFromString(string): #[Input: 'x y z'] -> [Output: [x,y,z].]
-    return string.split(" ")
-
 # Shorthand transform names mapped to transform action over time
 # --Animation Schema: https://docs.arenaxr.org/content/schemas/message/animation.html 
 # --Animation Example: https://github.com/arenaxr/arena-py/blob/master/examples/attributes/animation.py 
