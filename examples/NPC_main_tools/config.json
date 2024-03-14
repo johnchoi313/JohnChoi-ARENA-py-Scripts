@@ -1,27 +1,32 @@
 {
-    "HOST": "arenaxr.org",
-    "NAMESPACE": "johnchoi",
-    "SCENE": "arena",
+    "FILENAME": {
+        "DIALOGUE": "robot_arena.json",
+        "MAPPINGS": "mappings.json"
+    },
     
-    "DIALOGUE_FILENAME": "robot_arena.json",
-    "MAPPINGS_FILENAME": "mappings.json",
-
+    "ARENA": {
+        "HOST": "arenaxr.org",
+        "NAMESPACE": "johnchoi",
+        "SCENE": "arena"
+    },
+    
     "NODE": {
         "ENTER": "Enter",
         "EXIT": "Exit"
     },
 
-    "USE_NAME_AS_TITLE": false,
-    "USE_DEFAULT_ANIMATIONS": true,
-    "USE_DEFAULT_MORPHS": true,
-    "USE_DEFAULT_SOUNDS": true,
-   
     "NPC": {
         "NAME": "NPC_RobotBuddy",
         "GLTF_URL": "https://arenaxr.org/store/users/johnchoi/Characters/RobotBuddy/RobotBuddyBlue.glb",
         "ICON_URL": "https://arenaxr.org/store/users/johnchoi/Characters/RobotBuddy/RobotBuddyBlue.png"
     },
 
+    "USE_DEFAULTS": {
+        "ANIMATIONS": true,
+        "MORPHS": true,
+        "SOUNDS": true
+    },
+    
     "TIMERS": {
         "RESET": {
             "INTERVAL": 100,
@@ -38,6 +43,7 @@
     },
     
     "UI": {
+        "USE_NAME_AS_TITLE": false,
         "THEME": "light",
         "VERTICAL_BUTTONS": true,
         "FONT_SIZE": 0.05,
