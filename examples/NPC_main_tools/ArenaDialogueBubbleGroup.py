@@ -12,7 +12,6 @@ from arena import *
 
 from asyncio import create_subprocess_exec
 
-import string
 import random
 
 # ------------------------------------------ #

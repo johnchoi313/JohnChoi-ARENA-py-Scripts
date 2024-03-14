@@ -23,7 +23,7 @@ f = open(CONFIG_FILENAME)
 jsonString = f.read()
 configJson = json.loads(jsonString) 
 
-
+#QUICK HELPER FUNCTIONS TO CONVERT JSON -> ARENA-PY DATA TYPES
 def ToPosition(json):
     return Position(json["x"],json["y"],json["z"])
 def ToRotation(json):
@@ -32,8 +32,6 @@ def ToScale(json):
     return Scale(json["x"],json["y"],json["z"])
 def ToColor(json):
     return Color(json["r"],json["g"],json["b"])
-
-
 
 #GET DIALOGUE AND MAPPINGS FILENAMES
 DIALOGUE_FILENAME = configJson["FILENAME"]["DIALOGUE"] #"robot_arena.json"
@@ -57,7 +55,6 @@ NPC_ICON_URL = configJson["NPC"]["ICON_URL"] #"https://arenaxr.org/store/users/j
 USE_DEFAULT_ANIMATIONS = configJson["USE_DEFAULTS"]["ANIMATIONS"] #True
 USE_DEFAULT_MORPHS = configJson["USE_DEFAULTS"]["MORPHS"]         #True
 USE_DEFAULT_SOUNDS = configJson["USE_DEFAULTS"]["SOUNDS"]         #True
-
 
 #NO ACTIVITY RESET TIMER
 RESET_INTERVAL = configJson["TIMERS"]["RESET"]["INTERVAL"] #100
