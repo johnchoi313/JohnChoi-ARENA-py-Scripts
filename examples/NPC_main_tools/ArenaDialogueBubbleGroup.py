@@ -44,7 +44,7 @@ class ArenaDialogueBubbleGroup():
         self.lastImageSize = Scale(0,0,0)
         self.lastVideoSize = Scale(0,0,0)
 
-        self.lastTransform = TRANSFORM_RESET
+        self.lastTransform = MAP.TRANSFORM_RESET
 
         self.transformTimer = 0
         self.resetTimer = 0
@@ -76,8 +76,8 @@ class ArenaDialogueBubbleGroup():
 
     #Sounds
     def PlaySoundFromMapping(self, key):
-        if(key in soundMappings):
-            self.PlaySound(soundMappings[key])
+        if(key in MAP.soundMappings):
+            self.PlaySound(MAP.soundMappings[key])
         else:
             if(PRINT_VERBOSE):
                 printWarning("    " + "Attempting to play sound from URL \"" + key + "\" because no such mapping exists in mappings.py.")
@@ -98,8 +98,8 @@ class ArenaDialogueBubbleGroup():
 
     #Animations
     def PlayAnimationFromMapping(self, key):
-        if(key in animationMappings):
-            self.PlayAnimation(animationMappings[key])
+        if(key in MAP.animationMappings):
+            self.PlayAnimation(MAP.animationMappings[key])
         else:     
             if(PRINT_VERBOSE):
                 printWarning("    " + "Attempting to play animation from name \"" + key + "\" because no such mapping exists in mappings.py.")
@@ -119,8 +119,8 @@ class ArenaDialogueBubbleGroup():
         
     #Transforms
     def PlayTransformFromMapping(self, key):
-        if(key in transformMappings):
-            self.PlayTransform(transformMappings[key])
+        if(key in MAP.transformMappings):
+            self.PlayTransform(MAP.transformMappings[key])
         else:
             if(PRINT_VERBOSE):
                 printWarning("    " + "Cannot play transform \"" + key + "\" because no such mapping exists in mappings.py.")
@@ -137,20 +137,14 @@ class ArenaDialogueBubbleGroup():
         
         self.lastTransform = transform
 
-    def UpdateLastPosition(self):
-        transform = self.lastTransform
-        p = getVectorFromString(transform[0].end)
-        self.npc.data.position = Position(p[0], p[1], p[2])
-        self.scene.update_object(self.npc)
-
     def PlayLastTransform(self):
         #self.PlayTransform(self.lastTransform)
         printWhite("Play Last Transform...")
 
     #Morphs
     def PlayMorphFromMapping(self, key):
-        if(key in morphMappings):
-            self.PlayMorph(morphMappings[key])
+        if(key in MAP.morphMappings):
+            self.PlayMorph(MAP.morphMappings[key])
         else:
             if(PRINT_VERBOSE):
                 printWarning("    " + "Cannot play morph \"" + key + "\" because no such mapping exists in mappings.py.")
@@ -162,8 +156,8 @@ class ArenaDialogueBubbleGroup():
 
     #GotoUrl
     def PlayUrlFromMapping(self, key):
-        if(key in urlMappings):
-            self.PlayGotoUrl(urlMappings[key])
+        if(key in MAP.urlMappings):
+            self.PlayGotoUrl(MAP.urlMappings[key])
         else:
             if(PRINT_VERBOSE):
                 printWarning("    " + "Attempting to directly play URL \"" + key + "\" because no such mapping exists in mappings.py.")
@@ -180,8 +174,8 @@ class ArenaDialogueBubbleGroup():
             printWhiteB("Playing BLOB gotoUrl...")
         
         self.linkButton = NPCButton(self.scene, self.npc, self.npc.object_id + "(LINK)", "[Next]", self.onClickLinkButton, 
-                            position = LINK_BUBBLE_POSITION, rotation = LINK_BUBBLE_ROTATION, buttonScale = LINK_BUBBLE_SCALE, 
-                            textScale = LINK_TEXT_SCALE, color = LINK_BUBBLE_COLOR, textColor = LINK_TEXT_COLOR, persist=False)
+                            position = CFG.LINK_BUBBLE_POSITION, rotation = CFG.LINK_BUBBLE_ROTATION, buttonScale = CFG.LINK_BUBBLE_SCALE, 
+                            textScale = CFG.LINK_TEXT_SCALE, color = CFG.LINK_BUBBLE_COLOR, textColor = CFG.LINK_TEXT_COLOR, persist=False)
     
         self.linkButton.box.data.goto_url = gotoUrl
         self.linkButton.text.data.text = gotoUrl.url
@@ -190,9 +184,9 @@ class ArenaDialogueBubbleGroup():
 
     #Videos
     def PlayVideoFromMapping(self, key):
-        if(key in videoMappings):
-            if(videoMappings[key] is not None):
-                self.PlayVideo(videoMappings[key])
+        if(key in MAP.videoMappings):
+            if(MAP.videoMappings[key] is not None):
+                self.PlayVideo(MAP.videoMappings[key])
             else:
                 self.HideVideo()
         else:
@@ -203,7 +197,7 @@ class ArenaDialogueBubbleGroup():
         if(PRINT_VERBOSE):
             printWhiteB("Play video from url \'" + url + "\":")        
         #Src Video Material Method
-        video = Material(src = url, transparent = True, opacity = PLANE_OPACITY, w = 1920, h = 1080, size = 1)
+        video = Material(src = url, transparent = True, opacity = CFG.PLANE_OPACITY, w = 1920, h = 1080, size = 1)
         self.PlayVideo(video)
     def PlayVideo(self, video):
         if(PRINT_VERBOSE):
@@ -223,9 +217,9 @@ class ArenaDialogueBubbleGroup():
 
     #Images
     def PlayImageFromMapping(self, key):
-        if(key in imageMappings):
-            if(imageMappings[key] is not None):
-                self.PlayImage(imageMappings[key])
+        if(key in MAP.imageMappings):
+            if(MAP.imageMappings[key] is not None):
+                self.PlayImage(MAP.imageMappings[key])
             else:
                 self.HideImage()
         else:
@@ -249,12 +243,12 @@ class ArenaDialogueBubbleGroup():
         self.ScaleAnimation(self.image, Scale(0,0,random.uniform(0, 0.01)), scale)
         self.lastImageSize = scale
 
-        if(USE_DEFAULT_SOUNDS and not self.soundUsedThisLine):
-            self.PlaySound(SOUND_IMAGE)
+        if(CFG.USE_DEFAULT_SOUNDS and not self.soundUsedThisLine):
+            self.PlaySound(MAP.SOUND_IMAGE)
 
     #Scaling helper functions.
     def ScaleAnimation(self, plane, startScale, endScale):
-        animation = Animation(property="scale", start=startScale, end=endScale, easing="easeInOutQuad", dur=PLANE_SIZE_DURATION)
+        animation = Animation(property="scale", start=startScale, end=endScale, easing="easeInOutQuad", dur=CFG.PLANE_SIZE_DURATION)
         plane.dispatch_animation(animation)
         self.scene.run_animations(plane)
         plane.update_attributes(scale = endScale)
@@ -268,8 +262,8 @@ class ArenaDialogueBubbleGroup():
         else:
             scale = (w + h) * 0.5 / (h * 1.0)
             
-        nw = aspect * scale * size * PLANE_SIZE
-        nh = 1.0 * scale * size * PLANE_SIZE
+        nw = aspect * scale * size * CFG.PLANE_SIZE
+        nh = 1.0 * scale * size * CFG.PLANE_SIZE
 
         return Scale(nw, nh, 1)
     
@@ -286,7 +280,7 @@ class ArenaDialogueBubbleGroup():
     def ClearCommandProperties(self):
         #scale the link button out because delete won't work
         if(self.linkButton != None and self.checkIfArenaObjectExists(self.linkButton.box)):
-            self.ScaleAnimation(self.linkButton.box, LINK_BUBBLE_SCALE, Scale(0,0,random.uniform(0, 0.01)))
+            self.ScaleAnimation(self.linkButton.box, CFG.LINK_BUBBLE_SCALE, Scale(0,0,random.uniform(0, 0.01)))
             self.scene.delete_object(self.linkButton.text)
             self.scene.delete_object(self.linkButton.box)
         
@@ -364,9 +358,9 @@ class ArenaDialogueBubbleGroup():
 
         #If moving, then play walk animation if enabled. 
         if(self.transformUsedThisLine):
-            if(USE_DEFAULT_ANIMATIONS):
-                self.PlayAnimation(ANIM_WALK)
-            self.transformTimer = TRANSFORM_TIMER
+            if(CFG.USE_DEFAULT_ANIMATIONS):
+                self.PlayAnimation(MAP.ANIM_WALK)
+            self.transformTimer = CFG.TRANSFORM_TIMER
 
     # ------------------------------------------ #
     # -------------BUTTON CREATION-------------- #
@@ -386,36 +380,36 @@ class ArenaDialogueBubbleGroup():
         self.speechIndex = 0
 
         titleText = ""
-        if(USE_NAME_AS_TITLE == True):
-            titleText = NPC_NAME
+        if(CFG.USE_NAME_AS_TITLE == True):
+            titleText = CFG.NPC_NAME
         elif(self.nodeName != ""): 
             titleText = self.nodeName
         else:
             titleText = ""
 
         self.speechBubble = Card(
-            object_id=NPC_NAME + "_speechBubbleCard",
+            object_id=CFG.NPC_NAME + "_speechBubbleCard",
             
             title=titleText,
 
-            #imgCaption=NPC_NAME,
+            #imgCaption=CFG.NPC_NAME,
 
             body=self.speech,
             bodyAlign="center",
 
-            fontSize = UI_SPEECH_FONT_SIZE,
-            theme = UI_THEME,
+            fontSize = CFG.UI_SPEECH_FONT_SIZE,
+            theme = CFG.UI_THEME,
 
-            textImageRatio = UI_SPEECH_TEXT_WIDTH,
+            textImageRatio = CFG.UI_SPEECH_TEXT_WIDTH,
 
-            img = NPC_ICON_URL,
+            img = CFG.NPC_ICON_URL,
             imgDirection="left",
-            imgSize=UI_SPEECH_ICON_FILL,
-            widthScale=UI_SPEECH_ICON_WIDTH,
+            imgSize=CFG.UI_SPEECH_ICON_FILL,
+            widthScale=CFG.UI_SPEECH_ICON_WIDTH,
 
-            position=SPEECH_BUBBLE_POSITION,
-            rotation=SPEECH_BUBBLE_ROTATION,
-            scale=SPEECH_BUBBLE_SCALE,
+            position=CFG.SPEECH_BUBBLE_POSITION,
+            rotation=CFG.SPEECH_BUBBLE_ROTATION,
+            scale=CFG.SPEECH_BUBBLE_SCALE,
 
             parent=self.npc,
             persist = True
@@ -436,17 +430,17 @@ class ArenaDialogueBubbleGroup():
             printCyan("  Choice Button with text \"" + buttonName + "\" and index " + str(buttonIndex) + " pressed!")
 
             if(buttonName == "[Next]" and buttonIndex == 0):
-                self.resetTimer = RESET_TIME
+                self.resetTimer = CFG.RESET_TIME
 
                 printCyan("  Next Button Pressed!")
                 
                 self.advanceToNextLine()
 
-                if(USE_DEFAULT_SOUNDS):
-                    self.PlaySound(SOUND_NEXT)  
+                if(CFG.USE_DEFAULT_SOUNDS):
+                    self.PlaySound(MAP.SOUND_NEXT)  
             
             else:   
-                self.resetTimer = RESET_TIME
+                self.resetTimer = CFG.RESET_TIME
 
                 printCyan("  Choice Button with text \"" + buttonName + "\" and index " + str(buttonIndex) + " pressed!")
 
@@ -458,8 +452,8 @@ class ArenaDialogueBubbleGroup():
             
                 self.gotoNodeWithName(choiceNodeName)
 
-                if(USE_DEFAULT_SOUNDS):
-                    self.PlaySound(SOUND_CHOICE)
+                if(CFG.USE_DEFAULT_SOUNDS):
+                    self.PlaySound(MAP.SOUND_CHOICE)
 
     def createButtonPanel(self, line):
         
@@ -472,20 +466,20 @@ class ArenaDialogueBubbleGroup():
             buttonTexts = ["[Next]"]
 
         self.buttonPanel = ButtonPanel(
-            object_id=NPC_NAME + "(Buttons)",
+            object_id=CFG.NPC_NAME + "(Buttons)",
 
             buttons=buttonTexts,
             
             font="Roboto-Mono",
-            theme = UI_THEME,
+            theme = CFG.UI_THEME,
 
-            position=CHOICE_BUBBLE_POSITION,
-            rotation=CHOICE_BUBBLE_ROTATION,
-            scale=CHOICE_BUBBLE_SCALE,
+            position=CFG.CHOICE_BUBBLE_POSITION,
+            rotation=CFG.CHOICE_BUBBLE_ROTATION,
+            scale=CFG.CHOICE_BUBBLE_SCALE,
             
             evt_handler=self.buttonPanelHandler,
             parent=self.npc,
-            vertical=UI_VERTICAL_BUTTONS,
+            vertical=CFG.UI_VERTICAL_BUTTONS,
 
             persist=True
         )
@@ -509,25 +503,25 @@ class ArenaDialogueBubbleGroup():
     #functions to control choice button click behaviour
     def onClickNextButton(self, scene, evt, msg):
         if evt.type == "mousedown":
-            self.resetTimer = RESET_TIME
+            self.resetTimer = CFG.RESET_TIME
             printCyan("  Next Button Pressed!")
             
             self.advanceToNextLine()
 
-            if(USE_DEFAULT_SOUNDS):
-                self.PlaySound(SOUND_NEXT)
+            if(CFG.USE_DEFAULT_SOUNDS):
+                self.PlaySound(MAP.SOUND_NEXT)
     #functions to control link button click behaviour
     def onClickLinkButton(self, scene, evt, msg):
         
         if evt.type == "buttonClick":
             printCyan("  Link Button Pressed!")
-            if(USE_DEFAULT_SOUNDS):
-                self.PlaySound(SOUND_NEXT)
+            if(CFG.USE_DEFAULT_SOUNDS):
+                self.PlaySound(MAP.SOUND_NEXT)
             
         if evt.type == "mousedown":
             printCyan("  Link Button Pressed!")
-            if(USE_DEFAULT_SOUNDS):
-                self.PlaySound(SOUND_NEXT)
+            if(CFG.USE_DEFAULT_SOUNDS):
+                self.PlaySound(MAP.SOUND_NEXT)
 
     def gotoNodeWithName(self, nodeName):
         nodeIndex = self.dialogue.getNodeIndexFromString(nodeName)

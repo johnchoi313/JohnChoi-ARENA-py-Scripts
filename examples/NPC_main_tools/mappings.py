@@ -9,12 +9,7 @@ if(USE_DEV_ARENAPY):
 
 from arena import *
 
-# Open config file
-f = open(MAPPINGS_FILENAME)
-jsonString = f.read()
-mappingsJson = json.loads(jsonString) 
-
-#---JSON IMPORTER HELPER FUNCTIONS---#
+ #---JSON IMPORTER HELPER FUNCTIONS---#
 def importSound(json):
     _volume = json["volume"]
     _src = json["src"]
@@ -43,8 +38,8 @@ def importTransform(json):
     ry = json["rotation"]["y"]
     rz = json["rotation"]["z"]
     return [              
-        Animation(property="position", end=Position(px,py,pz), easing="easeInOutSine", dur=TRANSFORM_TIMER),  
-        Animation(property="rotation", end=Rotation(rx,ry,rz), easing="linear", dur=TRANSFORM_TIMER*0.5)
+        Animation(property="position", end=Position(px,py,pz), easing="easeInOutSine", dur=CFG.TRANSFORM_TIMER),  
+        Animation(property="rotation", end=Rotation(rx,ry,rz), easing="linear", dur=CFG.TRANSFORM_TIMER*0.5)
     ]
 
 def importGotoUrl(json):
@@ -68,85 +63,96 @@ def importVideo(json):
     _src = json["src"]
     _w = json["w"]
     _h = json["h"]
-    return Material(src = _src, transparent = True, opacity = PLANE_OPACITY, w = _w, h = _h, size = 1)
+    return Material(src = _src, transparent = True, opacity = CFG.PLANE_OPACITY, w = _w, h = _h, size = 1)
 
-#---PRE-DEFINED DEFAULT ACTIONS (triggered when talking/moving/clicking/etc)---#
+ #---MAPPINGS CLASS, CONTAINS ALL MAPPINGS FROM DIALOGUE FILE TO COMMANDS---#
+class Mappings:
+    def __init__(self, config):
 
-#DEFAULT SOUNDS (set these to None if you don't want default sound effects, or set USE_DEFAULT_SOUNDS = False)
-SOUND_NEXT    = importSound(mappingsJson["DEFAULTS"]["SOUND"]["NEXT"])
-SOUND_CHOICE  = importSound(mappingsJson["DEFAULTS"]["SOUND"]["CHOICE"])
-SOUND_ENTER   = importSound(mappingsJson["DEFAULTS"]["SOUND"]["ENTER"])
-SOUND_EXIT    = importSound(mappingsJson["DEFAULTS"]["SOUND"]["EXIT"])
-SOUND_IMAGE   = importSound(mappingsJson["DEFAULTS"]["SOUND"]["IMAGE"])
-SOUND_TALKING = importSound(mappingsJson["DEFAULTS"]["SOUND"]["TALKING"])
-SOUND_WALKING = importSound(mappingsJson["DEFAULTS"]["SOUND"]["WALKING"]) #Not applied yet, TODO
+        # Open config file
+        f = open(config.MAPPINGS_FILENAME)
+        jsonString = f.read()
+        mappingsJson = json.loads(jsonString) 
 
-#DEFAULT ANIMATIONS (set these to None if you don't want default animations, or set USE_DEFAULT_ANIMATIONS = False)
-ANIM_IDLE = importAnimation(mappingsJson["DEFAULTS"]["ANIMATION"]["IDLE"])
-ANIM_WALK = importAnimation(mappingsJson["DEFAULTS"]["ANIMATION"]["WALK"])
-ANIM_TALK = importAnimation(mappingsJson["DEFAULTS"]["ANIMATION"]["TALK"])
+        #---PRE-DEFINED DEFAULT ACTIONS (triggered when talking/moving/clicking/etc)---#
 
-#DEFAULT MORPHS (set these to None if you don't want default morphs, or set USE_DEFAULT_MORPHS = False)
-MORPH_OPEN  =     importMorph(mappingsJson["DEFAULTS"]["MORPH"]["OPEN"])
-MORPH_CLOSE =     importMorph(mappingsJson["DEFAULTS"]["MORPH"]["CLOSE"])
-MORPH_BLINK_ON =  importMorph(mappingsJson["DEFAULTS"]["MORPH"]["BLINK_ON"])
-MORPH_BLINK_OFF = importMorph(mappingsJson["DEFAULTS"]["MORPH"]["BLINK_ON"])
-MORPH_RESET =     importMorph(mappingsJson["DEFAULTS"]["MORPH"]["RESET"])
+        #DEFAULT SOUNDS (set these to None if you don't want default sound effects, or set USE_DEFAULT_SOUNDS = False)
+        self.SOUND_NEXT    = importSound(mappingsJson["DEFAULTS"]["SOUND"]["NEXT"])
+        self.SOUND_CHOICE  = importSound(mappingsJson["DEFAULTS"]["SOUND"]["CHOICE"])
+        self.SOUND_ENTER   = importSound(mappingsJson["DEFAULTS"]["SOUND"]["ENTER"])
+        self.SOUND_EXIT    = importSound(mappingsJson["DEFAULTS"]["SOUND"]["EXIT"])
+        self.SOUND_IMAGE   = importSound(mappingsJson["DEFAULTS"]["SOUND"]["IMAGE"])
+        self.SOUND_TALKING = importSound(mappingsJson["DEFAULTS"]["SOUND"]["TALKING"])
+        self.SOUND_WALKING = importSound(mappingsJson["DEFAULTS"]["SOUND"]["WALKING"]) #Not applied yet, TODO
 
-#DEFAULT VIDEO LOADING FRAME
-DEFAULT_VIDEO_FRAME_OBJECT = mappingsJson["DEFAULTS"]["VIDEO_FRAME_OBJECT"]
+        #DEFAULT ANIMATIONS (set these to None if you don't want default animations, or set USE_DEFAULT_ANIMATIONS = False)
+        self.ANIM_IDLE = importAnimation(mappingsJson["DEFAULTS"]["ANIMATION"]["IDLE"])
+        self.ANIM_WALK = importAnimation(mappingsJson["DEFAULTS"]["ANIMATION"]["WALK"])
+        self.ANIM_TALK = importAnimation(mappingsJson["DEFAULTS"]["ANIMATION"]["TALK"])
 
-#DEFAULT TRANSFORM 
-TRANSFORM_RESET = [ Animation(property="position", end=ROOT_POSITION, easing="easeInOutSine", dur=TRANSFORM_TIMER), 
-                    Animation(property="rotation", end=ROOT_ROTATION, easing="linear", dur=TRANSFORM_TIMER*0.5) ]
+        #DEFAULT MORPHS (set these to None if you don't want default morphs, or set USE_DEFAULT_MORPHS = False)
+        self.MORPH_OPEN  =     importMorph(mappingsJson["DEFAULTS"]["MORPH"]["OPEN"])
+        self.MORPH_CLOSE =     importMorph(mappingsJson["DEFAULTS"]["MORPH"]["CLOSE"])
+        self.MORPH_BLINK_ON =  importMorph(mappingsJson["DEFAULTS"]["MORPH"]["BLINK_ON"])
+        self.MORPH_BLINK_OFF = importMorph(mappingsJson["DEFAULTS"]["MORPH"]["BLINK_ON"])
+        self.MORPH_RESET =     importMorph(mappingsJson["DEFAULTS"]["MORPH"]["RESET"])
 
-#---PRE-DEFINED QUICK ACTION MAPPINGS (for use in Yarn, because who wants to type all this out every time?)---#
+        #DEFAULT VIDEO LOADING FRAME
+        self.DEFAULT_VIDEO_FRAME_OBJECT = mappingsJson["DEFAULTS"]["VIDEO_FRAME_OBJECT"]
 
-# Shorthand sound names mapped to (Sound URL, volume, loop)
-# --Sound Schema: https://docs.arenaxr.org/content/schemas/message/sound.html
-# --Sound Example: https://github.com/arenaxr/arena-py/blob/master/examples/attributes/sound.py 
-soundMappings = {}
-for mapping in mappingsJson["SOUND_MAPPINGS"]:
-    soundMappings[mapping["NAME"]] = importSound(mapping["SOUND"])
+        #DEFAULT TRANSFORM 
+        self.TRANSFORM_RESET = [ Animation(property="position", end=config.ROOT_POSITION, easing="easeInOutSine", dur=config.TRANSFORM_TIMER), 
+                            Animation(property="rotation", end=config.ROOT_ROTATION, easing="linear", dur=config.TRANSFORM_TIMER*0.5) ]
 
-# Shorthand animation names mapped to (animationName, crossFade, timeScale, loopMode['once', 'repeat', 'pingpong'])
-# --AnimationMixer Schema: https://docs.arenaxr.org/content/schemas/message/animation-mixer.html 
-# --AnimationMixer Example: https://github.com/arenaxr/arena-py/blob/master/examples/attributes/animation_mixer.py 
-animationMappings = {}
-for mapping in mappingsJson["ANIMATION_MAPPINGS"]:
-    animationMappings[mapping["NAME"]] = importAnimation(mapping["ANIMATION"])
+        #---PRE-DEFINED QUICK ACTION MAPPINGS (for use in Yarn, because who wants to type all this out every time?)---#
 
-# Shorthand transform names mapped to transform action over time
-# --Animation Schema: https://docs.arenaxr.org/content/schemas/message/animation.html 
-# --Animation Example: https://github.com/arenaxr/arena-py/blob/master/examples/attributes/animation.py 
-transformMappings = {}
-for mapping in mappingsJson["TRANSFORM_MAPPINGS"]:
-    transformMappings[mapping["NAME"]] = importTransform(mapping["TRANSFORM"])
+        # Shorthand sound names mapped to (Sound URL, volume, loop)
+        # --Sound Schema: https://docs.arenaxr.org/content/schemas/message/sound.html
+        # --Sound Example: https://github.com/arenaxr/arena-py/blob/master/examples/attributes/sound.py 
+        self.soundMappings = {}
+        for mapping in mappingsJson["SOUND_MAPPINGS"]:
+            self.soundMappings[mapping["NAME"]] = importSound(mapping["SOUND"])
 
-# Shorthand morph names mapped to list of morph target names with weights
-# --Morph Schema: https://docs.arenaxr.org/content/python/animations.html#gltf-morphs
-# --Morph Example: https://github.com/arenaxr/arena-py/blob/master/examples/attributes/morph.py
-morphMappings = {}
-for mapping in mappingsJson["MORPH_MAPPINGS"]:
-    morphMappings[mapping["NAME"]] = importMorph(mapping["MORPH"])
+        # Shorthand animation names mapped to (animationName, crossFade, timeScale, loopMode['once', 'repeat', 'pingpong'])
+        # --AnimationMixer Schema: https://docs.arenaxr.org/content/schemas/message/animation-mixer.html 
+        # --AnimationMixer Example: https://github.com/arenaxr/arena-py/blob/master/examples/attributes/animation_mixer.py 
+        self.animationMappings = {}
+        for mapping in mappingsJson["ANIMATION_MAPPINGS"]:
+            self.animationMappings[mapping["NAME"]] = importAnimation(mapping["ANIMATION"])
 
-# Shorthand url names mapped to (Website URL, volume, loop)
-# --Url Schema: https://docs.arenaxr.org/content/schemas/message-examples.html#goto-url 
-# --Url Example: https://github.com/arenaxr/arena-py/blob/master/examples/attributes/goto_url.py 
-urlMappings = {}
-for mapping in mappingsJson["URL_MAPPINGS"]:
-    urlMappings[mapping["NAME"]] = importGotoUrl(mapping["GOTOURL"])
+        # Shorthand transform names mapped to transform action over time
+        # --Animation Schema: https://docs.arenaxr.org/content/schemas/message/animation.html 
+        # --Animation Example: https://github.com/arenaxr/arena-py/blob/master/examples/attributes/animation.py 
+        self.transformMappings = {}
+        for mapping in mappingsJson["TRANSFORM_MAPPINGS"]:
+            self.transformMappings[mapping["NAME"]] = importTransform(mapping["TRANSFORM"])
 
-# Shorthand image names mapped to (Website URL, volume, loop)
-# --Url Schema: https://github.com/arenaxr/arena-py/blob/master/examples/objects/image.py
-# --Url Example: https://docs.arenaxr.org/content/schemas/message/image.html
-imageMappings = {}
-for mapping in mappingsJson["IMAGE_MAPPINGS"]:
-    imageMappings[mapping["NAME"]] = importImage(mapping["IMAGE"])
+        # Shorthand morph names mapped to list of morph target names with weights
+        # --Morph Schema: https://docs.arenaxr.org/content/python/animations.html#gltf-morphs
+        # --Morph Example: https://github.com/arenaxr/arena-py/blob/master/examples/attributes/morph.py
+        self.morphMappings = {}
+        for mapping in mappingsJson["MORPH_MAPPINGS"]:
+            self.morphMappings[mapping["NAME"]] = importMorph(mapping["MORPH"])
 
-# Shorthand image names mapped to (Website URL, volume, loop)
-# --Url Schema: https://docs.arenaxr.org/content/schemas/message/material.html#material
-# --Url Example: https://github.com/arenaxr/arena-py/blob/master/examples/attributes/material.py
-videoMappings = {}
-for mapping in mappingsJson["VIDEO_MAPPINGS"]:
-    videoMappings[mapping["NAME"]] = importVideo(mapping["VIDEO"])
+        # Shorthand url names mapped to (Website URL, volume, loop)
+        # --Url Schema: https://docs.arenaxr.org/content/schemas/message-examples.html#goto-url 
+        # --Url Example: https://github.com/arenaxr/arena-py/blob/master/examples/attributes/goto_url.py 
+        self.urlMappings = {}
+        for mapping in mappingsJson["URL_MAPPINGS"]:
+            self.urlMappings[mapping["NAME"]] = importGotoUrl(mapping["GOTOURL"])
+
+        # Shorthand image names mapped to (Website URL, volume, loop)
+        # --Url Schema: https://github.com/arenaxr/arena-py/blob/master/examples/objects/image.py
+        # --Url Example: https://docs.arenaxr.org/content/schemas/message/image.html
+        self.imageMappings = {}
+        for mapping in mappingsJson["IMAGE_MAPPINGS"]:
+            self.imageMappings[mapping["NAME"]] = importImage(mapping["IMAGE"])
+
+        # Shorthand image names mapped to (Website URL, volume, loop)
+        # --Url Schema: https://docs.arenaxr.org/content/schemas/message/material.html#material
+        # --Url Example: https://github.com/arenaxr/arena-py/blob/master/examples/attributes/material.py
+        self.videoMappings = {}
+        for mapping in mappingsJson["VIDEO_MAPPINGS"]:
+            self.videoMappings[mapping["NAME"]] = importVideo(mapping["VIDEO"])
+
+MAP= Mappings(CFG)

@@ -8,7 +8,6 @@ if(USE_DEV_ARENAPY):
     sys.path.append(ARENAPY_DEV_PATH)
 
 from arena import *
-
 from asyncio import create_subprocess_exec
 
 class NPCButton():
@@ -60,7 +59,7 @@ class NPCButton():
             #scale=Scale(0,0,0),
             scale=buttonScale,
 
-            material = Material(color = buttonColor, transparent = True, opacity=CHOICE_BUBBLE_OPACITY),
+            material = Material(color = buttonColor, transparent = True, opacity=CFG.CHOICE_BUBBLE_OPACITY),
 
             evt_handler=buttonHandler,
             parent = self.npc,
@@ -69,7 +68,7 @@ class NPCButton():
         )
         self.scene.add_object(button)
         #Button Appearance Animation    
-        animation = Animation(property="scale", start=Scale(0,0,0), end=buttonScale, easing="easeInOutQuad", dur=CHOICE_SCALE_DURATION)
+        animation = Animation(property="scale", start=Scale(0,0,0), end=buttonScale, easing="easeInOutQuad", dur=CFG.CHOICE_SCALE_DURATION)
         button.dispatch_animation(animation)
         self.scene.run_animations(button)
         #Return created object
