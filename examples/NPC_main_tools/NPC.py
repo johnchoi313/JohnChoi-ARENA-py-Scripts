@@ -44,7 +44,7 @@ class NPC:
         self.moving = False
 
         # create Dialogue, and show contents
-        self.dialogue = Dialogue(CFG.DIALOGUE_FILENAME)
+        self.dialogue = Dialogue(DIALOGUE_FILENAME)
 
         #NPC ROOT OBJECT (with debug box)
         self.root = Box(

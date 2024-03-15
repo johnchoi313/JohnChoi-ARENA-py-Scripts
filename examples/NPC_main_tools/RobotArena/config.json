@@ -1,9 +1,4 @@
-{
-    "FILENAME": {
-        "DIALOGUE": "robot_arena.json",
-        "MAPPINGS": "mappings.json"
-    },
-    
+{    
     "ARENA": {
         "HOST": "arenaxr.org",
         "NAMESPACE": "johnchoi",

@@ -3,6 +3,8 @@ from arena import *
 import json
 import sys
 
+import os.path
+
 #DEVELOPER DEBUG SETTINGS
 USE_DEV_ARENAPY = False
 ARENAPY_DEV_PATH = "D:/Github/arena-py/"  # Linux/Mac (Civilized)
@@ -15,8 +17,11 @@ if(USE_DEV_SERVER):
     FILESTORE = "https://arena-dev1.conix.io/" #dev server
 PRINT_VERBOSE = False
 
-# CLI ARGUMENT: CONFIG (Contains path to dialogue file, mappings file, and various settings)
-CONFIG_FILENAME = sys.argv[1] #"config.json"
+# CLI ARGUMENT: FOLDERNAME (Contains path to config file, dialogue file, and mappings file)
+FOLDERNAME = sys.argv[1]
+CONFIG_FILENAME   = os.path.join(sys.argv[1] , "config.json")   #"config.json"
+DIALOGUE_FILENAME = os.path.join(sys.argv[1] , "dialogue.json") #"dialogue.json"
+MAPPINGS_FILENAME = os.path.join(sys.argv[1] , "mappings.json") #"mappings.json"
 
 #QUICK HELPER FUNCTIONS TO CONVERT JSON -> ARENA-PY DATA TYPES
 def ToPosition(json):
@@ -29,16 +34,12 @@ def ToColor(json):
     return Color(json["r"],json["g"],json["b"])
 
 class Config:
-    def __init__(self, filename):
+    def __init__(self):
 
         # Open config file
-        f = open(filename)
+        f = open(CONFIG_FILENAME)
         jsonString = f.read()
         configJson = json.loads(jsonString) 
-
-        #GET DIALOGUE AND MAPPINGS FILENAMES
-        self.DIALOGUE_FILENAME = configJson["FILENAME"]["DIALOGUE"] #"robot_arena.json"
-        self.MAPPINGS_FILENAME = configJson["FILENAME"]["MAPPINGS"] #"mappings.json"
 
         #ARENA CONNECTION
         self.HOST = configJson["ARENA"]["HOST"]           #"arenaxr.org"      
@@ -129,4 +130,4 @@ class Config:
         self.LINK_BUBBLE_ROTATION = ToRotation(configJson["LINK"]["BUBBLE"]["ROTATION"]) #Rotation(0,0,0)
         self.LINK_BUBBLE_SCALE = ToScale(configJson["LINK"]["BUBBLE"]["SCALE"])       #Scale(1.5, 0.2, 0.08)
 
-CFG = Config(CONFIG_FILENAME)
+CFG = Config()

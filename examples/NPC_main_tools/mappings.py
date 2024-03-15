@@ -67,10 +67,10 @@ def importVideo(json):
 
  #---MAPPINGS CLASS, CONTAINS ALL MAPPINGS FROM DIALOGUE FILE TO COMMANDS---#
 class Mappings:
-    def __init__(self, config):
+    def __init__(self):
 
         # Open config file
-        f = open(config.MAPPINGS_FILENAME)
+        f = open(MAPPINGS_FILENAME)
         jsonString = f.read()
         mappingsJson = json.loads(jsonString) 
 
@@ -101,8 +101,8 @@ class Mappings:
         self.DEFAULT_VIDEO_FRAME_OBJECT = mappingsJson["DEFAULTS"]["VIDEO_FRAME_OBJECT"]
 
         #DEFAULT TRANSFORM 
-        self.TRANSFORM_RESET = [ Animation(property="position", end=config.ROOT_POSITION, easing="easeInOutSine", dur=config.TRANSFORM_TIMER), 
-                            Animation(property="rotation", end=config.ROOT_ROTATION, easing="linear", dur=config.TRANSFORM_TIMER*0.5) ]
+        self.TRANSFORM_RESET = [ Animation(property="position", end=CFG.ROOT_POSITION, easing="easeInOutSine", dur=CFG.TRANSFORM_TIMER), 
+                                 Animation(property="rotation", end=CFG.ROOT_ROTATION, easing="linear", dur=CFG.TRANSFORM_TIMER*0.5) ]
 
         #---PRE-DEFINED QUICK ACTION MAPPINGS (for use in Yarn, because who wants to type all this out every time?)---#
 
@@ -155,4 +155,4 @@ class Mappings:
         for mapping in mappingsJson["VIDEO_MAPPINGS"]:
             self.videoMappings[mapping["NAME"]] = importVideo(mapping["VIDEO"])
 
-MAP= Mappings(CFG)
+MAP = Mappings()
