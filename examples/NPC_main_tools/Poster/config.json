@@ -44,7 +44,7 @@
         "FONT_SIZE": 0.05,
         "TEXT_WIDTH": 0.5,
         "ICON_WIDTH": 0.5,
-        "ICON_FILL": "cover"
+        "ICON_FILL": "contain"
     },
     
     "ROOT": {
@@ -92,7 +92,7 @@
         "BUBBLE":{
             "COLOR" : {"r":0,"g":0,"b":200},
             "OPACITY" : 0.5,    
-            "POSITION" : {"x":0.7,"y":1.5,"z":0.4},
+            "POSITION" : {"x":0.7,"y":1.5,"z":0.0},
             "ROTATION" : {"x":0,"y":-5,"z":0},
             "OFFSET_Y" : 0.0,
             "SCALE" : {"x":0.3, "y":0.3, "z":0.3}
