@@ -135,7 +135,7 @@ class BoschPendulum:
 #
 if __name__=="__main__":
     def end_program_callback(scene: Scene):
-        printGreenB("Ending Bosch Pendulum Program. Goodbye :)")
+        printYellowB("Ending Bosch Pendulum Program. Goodbye :)")
 
     # command line scene start options
     scene = Scene(cli_args=True, end_program_callback=end_program_callback)
@@ -152,13 +152,14 @@ if __name__=="__main__":
     #Call this function to create a boschPendulum class instance
     boschPendulum = BoschPendulum(scene, app_position, app_rotation, app_scale)
 
+    #Loop interval update timers in Milliseconds:
     EXAMPLE_DOOR_INTERVAL = 5000
     EXAMPLE_CHASSIS_INTERVAL = 50
     EXAMPLE_PENDULUM_INTERVAL = 50
 
     @scene.run_once
     def ProgramStart():
-        print("Program start.")
+        print("Program started.")
 
     @scene.run_forever(interval_ms=EXAMPLE_DOOR_INTERVAL)
     def ExampleDoorUpdate():
