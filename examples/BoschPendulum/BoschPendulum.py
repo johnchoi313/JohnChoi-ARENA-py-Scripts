@@ -10,11 +10,12 @@ import math
 FILESTORE = "https://arenaxr.org/" #main server
 FILEPATH = "store/users/johnchoi/BoschPendulum/" #Path
 HEADER = "BP"
+VERBOSE = False
 
 # ------------------------------------------ #
 # ------------CLASS DEFINITIONS------------- #
 # ------------------------------------------ #
-class BoschPendulum:
+class ArenaBoschPendulum:
     def __init__(self, scene, position, rotation, scale):
         self.scene = scene
         #State vars
@@ -31,7 +32,8 @@ class BoschPendulum:
         #Initialize Root/GLB Objects
         self.CreateRoot()
         self.CreateGLBs()
-        printWhiteB("Bosch Pendulum initialized at position " + str(position) + ", rotation " + str(rotation) + ", and scale "+ str(scale) + ".")
+        if(VERBOSE):
+            printWhiteB("Bosch Pendulum initialized at position " + str(position) + ", rotation " + str(rotation) + ", and scale "+ str(scale) + ".")
 
     #-----------INITIALIZATION ROOT/GLB FUNCTIONS-----------#
     def CreateRoot(self):
@@ -81,14 +83,16 @@ class BoschPendulum:
 
     #-----------MOTION FUNCTIONS-----------#
     def OpenDoor(self):
-        printMagentaB("Doors open!")
+        if(VERBOSE):
+            printMagentaB("Doors open!")
         self.doorsOpen = True  
         self.Door_Left.dispatch_animation(Animation(property="rotation", end=Rotation(0,-89,0), easing="linear", dur=2000))
         self.scene.run_animations(self.Door_Left)
         self.Door_Right.dispatch_animation(Animation(property="rotation", end=Rotation(0,89,0), easing="linear", dur=2000))
         self.scene.run_animations(self.Door_Right)
     def CloseDoor(self):
-        printMagentaB("Doors closed!")
+        if(VERBOSE):
+            printMagentaB("Doors closed!")
         self.doorsOpen = False
         self.Door_Left.dispatch_animation(Animation(property="rotation", end=Rotation(0,0,0), easing="linear", dur=2000))
         self.scene.run_animations(self.Door_Left)
@@ -102,27 +106,30 @@ class BoschPendulum:
             return max
         else: 
             return n 
-    def SetChassisPosition(self, pos): #Ranges from -0.18 to 0.18, meters
-        pos = self._clamp(pos, -0.18, 0.18)
-        printGreenB("Position set to " + str(pos) + " meters.")
+    def SetChassisPosition(self, pos): #Ranges from -0.15 to 0.15, meters
+        pos = self._clamp(pos, -0.15, 0.15)
+        if(VERBOSE):
+            printGreenB("Position set to " + str(pos) + " meters.")
         self.chassisPosition = pos     
         self.Chassis_Front.data.position = Position(pos,0,0)
-        scene.update_object(self.Chassis_Front)
+        self.scene.update_object(self.Chassis_Front)
         self.Cover_Front_Left.data.scale = Scale(1+pos*3.75,1,1)
-        scene.update_object(self.Cover_Front_Left)
+        self.scene.update_object(self.Cover_Front_Left)
         self.Cover_Front_Right.data.scale = Scale(1-pos*3.75,1,1)
-        scene.update_object(self.Cover_Front_Right)
+        self.scene.update_object(self.Cover_Front_Right)
 
     def SetPendulumRotationRadians(self, degrees): #Ranges from 0 to 360, degrees
-        printBlueB("Rotation set to " + str(degrees) + " degrees.")
+        if(VERBOSE):
+            printBlueB("Rotation set to " + str(degrees) + " degrees.")
         self._rotatePendulum(degrees)
     def SetPendulumRotationDegrees(self, radians): #Ranges from 0 to 2pi, radians
-        printBlueB("Rotation set to " + str(radians) + " radians.")
+        if(VERBOSE):
+            printBlueB("Rotation set to " + str(radians) + " radians.")
         self._rotatePendulum(radians * 57.2957795131)
     def _rotatePendulum(self, degrees):
         self.pendulumRotation = degrees
         self.PendulumAxis.data.rotation = Rotation(0,0,degrees)
-        scene.update_object(self.PendulumAxis)
+        self.scene.update_object(self.PendulumAxis)
 
 # ------------------------------------------ #
 # -----------CLASS USAGE EXAMPLE------------ #
@@ -135,7 +142,8 @@ class BoschPendulum:
 #
 if __name__=="__main__":
     def end_program_callback(scene: Scene):
-        printYellowB("Ending Bosch Pendulum Program. Goodbye :)")
+        if(VERBOSE):
+            printYellowB("Ending Bosch Pendulum Program. Goodbye :)")
 
     # command line scene start options
     scene = Scene(cli_args=True, end_program_callback=end_program_callback)
@@ -147,10 +155,10 @@ if __name__=="__main__":
     #scene = Scene(host="arenaxr.org", namespace="johnchoi", scene="BoschPendulum")
     #app_position=Position(1.5,0,-1.5),
     #app_rotation=Rotation(0,45,0),
-    #app_scale=Scale(.15,.15,.15),
+    #app_scale=Scale(1,1,1),
 
     #Call this function to create a boschPendulum class instance
-    boschPendulum = BoschPendulum(scene, app_position, app_rotation, app_scale)
+    boschPendulum = ArenaBoschPendulum(scene, app_position, app_rotation, app_scale)
 
     #Loop interval update timers in Milliseconds:
     EXAMPLE_DOOR_INTERVAL = 5000
@@ -159,7 +167,8 @@ if __name__=="__main__":
 
     @scene.run_once
     def ProgramStart():
-        print("Program started.")
+        if(VERBOSE):
+            print("Program started.")
 
     @scene.run_forever(interval_ms=EXAMPLE_DOOR_INTERVAL)
     def ExampleDoorUpdate():
@@ -171,7 +180,7 @@ if __name__=="__main__":
     @scene.run_forever(interval_ms=EXAMPLE_CHASSIS_INTERVAL)
     def ExampleChassisUpdate():
         boschPendulum.chassisTimer = boschPendulum.chassisTimer + EXAMPLE_CHASSIS_INTERVAL
-        boschPendulum.SetChassisPosition(0.18*math.sin(boschPendulum.chassisTimer * 0.5))
+        boschPendulum.SetChassisPosition(0.15*math.sin(boschPendulum.chassisTimer * 0.5))
         
     @scene.run_forever(interval_ms=EXAMPLE_PENDULUM_INTERVAL)
     def ExamplePendulumUpdate():
