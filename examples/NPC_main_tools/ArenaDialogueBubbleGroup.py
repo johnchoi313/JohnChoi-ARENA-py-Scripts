@@ -197,7 +197,7 @@ class ArenaDialogueBubbleGroup():
         if(PRINT_VERBOSE):
             printWhiteB("Play video from url \'" + url + "\":")        
         #Src Video Material Method
-        video = Material(src = url, transparent = True, opacity = CFG.PLANE_OPACITY, w = 1920, h = 1080, size = 1)
+        video = Material(src = url, transparent = True, opacity = CFG.PLANE_OPACITY, w = 1920, h = 1080, size = 1, visible = True)
         self.PlayVideo(video)
     def PlayVideo(self, video):
         if(PRINT_VERBOSE):
@@ -211,6 +211,13 @@ class ArenaDialogueBubbleGroup():
     def HideVideo(self):
         self.ScaleAnimation(self.video, self.lastVideoSize, Scale(0,0,random.uniform(0, 0.01)))        
         self.lastVideoSize = Scale(0,0,0)
+        #Hacky way to hide video
+        self.video.data.material=None 
+        self.scene.update_object(self.video)
+        
+        self.video.data.material=Material(transparent = True, opacity = CFG.PLANE_OPACITY, w = 1920, h = 1080, size = 1, visible = False)
+        self.scene.update_object(self.video)
+
     def ShowVideo(self, scale):
         self.ScaleAnimation(self.video, Scale(0,0,random.uniform(0, 0.01)), scale)
         self.lastVideoSize = scale

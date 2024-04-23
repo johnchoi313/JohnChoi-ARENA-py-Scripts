@@ -87,8 +87,9 @@ class NPC:
             rotation=CFG.PLANE_ROTATION,
             scale=Scale(random.uniform(0, 0.001),random.uniform(0, 0.001),random.uniform(0, 0.001)), #Start at zero, not PLANE_SIZE to hide at start
             url = "https://arenaxr.org/store/users/johnchoi/Images/nyan.jpg",
-            material = Material(transparent = True, opacity = CFG.PLANE_OPACITY),
+            material = Material(transparent = True, opacity = CFG.PLANE_OPACITY, visible = False),
             parent=self.root,
+
             persist=True
         )
         scene.add_object(self.image)    
@@ -98,7 +99,7 @@ class NPC:
             position=CFG.PLANE_POSITION,
             rotation=CFG.PLANE_ROTATION,
             scale=Scale(random.uniform(0, 0.001),random.uniform(0, 0.001),random.uniform(0, 0.001)), #Start at zero, not PLANE_SIZE to hide at start
-            material = Material(src = "https://arenaxr.org/store/users/johnchoi/Videos/rays.mp4", transparent = True, opacity = CFG.PLANE_OPACITY, w = 1920, h = 1080, size = 1),
+            material = Material(src = "https://arenaxr.org/store/users/johnchoi/Videos/rays.mp4", transparent = True, opacity = CFG.PLANE_OPACITY, w = 1920, h = 1080, size = 1, visible = False),
             parent=self.root,
             clickable=True,
             persist=True
@@ -133,7 +134,7 @@ def Reset_Handler(): #RESET_TIME milliseconds of no activity resets interaction.
         npc.bubbles.gotoNodeWithName(CFG.ENTER_NODE)
         printLightRedB("NPC with name \"" + CFG.NPC_NAME + "\" detected no activity for " + str(CFG.RESET_TIME) + " milliseconds. Resetting.")
 
-#@scene.run_forever(interval_ms=SPEECH_INTERVAL)
+@scene.run_forever(interval_ms=CFG.SPEECH_INTERVAL)
 def Speech_Handler(): #iteratively adds characters to speech bubble
 
     if(npc.bubbles.checkIfArenaObjectExists(npc.bubbles.speechBubble)):

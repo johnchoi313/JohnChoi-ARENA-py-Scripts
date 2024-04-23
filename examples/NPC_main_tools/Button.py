@@ -32,9 +32,10 @@ class NPCButton():
                 
             position=buttonPos,
             rotation=buttonRot,
-            scale=buttonScale,
+            scale=Scale(0.01,0.01,0.01),
+            #scale=buttonScale,
             
-            material = Material(color = buttonColor, transparent = False, opacity=1),
+            material = Material(color = buttonColor, transparent = False, opacity=1, visible = False),
 
             parent = button,
             persist=persist
@@ -56,10 +57,10 @@ class NPCButton():
 
             position=buttonPos,
             rotation=buttonRot,
-            #scale=Scale(0,0,0),
-            scale=buttonScale,
+            scale=Scale(0.01,0.01,0.01),
+            #scale=buttonScale,
 
-            material = Material(color = buttonColor, transparent = True, opacity=CFG.CHOICE_BUBBLE_OPACITY),
+            material = Material(color = buttonColor, transparent = True, opacity=CFG.CHOICE_BUBBLE_OPACITY, visible = False),
 
             evt_handler=buttonHandler,
             parent = self.npc,
